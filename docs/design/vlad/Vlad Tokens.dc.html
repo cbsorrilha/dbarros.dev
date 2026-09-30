@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+<style>
+html,body{margin:0;background:#0a0709;min-height:100%;color:#ece4e6;-webkit-font-smoothing:antialiased}
+a{color:#e8606f;text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px}
+a:hover{color:#ff79c6}
+</style>
+</helmet>
+<section style="padding:64px;display:flex;flex-direction:column;gap:32px;font-family:'Spectral',Georgia,serif">
+  <div id="vlad" style="width:1080px;background:#130e12;border-radius:12px;padding:64px;box-sizing:border-box;display:flex;flex-direction:column;gap:64px;color:#ece4e6;box-shadow:0 0 0 1px #33262f">
+
+    <header style="display:flex;justify-content:space-between;align-items:flex-end;gap:24px">
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div style="font-size:48px;font-weight:700;letter-spacing:-0.01em;line-height:1.1">Vlad</div>
+        <div style="font-size:18px;color:#a3949b">Design system do dbarros.dev · Sangue Dracula · Spectral + Meslo NF</div>
+      </div>
+      <div style="display:flex;align-items:baseline;font-size:64px;font-style:italic;font-weight:400;line-height:1;letter-spacing:-0.02em">d<div style="width:0.14em;height:0.14em;border-radius:50%;background:#e8606f;box-shadow:0 0 0.18em rgba(232,96,111,0.7);margin:0 0.04em;flex:none"></div>B</div>
+    </header>
+
+    <div style="display:flex;flex-direction:column;gap:24px">
+      <div style="font-size:14px;letter-spacing:0.08em;text-transform:uppercase;color:#a3949b">Logo</div>
+      <div style="display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:24px">
+        <div style="background:#0c080b;border-radius:8px;padding:32px;display:flex;flex-direction:column;gap:24px">
+          <div style="display:flex;align-items:baseline;font-size:112px;font-style:italic;font-weight:400;line-height:1;letter-spacing:-0.02em">d<div style="width:0.14em;height:0.14em;border-radius:50%;background:#e8606f;box-shadow:0 0 0.18em rgba(232,96,111,0.7);margin:0 0.04em;flex:none"></div>B</div>
+          <div style="display:flex;align-items:center;gap:12px"><div style="display:flex;align-items:baseline;font-size:28px;font-style:italic;font-weight:400;line-height:1;letter-spacing:-0.02em">d<div style="width:0.14em;height:0.14em;border-radius:50%;background:#e8606f;box-shadow:0 0 0.18em rgba(232,96,111,0.7);margin:0 0.04em;flex:none"></div>B</div><div style="font-size:17px;font-weight:500;color:#a3949b">dbarros.dev</div></div>
+        </div>
+        <div style="background:#0c080b;border-radius:8px;padding:32px;display:flex;flex-direction:column;gap:12px;font-size:16px;line-height:1.55;color:#a3949b">
+          <div><span style="color:#ece4e6">Letras:</span> Spectral 400 itálico, d minúsculo e B maiúsculo, tracking −0,02em.</div>
+          <div><span style="color:#ece4e6">Ponto:</span> círculo de 0,14em em <span style="color:#e8606f">--link</span>, na linha de base, 0,04em de cada lado, brilho de 0,18em.</div>
+          <div><span style="color:#ece4e6">No cabeçalho:</span> marca a 28px e "dbarros.dev" a 17px em --text-muted.</div>
+          <div><span style="color:#ece4e6">Área livre:</span> no mínimo a altura do ponto × 2 em volta.</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:24px">
+      <div style="font-size:14px;letter-spacing:0.08em;text-transform:uppercase;color:#a3949b">Tokens de cor</div>
+      <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 48px">
+        <sc-for list="{{ semantic }}" as="t" hint-placeholder-count="17">
+          <div style="display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid #33262f">
+            <div style="width:20px;height:20px;border-radius:4px;background:{{ t.hex }};box-shadow:inset 0 0 0 1px rgba(248,248,242,0.12);flex:none"></div>
+            <div style="font-family:'MesloLGS NF','MesloLGS Nerd Font','Meslo LG S',Menlo,'DejaVu Sans Mono',monospace;font-size:14px;flex:1">{{ t.token }}</div>
+            <div style="font-family:'MesloLGS NF','MesloLGS Nerd Font','Meslo LG S',Menlo,'DejaVu Sans Mono',monospace;font-size:13px;color:#a3949b;width:72px">{{ t.hex }}</div>
+            <div style="font-size:15px;color:#a3949b;width:190px">{{ t.use }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:24px">
+      <div style="font-size:14px;letter-spacing:0.08em;text-transform:uppercase;color:#a3949b">Sintaxe (Dracula, com comentário ajustado)</div>
+      <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px">
+        <sc-for list="{{ syntax }}" as="s" hint-placeholder-count="8">
+          <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:6px;background:#0c080b">
+            <div style="font-family:'MesloLGS NF','MesloLGS Nerd Font','Meslo LG S',Menlo,'DejaVu Sans Mono',monospace;font-size:14px;color:{{ s.hex }};flex:1">{{ s.sample }}</div>
+            <div style="font-size:14px;color:#a3949b">{{ s.name }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:24px">
+      <div style="font-size:14px;letter-spacing:0.08em;text-transform:uppercase;color:#a3949b">Tipografia</div>
+      <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px">
+        <div style="background:#0c080b;border-radius:8px;padding:24px;display:flex;flex-direction:column;gap:8px">
+          <div style="font-size:40px;font-weight:600;line-height:1.1">Aa Çç Ññ <span style="font-style:italic;font-weight:400">ág</span></div>
+          <div style="font-size:15px;color:#a3949b">Spectral 400, 500, 600, 700 + itálico · texto, títulos e interface</div>
+        </div>
+        <div style="background:#0c080b;border-radius:8px;padding:24px;display:flex;flex-direction:column;gap:8px">
+          <div style="font-family:'MesloLGS NF','MesloLGS Nerd Font','Meslo LG S',Menlo,'DejaVu Sans Mono',monospace;font-size:36px;line-height:1.2">{}[] =&gt; 0O1l</div>
+          <div style="font-size:15px;color:#a3949b">Meslo NF · só código (fallback Menlo)</div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column">
+        <sc-for list="{{ scale }}" as="r" hint-placeholder-count="7">
+          <div style="display:grid;grid-template-columns:220px minmax(0,1fr);align-items:baseline;gap:24px;padding:12px 0;border-bottom:1px solid #33262f">
+            <div style="font-family:'MesloLGS NF','MesloLGS Nerd Font','Meslo LG S',Menlo,'DejaVu Sans Mono',monospace;font-size:13px;color:#a3949b">{{ r.token }} · {{ r.size }} / {{ r.mobile }}</div>
+            <div style="font-size:{{ r.size }};font-weight:{{ r.weight }};line-height:1.25">{{ r.sample }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:24px">
+      <div style="font-size:14px;letter-spacing:0.08em;text-transform:uppercase;color:#a3949b">Componentes</div>
+      <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px">
+        <div style="background:#0c080b;border-radius:8px;padding:24px;display:flex;flex-direction:column;gap:16px">
+          <div style="font-size:15px;color:#a3949b">Chip de tag · fundo 10%, borda 30% da cor da tag</div>
+          <div style="display:flex;flex-wrap:wrap;gap:8px">
+            <div style="font-size:14px;font-weight:500;color:#ffb86c;background:rgba(255,184,108,0.1);border:1px solid rgba(255,184,108,0.3);padding:1px 10px;border-radius:999px">Rust</div>
+            <div style="font-size:14px;font-weight:500;color:#8be9fd;background:rgba(139,233,253,0.1);border:1px solid rgba(139,233,253,0.3);padding:1px 10px;border-radius:999px">IA</div>
+            <div style="font-size:14px;font-weight:500;color:#ff79c6;background:rgba(255,121,198,0.1);border:1px solid rgba(255,121,198,0.3);padding:1px 10px;border-radius:999px">Reflexões</div>
+            <div style="font-size:14px;font-weight:500;color:#130e12;background:#ece4e6;padding:2px 12px;border-radius:999px">Todos (ativo)</div>
+          </div>
+        </div>
+        <div style="background:#0c080b;border-radius:8px;padding:24px;display:flex;flex-direction:column;gap:16px">
+          <div style="font-size:15px;color:#a3949b">Seletor de idioma</div>
+          <div style="display:flex;gap:4px;padding:3px;border-radius:999px;background:#130e12;box-shadow:inset 0 0 0 1px #33262f;font-size:14px;font-weight:600;align-self:flex-start">
+            <div style="padding:3px 10px;border-radius:999px;background:#241b21;color:#ece4e6">PT</div>
+            <div style="padding:3px 10px;border-radius:999px;color:#a3949b">EN</div>
+            <div style="padding:3px 10px;border-radius:999px;color:#a3949b">ES</div>
+          </div>
+        </div>
+        <div style="background:#0c080b;border-radius:8px;padding:24px;display:flex;flex-direction:column;gap:16px">
+          <div style="font-size:15px;color:#a3949b">Título de post na lista · sublinhado --link-subtle, hover --link</div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div style="font-size:20px;font-weight:600;line-height:1.35;text-decoration:underline;text-decoration-color:#5a4450;text-decoration-thickness:1px;text-underline-offset:5px">Lifetimes sem medo</div>
+            <div style="font-size:20px;font-weight:600;line-height:1.35;color:#e8606f;text-decoration:underline;text-decoration-color:#e8606f;text-decoration-thickness:1px;text-underline-offset:5px">Lifetimes sem medo (hover)</div>
+          </div>
+        </div>
+        <div style="background:#0c080b;border-radius:8px;padding:24px;display:flex;flex-direction:column;gap:16px">
+          <div style="font-size:15px;color:#a3949b">Botões</div>
+          <div style="display:flex;flex-wrap:wrap;gap:12px">
+            <div style="padding:10px 20px;border-radius:8px;background:#e8606f;color:#130e12;font-size:16px;font-weight:600">Primário</div>
+            <div style="padding:10px 20px;border-radius:8px;box-shadow:inset 0 0 0 1px #33262f;color:#ece4e6;font-size:16px;font-weight:500">Secundário</div>
+          </div>
+        </div>
+        <div style="background:#0c080b;border-radius:8px;padding:24px;display:flex;flex-direction:column;gap:16px;grid-column:1 / -1">
+          <div style="font-size:15px;color:#a3949b">Aviso de tradução · ponto --notice com brilho, borda --border</div>
+          <div style="display:flex;gap:12px;align-items:flex-start;font-size:15px;line-height:1.5;color:#a3949b;border:1px solid #33262f;border-radius:8px;padding:12px 16px">
+            <div style="width:7px;height:7px;border-radius:50%;background:#50fa7b;margin-top:7px;flex:none;box-shadow:0 0 8px #50fa7b"></div>
+            <div>Traduzido do inglês por IA local e revisado pelo autor. <a href="#">Ler o original</a></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:24px">
+      <div style="font-size:14px;letter-spacing:0.08em;text-transform:uppercase;color:#a3949b">Em uso</div>
+      <article style="background:#0c080b;border-radius:8px;padding:48px;display:flex;flex-direction:column;gap:24px">
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <div style="font-size:15px;color:#a3949b">1 out. 2026 · 6 min de leitura</div>
+          <h1 style="margin:0;font-size:40px;font-weight:700;line-height:1.15;letter-spacing:-0.01em;text-wrap:balance">O que aprendi brigando com o borrow checker</h1>
+        </div>
+        <p style="margin:0;font-size:19px;line-height:1.7;max-width:680px;text-wrap:pretty">Lorem ipsum dolor sit amet, consectetur adipiscing elit. O compilador recusou o código até que eu movesse o <code style="font-family:'MesloLGS NF','MesloLGS Nerd Font','Meslo LG S',Menlo,'DejaVu Sans Mono',monospace;font-size:0.85em;background:#241b21;color:#8be9fd;padding:2px 6px;border-radius:4px">Vec&lt;String&gt;</code> para dentro da closure. Sed do eiusmod tempor, <a href="#">como explica a documentação</a>, ut labore et dolore magna aliqua.</p>
+        <h2 style="margin:8px 0 0;font-size:28px;font-weight:600;line-height:1.25">Empréstimos e donos</h2>
+        <blockquote style="margin:0;padding:4px 0 4px 24px;border-left:2px solid #ff79c6;font-size:19px;line-height:1.6;font-style:italic;color:#ece4e6;max-width:640px">Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.</blockquote>
+        <div style="border-radius:8px;overflow:hidden;background:#130e12;box-shadow:inset 0 0 0 1px #33262f">
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 8px 6px 16px;border-bottom:1px solid #33262f;font-family:'MesloLGS NF','MesloLGS Nerd Font','Meslo LG S',Menlo,'DejaVu Sans Mono',monospace;font-size:13px;color:#a3949b">
+            <div>rust</div>
+            <div style="min-height:32px;min-width:72px;display:flex;align-items:center;justify-content:center;padding:0 10px;border-radius:4px;background:#241b21">Copiar</div>
+          </div>
+          <pre style="margin:0;padding:0;overflow-x:auto;font-family:'MesloLGS NF','MesloLGS Nerd Font','Meslo LG S',Menlo,'DejaVu Sans Mono',monospace;font-size:15px;line-height:1.7;color:#ece4e6"><div style="display:inline-block;min-width:100%;box-sizing:border-box;padding:20px"><div><span style="color:#7a6f85">// Soma o dobro de cada elemento</span></div><div><span style="color:#ff79c6">fn</span> <span style="color:#50fa7b">soma_dobro</span>(<span style="color:#ffb86c;font-style:italic">xs</span>: <span style="color:#ff79c6">&amp;</span>[<span style="color:#8be9fd;font-style:italic">i32</span>]) <span style="color:#ff79c6">-&gt;</span> <span style="color:#8be9fd;font-style:italic">i32</span> {</div><div>    <span style="color:#ff79c6">let</span> msg <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">"olá, borrow checker"</span>;</div><div>    xs.<span style="color:#50fa7b">iter</span>().<span style="color:#50fa7b">map</span>(|x| x <span style="color:#ff79c6">*</span> <span style="color:#bd93f9">2</span>).<span style="color:#50fa7b">sum</span>()</div><div>}</div></div></pre>
+        </div>
+      </article>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:24px">
+      <div style="font-size:14px;letter-spacing:0.08em;text-transform:uppercase;color:#a3949b">Contraste (WCAG)</div>
+      <div style="display:flex;flex-direction:column">
+        <sc-for list="{{ contrast }}" as="c" hint-placeholder-count="12">
+          <div style="display:grid;grid-template-columns:200px minmax(0,1fr) 80px 110px;align-items:center;gap:16px;padding:10px 0;border-bottom:1px solid #33262f">
+            <div style="background:{{ c.bg }};color:{{ c.fg }};padding:8px 12px;border-radius:6px;font-size:16px;font-weight:500;box-shadow:inset 0 0 0 1px rgba(248,248,242,0.08)">{{ c.pairShort }}</div>
+            <div style="font-size:15px;color:#a3949b">{{ c.label }}</div>
+            <div style="font-family:'MesloLGS NF','MesloLGS Nerd Font','Meslo LG S',Menlo,'DejaVu Sans Mono',monospace;font-size:14px;text-align:right">{{ c.ratio }}</div>
+            <div style="font-size:14px;font-weight:600;color:{{ c.gradeColor }}">{{ c.grade }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr);gap:48px">
+      <div style="display:flex;flex-direction:column;gap:24px">
+        <div style="font-size:14px;letter-spacing:0.08em;text-transform:uppercase;color:#a3949b">Espaçamento</div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <sc-for list="{{ spacing }}" as="sp" hint-placeholder-count="8">
+            <div style="display:flex;align-items:center;gap:16px">
+              <div style="font-family:'MesloLGS NF','MesloLGS Nerd Font','Meslo LG S',Menlo,'DejaVu Sans Mono',monospace;font-size:13px;color:#a3949b;width:90px">{{ sp.token }}</div>
+              <div style="height:12px;width:{{ sp.px }};background:#e8606f;border-radius:2px"></div>
+              <div style="font-size:14px;color:#a3949b">{{ sp.px }}</div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:24px">
+        <div style="font-size:14px;letter-spacing:0.08em;text-transform:uppercase;color:#a3949b">Raio</div>
+        <div style="display:flex;gap:16px">
+          <div style="display:flex;flex-direction:column;gap:8px;align-items:center"><div style="width:56px;height:56px;background:#241b21;border-radius:4px"></div><div style="font-size:13px;color:#a3949b">sm · 4</div></div>
+          <div style="display:flex;flex-direction:column;gap:8px;align-items:center"><div style="width:56px;height:56px;background:#241b21;border-radius:8px"></div><div style="font-size:13px;color:#a3949b">md · 8</div></div>
+          <div style="display:flex;flex-direction:column;gap:8px;align-items:center"><div style="width:56px;height:56px;background:#241b21;border-radius:12px"></div><div style="font-size:13px;color:#a3949b">lg · 12</div></div>
+          <div style="display:flex;flex-direction:column;gap:8px;align-items:center"><div style="width:56px;height:56px;background:#241b21;border-radius:999px"></div><div style="font-size:13px;color:#a3949b">pill</div></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    const lum = h => {
+      const n = parseInt(h.slice(1), 16);
+      return [n >> 16, (n >> 8) & 255, n & 255].map(v => { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); })
+        .reduce((a, v, i) => a + v * [0.2126, 0.7152, 0.0722][i], 0);
+    };
+    const ratio = (a, b) => { const [x, y] = [lum(a), lum(b)].sort((p, q) => q - p); return (x + 0.05) / (y + 0.05); };
+    const grade = r => r >= 7 ? ['AAA', '#50fa7b'] : r >= 4.5 ? ['AA', '#50fa7b'] : r >= 3 ? ['Só títulos', '#f1fa8c'] : ['Falha', '#ff5555'];
+    const pairs = [
+      ['#ece4e6', '#130e12', 'Texto', 'text sobre bg'],
+      ['#a3949b', '#130e12', 'Secundário', 'text-muted sobre bg'],
+      ['#ece4e6', '#0c080b', 'Texto', 'text sobre bg-deep'],
+      ['#8be9fd', '#241b21', 'Vec<T>', 'code-inline sobre surface'],
+      ['#7a6f85', '#130e12', 'Comment', 'code-comment sobre bg (só código)'],
+      ['#e8606f', '#130e12', 'Link', 'link sobre bg'],
+      ['#ff79c6', '#130e12', 'Link hover', 'link-hover sobre bg'],
+      ['#ffb86c', '#130e12', 'Rust', 'tag-rust sobre bg'],
+      ['#8be9fd', '#130e12', 'IA', 'tag-ai sobre bg'],
+      ['#ff79c6', '#130e12', 'Reflexões', 'tag-reflections sobre bg'],
+      ['#50fa7b', '#130e12', 'Aviso', 'notice sobre bg'],
+      ['#130e12', '#e8606f', 'Botão', 'bg sobre link (botão)'],
+    ];
+    const contrast = pairs.map(([fg, bg, pairShort, label]) => {
+      const r = ratio(fg, bg); const [g, gc] = grade(r);
+      return { fg, bg, pairShort, label, ratio: r.toFixed(2) + ':1', grade: g, gradeColor: gc };
+    });
+    return {
+      semantic: [
+        ['--bg', '#130e12', 'Fundo da página'],
+        ['--bg-deep', '#0c080b', 'Painéis, artigo, menu'],
+        ['--surface', '#241b21', 'Código inline, botões'],
+        ['--border', '#33262f', 'Bordas e divisórias'],
+        ['--text', '#ece4e6', 'Texto principal (luar)'],
+        ['--text-muted', '#a3949b', 'Metadados'],
+        ['--link', '#e8606f', 'Links, logo (sangue)'],
+        ['--link-hover', '#ff79c6', 'Hover de link'],
+        ['--link-subtle', '#5a4450', 'Sublinhado de títulos'],
+        ['--quote', '#ff79c6', 'Barra da citação'],
+        ['--code-inline', '#8be9fd', 'Código inline'],
+        ['--code-comment', '#7a6f85', 'Comentário no código'],
+        ['--tag-rust', '#ffb86c', 'Tag rust'],
+        ['--tag-ai', '#8be9fd', 'Tag ai'],
+        ['--tag-reflections', '#ff79c6', 'Tag reflections'],
+        ['--notice', '#50fa7b', 'Aviso de tradução, copiado'],
+        ['--danger', '#e8606f', 'Erro'],
+      ].map(([token, hex, use]) => ({ token, hex, use })),
+      syntax: [
+        ['keyword', '#ff79c6', 'fn let'], ['função', '#50fa7b', 'iter()'], ['string', '#f1fa8c', '"olá"'], ['número', '#bd93f9', '42'],
+        ['tipo', '#8be9fd', 'i32'], ['parâmetro', '#ffb86c', 'xs'], ['comentário', '#7a6f85', '// nota'], ['texto', '#ece4e6', 'msg'],
+      ].map(([name, hex, sample]) => ({ name, hex, sample })),
+      scale: [
+        { token: 'display', size: '48px', mobile: '36px', weight: 700, sample: 'Vlad' },
+        { token: 'h1 (post)', size: '46px', mobile: '32px', weight: 700, sample: 'Um blog trilíngue' },
+        { token: 'h1 (página)', size: '40px', mobile: '32px', weight: 700, sample: 'Posts' },
+        { token: 'h2', size: '28px', mobile: '23px', weight: 600, sample: 'Empréstimos e donos' },
+        { token: 'lead', size: '21px', mobile: '18px', weight: 400, sample: 'Resumo abaixo do título do post.' },
+        { token: 'body', size: '19px', mobile: '17px', weight: 400, sample: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.' },
+        { token: 'small', size: '15px', mobile: '14px', weight: 400, sample: '1 out. 2026 · 6 min de leitura' },
+      ],
+      spacing: [4, 8, 12, 16, 24, 32, 48, 64].map((n, i) => ({ token: '--space-' + (i + 1), px: n + 'px' })),
+      contrast,
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+html,body{margin:0;background:#0a0709;min-height:100%;color:#ece4e6;-webkit-font-smoothing:antialiased}
+a{color:#e8606f;text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px}
+a:hover{color:#ff79c6}
+</style>
+</helmet>
+<section style="padding:64px;display:flex;flex-direction:column;gap:32px;font-family:'Spectral',Georgia,serif">
+  <div style="display:flex;flex-direction:column;gap:8px">
+    <div style="font-size:14px;letter-spacing:0.08em;text-transform:uppercase;color:#a3949b">Rodada 1 · página de post</div>
+    <div style="font-size:28px;font-weight:600">Desktop (<a href="#1a">1a</a>) e celular (<a href="#1b">1b</a>)</div>
+    <div style="font-size:17px;color:#a3949b;max-width:820px;line-height:1.6;text-wrap:pretty">Post traduzido, com aviso de IA. O botão Copiar funciona. No celular, o código rola na horizontal e a navegação entre posts empilha.</div>
+  </div>
+  <div style="display:flex;flex-wrap:wrap;gap:48px;align-items:flex-start">
+    <sc-for list="{{ devices }}" as="d" hint-placeholder-count="2">
+      <div id="{{ d.id }}" style="width:{{ d.w }};background:#130e12;border-radius:{{ d.radius }};box-shadow:0 0 0 1px #33262f;overflow:hidden;color:#ece4e6;flex:none">
+        <header style="display:flex;justify-content:space-between;align-items:center;gap:16px;padding:{{ d.headPad }};border-bottom:1px solid #33262f">
+          <div style="display:flex;align-items:center;gap:12px;cursor:pointer"><div style="display:flex;align-items:baseline;font-size:calc({{ d.logo }} * 1.27);font-style:italic;font-weight:400;line-height:1;letter-spacing:-0.02em">d<div style="width:0.14em;height:0.14em;border-radius:50%;background:#e8606f;box-shadow:0 0 0.18em rgba(232,96,111,0.7);margin:0 0.04em;flex:none"></div>B</div><div style="font-size:calc({{ d.logo }} * 0.77);font-weight:500;color:#a3949b">dbarros.dev</div></div>
+          <nav style="display:flex;align-items:center;gap:28px;font-size:17px">
+            <sc-if value="{{ d.desktop }}" hint-placeholder-val="{{ true }}">
+              <div style="display:flex;gap:28px">
+                <div style="color:#ece4e6;border-bottom:1px solid #e8606f;padding-bottom:2px">Posts</div>
+                <div style="color:#a3949b;cursor:pointer" style-hover="color:#ece4e6">Tags</div>
+                <div style="color:#a3949b;cursor:pointer" style-hover="color:#ece4e6">Sobre</div>
+              </div>
+            </sc-if>
+            <div style="display:flex;gap:4px;padding:3px;border-radius:999px;background:#0c080b;box-shadow:inset 0 0 0 1px #33262f;font-size:14px;font-weight:600">
+              <div style="padding:3px 10px;border-radius:999px;background:#241b21;color:#ece4e6">PT</div>
+              <div style="padding:3px 10px;border-radius:999px;color:#a3949b;cursor:pointer" style-hover="color:#ece4e6">EN</div>
+              <div style="padding:3px 10px;border-radius:999px;color:#a3949b;cursor:pointer" style-hover="color:#ece4e6">ES</div>
+            </div>
+            <sc-if value="{{ d.mobile }}" hint-placeholder-val="{{ false }}">
+              <div style="width:44px;height:44px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:5px;cursor:pointer">
+                <div style="width:20px;height:1.5px;background:#ece4e6"></div>
+                <div style="width:20px;height:1.5px;background:#ece4e6"></div>
+                <div style="width:20px;height:1.5px;background:#ece4e6"></div>
+              </div>
+            </sc-if>
+          </nav>
+        </header>
+
+        <article style="max-width:680px;margin:0 auto;padding:{{ d.pad }};display:flex;flex-direction:column;gap:24px">
+          <div style="font-size:16px;color:#a3949b;cursor:pointer" style-hover="color:#ece4e6">← Posts</div>
+          <div style="display:flex;flex-direction:column;gap:16px">
+            <div style="font-size:15px;color:#a3949b">1 out. 2026 · 8 min de leitura</div>
+            <h1 style="margin:0;font-size:{{ d.h1 }};font-weight:700;line-height:1.12;letter-spacing:-0.015em;text-wrap:balance">Um blog trilíngue com custo zero e um LLM local</h1>
+            <div style="font-size:{{ d.lead }};line-height:1.5;color:#a3949b;text-wrap:pretty">Como o dbarros.dev é escrito em Markdown, traduzido por um modelo rodando em casa e publicado com um git push.</div>
+            <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px">
+              <div style="font-size:14px;font-weight:500;color:#8be9fd;background:rgba(139,233,253,0.1);border:1px solid rgba(139,233,253,0.3);padding:1px 10px;border-radius:999px;cursor:pointer">IA</div>
+              <div style="font-size:15px;color:#a3949b">Também em <a href="#">English</a> e <a href="#">Español</a></div>
+            </div>
+          </div>
+          <div style="display:flex;gap:12px;align-items:flex-start;font-size:15px;line-height:1.5;color:#a3949b;border:1px solid #33262f;border-radius:8px;padding:12px 16px">
+            <div style="width:7px;height:7px;border-radius:50%;background:#50fa7b;margin-top:7px;flex:none;box-shadow:0 0 8px #50fa7b"></div>
+            <div>Traduzido do inglês por IA local e revisado pelo autor. <a href="#">Ler o original</a></div>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:22px;font-size:{{ d.body }};line-height:1.75;padding-top:8px">
+            <p style="margin:0;text-wrap:pretty">Eu queria um lugar para anotar o que aprendo, em três idiomas, sem pagar nada além do domínio. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.</p>
+            <h2 style="margin:16px 0 0;font-size:{{ d.h2 }};font-weight:600;line-height:1.25">Só retraduzir o que mudou</h2>
+            <p style="margin:0;text-wrap:pretty">Cada tradução guarda o hash do arquivo-fonte. O script <code style="font-family:'MesloLGS NF','MesloLGS Nerd Font','Meslo LG S',Menlo,'DejaVu Sans Mono',monospace;font-size:0.85em;background:#241b21;color:#8be9fd;padding:2px 6px;border-radius:4px">translate</code> compara esse valor antes de chamar o modelo, e o <a href="#">Ollama</a> só roda quando o texto original mudou.</p>
+
+            <div style="border-radius:8px;overflow:hidden;background:#0c080b;box-shadow:inset 0 0 0 1px #33262f;margin:0 {{ d.codeBleed }}">
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 8px 6px 16px;border-bottom:1px solid #33262f;font-family:'MesloLGS NF','MesloLGS Nerd Font','Meslo LG S',Menlo,'DejaVu Sans Mono',monospace;font-size:13px;color:#a3949b">
+                <div>typescript</div>
+                <div onClick="{{ d.onCopy }}" style="min-height:32px;min-width:72px;display:flex;align-items:center;justify-content:center;padding:0 10px;border-radius:4px;background:#241b21;color:{{ d.copyColor }};cursor:pointer" style-hover="color:#ece4e6">{{ d.copyLabel }}</div>
+              </div>
+              <pre style="margin:0;padding:0;overflow-x:auto;font-family:'MesloLGS NF','MesloLGS Nerd Font','Meslo LG S',Menlo,'DejaVu Sans Mono',monospace;font-size:{{ d.code }};line-height:1.7;color:#ece4e6"><div style="display:inline-block;min-width:100%;box-sizing:border-box;padding:20px"><div style="display:block"><span style="color:#7a6f85">// Retraduz só o que mudou e não foi editado à mão</span></div><div style="display:block"><span style="color:#ff79c6">const</span> hash <span style="color:#ff79c6">=</span> <span style="color:#50fa7b">sha256</span>(source);</div><div style="display:block"><span style="color:#ff79c6">if</span> (t.source_hash <span style="color:#ff79c6">!==</span> hash <span style="color:#ff79c6">&amp;&amp;</span> <span style="color:#ff79c6">!</span>t.locked) {</div><div style="display:block">  <span style="color:#ff79c6">await</span> <span style="color:#50fa7b">translate</span>(post, lang, { model: <span style="color:#f1fa8c">"qwen3:14b"</span> });</div><div style="display:block">}</div></div></pre>
+            </div>
+
+            <p style="margin:0;text-wrap:pretty">Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. O build nunca chama o modelo.</p>
+            <figure style="margin:8px {{ d.bleed }} 0;display:flex;flex-direction:column;gap:10px">
+              <div style="aspect-ratio:16/9;border-radius:8px;box-shadow:inset 0 0 0 1px #33262f;background:repeating-linear-gradient(135deg,#0c080b 0 10px,#130e12 10px 20px);display:flex;align-items:center;justify-content:center">
+                <div style="font-family:'MesloLGS NF','MesloLGS Nerd Font','Meslo LG S',Menlo,'DejaVu Sans Mono',monospace;font-size:13px;color:#a3949b;background:#130e12;padding:4px 10px;border-radius:4px">diagrama.png</div>
+              </div>
+              <figcaption style="font-size:15px;line-height:1.5;color:#a3949b;font-style:italic;padding:0 {{ d.capPad }}">Do Markdown ao Cloudflare Pages, passando pelo Ollama local.</figcaption>
+            </figure>
+            <blockquote style="margin:8px 0;padding:2px 0 2px 22px;border-left:2px solid #ff79c6;font-style:italic;font-size:{{ d.quote }};line-height:1.55;text-wrap:pretty">Na dúvida, escolha a opção com menos estado.</blockquote>
+            <h2 style="margin:16px 0 0;font-size:{{ d.h2 }};font-weight:600;line-height:1.25">O que ficou de fora</h2>
+            <ul style="margin:0;padding-left:22px;display:flex;flex-direction:column;gap:8px">
+              <li style="padding-left:4px">Comentários, porque o repositório é privado.</li>
+              <li style="padding-left:4px">Busca, por enquanto.</li>
+              <li style="padding-left:4px">Francês, para sempre.</li>
+            </ul>
+          </div>
+
+          <nav style="display:grid;grid-template-columns:{{ d.navCols }};gap:16px;margin-top:40px;padding-top:32px;border-top:1px solid #33262f">
+            <div style="display:flex;flex-direction:column;gap:6px;padding:18px 20px;border-radius:8px;box-shadow:inset 0 0 0 1px #33262f;cursor:pointer" style-hover="box-shadow:inset 0 0 0 1px #e8606f">
+              <div style="font-size:14px;color:#a3949b">← Anterior</div>
+              <div style="font-size:18px;font-weight:600;line-height:1.35;text-wrap:pretty">O que aprendi brigando com o borrow checker</div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:6px;padding:18px 20px;border-radius:8px;box-shadow:inset 0 0 0 1px #33262f;cursor:pointer;text-align:{{ d.nextAlign }}" style-hover="box-shadow:inset 0 0 0 1px #e8606f">
+              <div style="font-size:14px;color:#a3949b">Próximo →</div>
+              <div style="font-size:18px;font-weight:600;line-height:1.35;text-wrap:pretty">Agentes que leem o próprio log</div>
+            </div>
+          </nav>
+        </article>
+
+        <footer style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;padding:{{ d.headPad }};border-top:1px solid #33262f;font-size:15px;color:#a3949b">
+          <div>© 2026 Cesar de Barros</div>
+          <div style="display:flex;gap:20px"><a href="#">RSS</a><a href="#">Sobre</a></div>
+        </footer>
+      </div>
+    </sc-for>
+  </div>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { copied: null };
+  copy(id) {
+    const code = '// Retraduz só o que mudou e não foi editado à mão\nconst hash = sha256(source);\nif (t.source_hash !== hash && !t.locked) {\n  await translate(post, lang, { model: "qwen3:14b" });\n}';
+    try { navigator.clipboard && navigator.clipboard.writeText(code).catch(() => {}); } catch (e) {}
+    this.setState({ copied: id });
+    clearTimeout(this.t);
+    this.t = setTimeout(() => this.setState({ copied: null }), 1600);
+  }
+  componentWillUnmount() { clearTimeout(this.t); }
+  renderVals() {
+    const base = [
+      { id: '1a', desktop: true, mobile: false, w: '1040px', radius: '12px', headPad: '28px 64px', logo: '22px', pad: '56px 0 72px',
+        h1: '46px', lead: '21px', body: '19px', h2: '28px', quote: '22px', code: '15px', bleed: '-24px', codeBleed: '-24px', capPad: '24px', navCols: 'repeat(2,minmax(0,1fr))', nextAlign: 'right' },
+      { id: '1b', desktop: false, mobile: true, w: '390px', radius: '28px', headPad: '14px 20px', logo: '19px', pad: '28px 20px 48px',
+        h1: '32px', lead: '18px', body: '17px', h2: '23px', quote: '19px', code: '13px', bleed: '-20px', codeBleed: '0', capPad: '20px', navCols: 'minmax(0,1fr)', nextAlign: 'left' },
+    ];
+    const devices = base.map(d => {
+      const on = this.state.copied === d.id;
+      return { ...d, onCopy: () => this.copy(d.id), copyLabel: on ? 'Copiado' : 'Copiar', copyColor: on ? '#50fa7b' : '#a3949b' };
+    });
+    return { devices };
+  }
+}
+</script>
+</body>
+</html>

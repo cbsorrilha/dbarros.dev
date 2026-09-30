@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,600;1,700&display=swap" rel="stylesheet">
+<style>
+html,body{margin:0;background:#0a0709;min-height:100%;color:#ece4e6;-webkit-font-smoothing:antialiased}
+a{color:#e8606f;text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px}
+a:hover{color:#ff79c6}
+</style>
+</helmet>
+<section style="padding:64px 64px 0;display:flex;flex-direction:column;gap:32px;font-family:'Spectral',Georgia,serif">
+  <div style="display:flex;flex-direction:column;gap:8px">
+    <div style="font-size:14px;letter-spacing:0.08em;text-transform:uppercase;color:#a3949b">Rodada 2 · d.B</div>
+    <div style="font-size:28px;font-weight:600">d e B com o ponto vermelho entre eles</div>
+    <div style="font-size:17px;color:#a3949b;max-width:820px;line-height:1.6;text-wrap:pretty">Quatro variações da sua ideia. Mudam o estilo das letras (reto ou itálico), a altura do ponto (na linha de base ou no meio) e o peso.</div>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(2,560px);gap:32px">
+    <sc-for list="{{ dbs }}" as="o" hint-placeholder-count="4">
+      <div id="{{ o.id }}" style="background:#130e12;border-radius:12px;box-shadow:0 0 0 1px #33262f;overflow:hidden;display:flex;flex-direction:column;font-style:{{ o.fst }};font-weight:{{ o.fw }}">
+        <div style="height:260px;display:flex;align-items:center;justify-content:center">
+          <div style="display:flex;align-items:baseline;font-size:128px;line-height:1;letter-spacing:-0.02em">d<div style="width:{{ o.dot }};height:{{ o.dot }};border-radius:50%;background:#e8606f;box-shadow:0 0 0.18em rgba(232,96,111,0.7);margin:0 {{ o.gap }};transform:translateY({{ o.shift }});flex:none"></div>B</div>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:16px;padding:20px 24px;border-top:1px solid #33262f;background:#0c080b">
+          <div style="display:flex;align-items:center;gap:14px">
+            <div style="display:flex;align-items:baseline;font-size:28px;line-height:1;letter-spacing:-0.02em">d<div style="width:{{ o.dot }};height:{{ o.dot }};border-radius:50%;background:#e8606f;margin:0 {{ o.gap }};transform:translateY({{ o.shift }});flex:none"></div>B</div>
+            <div style="font-size:17px;font-weight:500;font-style:normal;color:#a3949b">dbarros.dev</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px">
+            <div style="width:64px;height:64px;border-radius:14px;background:#130e12;box-shadow:inset 0 0 0 1px #33262f;display:flex;align-items:center;justify-content:center"><div style="display:flex;align-items:baseline;font-size:34px;line-height:1;letter-spacing:-0.02em;padding-bottom:4px">d<div style="width:{{ o.dot }};height:{{ o.dot }};border-radius:50%;background:#e8606f;margin:0 {{ o.gap }};transform:translateY({{ o.shift }});flex:none"></div>B</div></div>
+            <div style="width:32px;height:32px;border-radius:7px;background:#130e12;box-shadow:inset 0 0 0 1px #33262f;display:flex;align-items:center;justify-content:center"><div style="display:flex;align-items:baseline;font-size:17px;font-weight:700;line-height:1;letter-spacing:-0.03em;padding-bottom:2px">d<div style="width:{{ o.dot }};height:{{ o.dot }};border-radius:50%;background:#e8606f;margin:0 {{ o.gap }};transform:translateY({{ o.shift }});flex:none"></div>B</div></div>
+            <div style="width:16px;height:16px;border-radius:3px;background:#130e12;display:flex;align-items:center;justify-content:center"><div style="display:flex;align-items:baseline;font-size:10px;font-weight:700;line-height:1;letter-spacing:-0.04em">d<div style="width:2px;height:2px;border-radius:50%;background:#e8606f;margin:0 0.5px;flex:none"></div>B</div></div>
+          </div>
+        </div>
+        <div style="padding:16px 24px;display:flex;justify-content:space-between;gap:16px;font-size:15px;font-style:normal;font-weight:400;color:#a3949b"><div>{{ o.note }}</div><div style="font-weight:600;color:#e8606f">{{ o.id }}</div></div>
+      </div>
+    </sc-for>
+  </div>
+</section>
+<section style="padding:64px;display:flex;flex-direction:column;gap:32px;font-family:'Spectral',Georgia,serif">
+  <div style="display:flex;flex-direction:column;gap:8px">
+    <div style="font-size:14px;letter-spacing:0.08em;text-transform:uppercase;color:#a3949b">Rodada 1 · logo</div>
+    <div style="font-size:28px;font-weight:600">Seis caminhos tipográficos</div>
+    <div style="font-size:17px;color:#a3949b;max-width:820px;line-height:1.6;text-wrap:pretty">Todos em Spectral, com o vermelho-sangue como único acento. Cada um aparece grande, no tamanho do cabeçalho e como favicon em 64, 32 e 16px.</div>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(3,480px);gap:32px">
+
+    <div id="1a" style="background:#130e12;border-radius:12px;box-shadow:0 0 0 1px #33262f;overflow:hidden;display:flex;flex-direction:column">
+      <div style="height:220px;display:flex;align-items:center;justify-content:center">
+        <div style="display:flex;align-items:center;gap:14px;font-size:48px;font-weight:700;letter-spacing:-0.01em"><div style="width:16px;height:16px;border-radius:50%;background:#e8606f;box-shadow:0 0 18px #e8606f"></div>dbarros.dev</div>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:16px;padding:20px 24px;border-top:1px solid #33262f;background:#0c080b">
+        <div style="display:flex;align-items:center;gap:10px;font-size:22px;font-weight:700"><div style="width:8px;height:8px;border-radius:50%;background:#e8606f;box-shadow:0 0 10px #e8606f"></div>dbarros.dev</div>
+        <div style="display:flex;align-items:center;gap:12px">
+          <div style="width:64px;height:64px;border-radius:14px;background:#130e12;box-shadow:inset 0 0 0 1px #33262f;display:flex;align-items:center;justify-content:center"><div style="width:22px;height:22px;border-radius:50%;background:#e8606f;box-shadow:0 0 12px #e8606f"></div></div>
+          <div style="width:32px;height:32px;border-radius:7px;background:#130e12;box-shadow:inset 0 0 0 1px #33262f;display:flex;align-items:center;justify-content:center"><div style="width:12px;height:12px;border-radius:50%;background:#e8606f"></div></div>
+          <div style="width:16px;height:16px;border-radius:3px;background:#130e12;display:flex;align-items:center;justify-content:center"><div style="width:7px;height:7px;border-radius:50%;background:#e8606f"></div></div>
+        </div>
+      </div>
+      <div style="padding:16px 24px;display:flex;justify-content:space-between;gap:16px;font-size:15px;color:#a3949b"><div>Ponto antes do nome. O atual.</div><div style="font-weight:600;color:#e8606f">1a</div></div>
+    </div>
+
+    <div id="1b" style="background:#130e12;border-radius:12px;box-shadow:0 0 0 1px #33262f;overflow:hidden;display:flex;flex-direction:column">
+      <div style="height:220px;display:flex;align-items:center;justify-content:center">
+        <div style="display:flex;align-items:baseline;font-size:52px;font-weight:700;letter-spacing:-0.01em">dbarros<div style="width:0.2em;height:0.2em;border-radius:50%;background:#e8606f;box-shadow:0 0 16px #e8606f;margin:0 0.06em 0 0.08em;align-self:baseline"></div><span style="color:#a3949b;font-weight:500">dev</span></div>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:16px;padding:20px 24px;border-top:1px solid #33262f;background:#0c080b">
+        <div style="display:flex;align-items:baseline;font-size:22px;font-weight:700">dbarros<div style="width:0.2em;height:0.2em;border-radius:50%;background:#e8606f;box-shadow:0 0 8px #e8606f;margin:0 0.06em 0 0.08em"></div><span style="color:#a3949b;font-weight:500">dev</span></div>
+        <div style="display:flex;align-items:center;gap:12px">
+          <div style="width:64px;height:64px;border-radius:14px;background:#130e12;box-shadow:inset 0 0 0 1px #33262f;display:flex;align-items:flex-end;justify-content:center;gap:3px;padding-bottom:14px;box-sizing:border-box;font-size:40px;font-weight:700;line-height:0.7">d<div style="width:9px;height:9px;border-radius:50%;background:#e8606f;box-shadow:0 0 8px #e8606f"></div></div>
+          <div style="width:32px;height:32px;border-radius:7px;background:#130e12;box-shadow:inset 0 0 0 1px #33262f;display:flex;align-items:flex-end;justify-content:center;gap:2px;padding-bottom:7px;box-sizing:border-box;font-size:21px;font-weight:700;line-height:0.7">d<div style="width:5px;height:5px;border-radius:50%;background:#e8606f"></div></div>
+          <div style="width:16px;height:16px;border-radius:3px;background:#130e12;display:flex;align-items:center;justify-content:center"><div style="width:7px;height:7px;border-radius:50%;background:#e8606f"></div></div>
+        </div>
+      </div>
+      <div style="padding:16px 24px;display:flex;justify-content:space-between;gap:16px;font-size:15px;color:#a3949b"><div>O ponto do domínio vira a marca.</div><div style="font-weight:600;color:#e8606f">1b</div></div>
+    </div>
+
+    <div id="1c" style="background:#130e12;border-radius:12px;box-shadow:0 0 0 1px #33262f;overflow:hidden;display:flex;flex-direction:column">
+      <div style="height:220px;display:flex;align-items:center;justify-content:center">
+        <div style="display:flex;align-items:baseline;font-size:52px;font-weight:700;letter-spacing:-0.01em">dbarros<div style="display:flex;gap:0.09em;margin:0 0.08em 0 0.1em"><div style="width:0.12em;height:0.12em;border-radius:50%;background:#e8606f;box-shadow:0 0 10px #e8606f"></div><div style="width:0.12em;height:0.12em;border-radius:50%;background:#e8606f;box-shadow:0 0 10px #e8606f"></div></div><span style="color:#a3949b;font-weight:500">dev</span></div>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:16px;padding:20px 24px;border-top:1px solid #33262f;background:#0c080b">
+        <div style="display:flex;align-items:baseline;font-size:22px;font-weight:700">dbarros<div style="display:flex;gap:0.1em;margin:0 0.08em 0 0.1em"><div style="width:0.14em;height:0.14em;border-radius:50%;background:#e8606f"></div><div style="width:0.14em;height:0.14em;border-radius:50%;background:#e8606f"></div></div><span style="color:#a3949b;font-weight:500">dev</span></div>
+        <div style="display:flex;align-items:center;gap:12px">
+          <div style="width:64px;height:64px;border-radius:14px;background:#130e12;box-shadow:inset 0 0 0 1px #33262f;display:flex;align-items:center;justify-content:center;gap:10px"><div style="width:12px;height:12px;border-radius:50%;background:#e8606f;box-shadow:0 0 10px #e8606f"></div><div style="width:12px;height:12px;border-radius:50%;background:#e8606f;box-shadow:0 0 10px #e8606f"></div></div>
+          <div style="width:32px;height:32px;border-radius:7px;background:#130e12;box-shadow:inset 0 0 0 1px #33262f;display:flex;align-items:center;justify-content:center;gap:5px"><div style="width:6px;height:6px;border-radius:50%;background:#e8606f"></div><div style="width:6px;height:6px;border-radius:50%;background:#e8606f"></div></div>
+          <div style="width:16px;height:16px;border-radius:3px;background:#130e12;display:flex;align-items:center;justify-content:center;gap:2px"><div style="width:4px;height:4px;border-radius:50%;background:#e8606f"></div><div style="width:4px;height:4px;border-radius:50%;background:#e8606f"></div></div>
+        </div>
+      </div>
+      <div style="padding:16px 24px;display:flex;justify-content:space-between;gap:16px;font-size:15px;color:#a3949b"><div>Dois pontos no lugar de um: a mordida.</div><div style="font-weight:600;color:#e8606f">1c</div></div>
+    </div>
+
+    <div id="1d" style="background:#130e12;border-radius:12px;box-shadow:0 0 0 1px #33262f;overflow:hidden;display:flex;flex-direction:column">
+      <div style="height:220px;display:flex;align-items:center;justify-content:center">
+        <div style="font-size:56px;font-weight:600;font-style:italic;letter-spacing:-0.01em">dbarros<span style="color:#e8606f;font-style:normal">.</span></div>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:16px;padding:20px 24px;border-top:1px solid #33262f;background:#0c080b">
+        <div style="font-size:24px;font-weight:600;font-style:italic">dbarros<span style="color:#e8606f;font-style:normal">.</span></div>
+        <div style="display:flex;align-items:center;gap:12px">
+          <div style="width:64px;height:64px;border-radius:14px;background:#130e12;box-shadow:inset 0 0 0 1px #33262f;display:flex;align-items:center;justify-content:center;font-size:44px;font-weight:600;font-style:italic;line-height:1;padding-bottom:6px;box-sizing:border-box">d<span style="color:#e8606f;font-style:normal">.</span></div>
+          <div style="width:32px;height:32px;border-radius:7px;background:#130e12;box-shadow:inset 0 0 0 1px #33262f;display:flex;align-items:center;justify-content:center;font-size:23px;font-weight:700;font-style:italic;line-height:1;padding-bottom:3px;box-sizing:border-box">d<span style="color:#e8606f;font-style:normal">.</span></div>
+          <div style="width:16px;height:16px;border-radius:3px;background:#130e12;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;font-style:italic;line-height:1;color:#ece4e6">d</div>
+        </div>
+      </div>
+      <div style="padding:16px 24px;display:flex;justify-content:space-between;gap:16px;font-size:15px;color:#a3949b"><div>Itálico, sem o .dev. Mais assinatura.</div><div style="font-weight:600;color:#e8606f">1d</div></div>
+    </div>
+
+    <div id="1e" style="background:#130e12;border-radius:12px;box-shadow:0 0 0 1px #33262f;overflow:hidden;display:flex;flex-direction:column">
+      <div style="height:220px;display:flex;align-items:center;justify-content:center">
+        <div style="width:120px;height:120px;border-radius:50%;box-shadow:inset 0 0 0 2px #e8606f, 0 0 28px rgba(232,96,111,0.25);display:flex;align-items:center;justify-content:center;font-size:58px;font-weight:600;font-style:italic;letter-spacing:-0.04em;padding-bottom:8px;box-sizing:border-box">db</div>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:16px;padding:20px 24px;border-top:1px solid #33262f;background:#0c080b">
+        <div style="display:flex;align-items:center;gap:12px;font-size:22px;font-weight:700"><div style="width:34px;height:34px;border-radius:50%;box-shadow:inset 0 0 0 1.5px #e8606f;display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:600;font-style:italic;letter-spacing:-0.04em;padding-bottom:2px;box-sizing:border-box">db</div>dbarros.dev</div>
+        <div style="display:flex;align-items:center;gap:12px">
+          <div style="width:64px;height:64px;border-radius:50%;background:#130e12;box-shadow:inset 0 0 0 2px #e8606f;display:flex;align-items:center;justify-content:center;font-size:32px;font-weight:600;font-style:italic;letter-spacing:-0.04em;padding-bottom:4px;box-sizing:border-box">db</div>
+          <div style="width:32px;height:32px;border-radius:50%;background:#130e12;box-shadow:inset 0 0 0 1.5px #e8606f;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;font-style:italic;letter-spacing:-0.04em;padding-bottom:2px;box-sizing:border-box">db</div>
+          <div style="width:16px;height:16px;border-radius:50%;background:#e8606f;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;font-style:italic;color:#130e12;letter-spacing:-0.06em">db</div>
+        </div>
+      </div>
+      <div style="padding:16px 24px;display:flex;justify-content:space-between;gap:16px;font-size:15px;color:#a3949b"><div>Monograma db num anel vermelho.</div><div style="font-weight:600;color:#e8606f">1e</div></div>
+    </div>
+
+    <div id="1f" style="background:#130e12;border-radius:12px;box-shadow:0 0 0 1px #33262f;overflow:hidden;display:flex;flex-direction:column">
+      <div style="height:220px;display:flex;align-items:center;justify-content:center">
+        <div style="display:flex;align-items:center;gap:0.35em;font-size:40px;font-weight:600;letter-spacing:0.22em;text-transform:uppercase">D<div style="width:9px;height:9px;border-radius:50%;background:#e8606f;box-shadow:0 0 12px #e8606f"></div>Barros</div>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:16px;padding:20px 24px;border-top:1px solid #33262f;background:#0c080b">
+        <div style="display:flex;align-items:center;gap:0.35em;font-size:18px;font-weight:600;letter-spacing:0.22em;text-transform:uppercase">D<div style="width:5px;height:5px;border-radius:50%;background:#e8606f"></div>Barros</div>
+        <div style="display:flex;align-items:center;gap:12px">
+          <div style="width:64px;height:64px;border-radius:14px;background:#130e12;box-shadow:inset 0 0 0 1px #33262f;display:flex;align-items:center;justify-content:center;gap:5px;font-size:34px;font-weight:600">D<div style="width:7px;height:7px;border-radius:50%;background:#e8606f;box-shadow:0 0 8px #e8606f"></div></div>
+          <div style="width:32px;height:32px;border-radius:7px;background:#130e12;box-shadow:inset 0 0 0 1px #33262f;display:flex;align-items:center;justify-content:center;gap:2px;font-size:18px;font-weight:700">D<div style="width:4px;height:4px;border-radius:50%;background:#e8606f"></div></div>
+          <div style="width:16px;height:16px;border-radius:3px;background:#130e12;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700">D</div>
+        </div>
+      </div>
+      <div style="padding:16px 24px;display:flex;justify-content:space-between;gap:16px;font-size:15px;color:#a3949b"><div>Caixa alta espaçada, tom de placa.</div><div style="font-weight:600;color:#e8606f">1f</div></div>
+    </div>
+
+  </div>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      dbs: [
+        { id: '2a', fst: 'normal', fw: 700, dot: '0.17em', gap: '0.05em', shift: '0', note: 'Reto, negrito, ponto na linha de base.' },
+        { id: '2b', fst: 'italic', fw: 600, dot: '0.17em', gap: '0.04em', shift: '0', note: 'Itálico, ponto na linha de base.' },
+        { id: '2c', fst: 'normal', fw: 600, dot: '0.15em', gap: '0.07em', shift: '-0.3em', note: 'Reto, ponto no meio, como separador.' },
+        { id: '2d', fst: 'italic', fw: 400, dot: '0.14em', gap: '0.04em', shift: '0', note: 'Itálico leve, ponto na linha de base. Escolhido.' },
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>

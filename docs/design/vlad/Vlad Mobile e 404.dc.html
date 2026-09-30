@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+html,body{margin:0;background:#0a0709;min-height:100%;color:#ece4e6;-webkit-font-smoothing:antialiased}
+a{color:#e8606f;text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px}
+a:hover{color:#ff79c6}
+</style>
+</helmet>
+<section style="padding:64px;display:flex;flex-direction:column;gap:32px;font-family:'Spectral',Georgia,serif">
+  <div style="display:flex;flex-direction:column;gap:8px">
+    <div style="font-size:14px;letter-spacing:0.08em;text-transform:uppercase;color:#a3949b">Rodada 1 · telas que faltavam</div>
+    <div style="font-size:28px;font-weight:600">Celular: listagem (<a href="#1a">1a</a>), menu aberto (<a href="#1b">1b</a>), tag (<a href="#1c">1c</a>). 404: celular (<a href="#1d">1d</a>) e desktop (<a href="#1e">1e</a>)</div>
+    <div style="font-size:17px;color:#a3949b;max-width:820px;line-height:1.6;text-wrap:pretty">No celular a data sobe para cima do título e a lista vira uma coluna só. O menu abre em tela cheia com os mesmos itens do desktop, o seletor de idioma e o RSS.</div>
+  </div>
+  <div style="display:flex;flex-wrap:wrap;gap:48px;align-items:flex-start">
+    <sc-for list="{{ phones }}" as="ph" hint-placeholder-count="4">
+      <div id="{{ ph.id }}" style="width:390px;min-height:844px;background:#130e12;border-radius:28px;box-shadow:0 0 0 1px #33262f;overflow:hidden;color:#ece4e6;flex:none;display:flex;flex-direction:column">
+        <header style="display:flex;justify-content:space-between;align-items:center;gap:16px;padding:14px 20px;border-bottom:1px solid #33262f">
+          <div style="display:flex;align-items:center;gap:12px;cursor:pointer"><div style="display:flex;align-items:baseline;font-size:24px;font-style:italic;font-weight:400;line-height:1;letter-spacing:-0.02em">d<div style="width:0.14em;height:0.14em;border-radius:50%;background:#e8606f;box-shadow:0 0 0.18em rgba(232,96,111,0.7);margin:0 0.04em;flex:none"></div>B</div><div style="font-size:15px;font-weight:500;color:#a3949b">dbarros.dev</div></div>
+          <sc-if value="{{ ph.menuClosed }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex;align-items:center;gap:8px">
+              <div style="display:flex;gap:4px;padding:3px;border-radius:999px;background:#0c080b;box-shadow:inset 0 0 0 1px #33262f;font-size:14px;font-weight:600">
+                <div style="padding:3px 10px;border-radius:999px;background:#241b21;color:#ece4e6">PT</div>
+                <div style="padding:3px 10px;border-radius:999px;color:#a3949b">EN</div>
+                <div style="padding:3px 10px;border-radius:999px;color:#a3949b">ES</div>
+              </div>
+              <div style="width:44px;height:44px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:5px;cursor:pointer">
+                <div style="width:20px;height:1.5px;background:#ece4e6"></div>
+                <div style="width:20px;height:1.5px;background:#ece4e6"></div>
+                <div style="width:20px;height:1.5px;background:#ece4e6"></div>
+              </div>
+            </div>
+          </sc-if>
+          <sc-if value="{{ ph.isMenu }}" hint-placeholder-val="{{ false }}">
+            <div style="width:44px;height:44px;position:relative;cursor:pointer">
+              <div style="position:absolute;left:12px;top:21px;width:20px;height:1.5px;background:#ece4e6;transform:rotate(45deg)"></div>
+              <div style="position:absolute;left:12px;top:21px;width:20px;height:1.5px;background:#ece4e6;transform:rotate(-45deg)"></div>
+            </div>
+          </sc-if>
+        </header>
+
+        <sc-if value="{{ ph.isList }}" hint-placeholder-val="{{ false }}">
+          <main style="padding:28px 20px 40px;display:flex;flex-direction:column;gap:32px">
+            <div style="display:flex;flex-direction:column;gap:16px">
+              <h1 style="margin:0;font-size:32px;font-weight:700;letter-spacing:-0.01em;line-height:1.15">Posts</h1>
+              <div style="display:flex;flex-wrap:wrap;gap:8px">
+                <div style="font-size:15px;font-weight:500;color:#130e12;background:#ece4e6;padding:5px 14px;border-radius:999px">Todos</div>
+                <sc-for list="{{ tags }}" as="t" hint-placeholder-count="3">
+                  <div style="font-size:15px;font-weight:500;color:{{ t.c }};background:{{ t.bg }};border:1px solid {{ t.bd }};padding:4px 14px;border-radius:999px">{{ t.label }}</div>
+                </sc-for>
+              </div>
+            </div>
+            <sc-for list="{{ years }}" as="y" hint-placeholder-count="2">
+              <div style="display:flex;flex-direction:column">
+                <div style="font-size:15px;font-weight:600;letter-spacing:0.08em;color:#a3949b;padding-bottom:10px;border-bottom:1px solid #33262f">{{ y.year }}</div>
+                <sc-for list="{{ y.posts }}" as="p" hint-placeholder-count="3">
+                  <div style="display:flex;flex-direction:column;gap:6px;padding:18px 0;border-bottom:1px solid #33262f">
+                    <div style="font-size:14px;color:#a3949b">{{ p.short }}</div>
+                    <div style="font-size:19px;font-weight:600;line-height:1.35;text-wrap:pretty;text-decoration:underline;text-decoration-color:#5a4450;text-decoration-thickness:1px;text-underline-offset:5px">{{ p.title }}</div>
+                    <div style="font-size:16px;line-height:1.55;color:#a3949b;text-wrap:pretty">{{ p.desc }}</div>
+                    <div style="display:flex;flex-wrap:wrap;gap:8px;padding-top:4px">
+                      <sc-for list="{{ p.tags }}" as="t" hint-placeholder-count="1">
+                        <div style="font-size:14px;font-weight:500;color:{{ t.c }};background:{{ t.bg }};border:1px solid {{ t.bd }};padding:1px 10px;border-radius:999px">{{ t.label }}</div>
+                      </sc-for>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+            </sc-for>
+          </main>
+        </sc-if>
+
+        <sc-if value="{{ ph.isMenu }}" hint-placeholder-val="{{ false }}">
+          <main style="flex:1;padding:32px 20px 32px;display:flex;flex-direction:column;gap:40px;background:#0c080b">
+            <nav style="display:flex;flex-direction:column">
+              <div style="display:flex;align-items:center;gap:12px;font-size:30px;font-weight:600;padding:14px 0;border-bottom:1px solid #33262f"><div style="width:6px;height:6px;border-radius:50%;background:#e8606f"></div>Posts</div>
+              <div style="font-size:30px;font-weight:600;padding:14px 0 14px 18px;border-bottom:1px solid #33262f;color:#a3949b">Tags</div>
+              <div style="font-size:30px;font-weight:600;padding:14px 0 14px 18px;border-bottom:1px solid #33262f;color:#a3949b">Sobre</div>
+            </nav>
+            <div style="display:flex;flex-direction:column;gap:12px">
+              <div style="font-size:14px;letter-spacing:0.08em;text-transform:uppercase;color:#a3949b">Idioma</div>
+              <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;padding:4px;border-radius:999px;background:#130e12;box-shadow:inset 0 0 0 1px #33262f;font-size:16px;font-weight:600;text-align:center">
+                <div style="padding:10px 0;border-radius:999px;background:#241b21;color:#ece4e6">Português</div>
+                <div style="padding:10px 0;border-radius:999px;color:#a3949b">English</div>
+                <div style="padding:10px 0;border-radius:999px;color:#a3949b">Español</div>
+              </div>
+            </div>
+            <div style="margin-top:auto;display:flex;justify-content:space-between;font-size:16px;color:#a3949b">
+              <div>© 2026 Cesar de Barros</div>
+              <a href="#">RSS</a>
+            </div>
+          </main>
+        </sc-if>
+
+        <sc-if value="{{ ph.isTag }}" hint-placeholder-val="{{ false }}">
+          <main style="padding:28px 20px 40px;display:flex;flex-direction:column;gap:28px">
+            <div style="display:flex;flex-direction:column;gap:14px">
+              <div style="font-size:16px;color:#a3949b">← Tags</div>
+              <div style="display:flex;align-items:baseline;gap:14px">
+                <h1 style="margin:0;font-size:32px;font-weight:700;letter-spacing:-0.01em;line-height:1.15;color:#ffb86c">Rust</h1>
+                <div style="font-size:16px;color:#a3949b">3 posts</div>
+              </div>
+              <div style="height:2px;width:40px;background:#ffb86c;border-radius:2px"></div>
+            </div>
+            <div style="display:flex;flex-direction:column;border-top:1px solid #33262f">
+              <sc-for list="{{ rustPosts }}" as="p" hint-placeholder-count="3">
+                <div style="display:flex;flex-direction:column;gap:6px;padding:18px 0;border-bottom:1px solid #33262f">
+                  <div style="font-size:14px;color:#a3949b">{{ p.short }}</div>
+                  <div style="font-size:19px;font-weight:600;line-height:1.35;text-wrap:pretty;text-decoration:underline;text-decoration-color:#5a4450;text-decoration-thickness:1px;text-underline-offset:5px">{{ p.title }}</div>
+                  <div style="font-size:16px;line-height:1.55;color:#a3949b;text-wrap:pretty">{{ p.desc }}</div>
+                  <div style="display:flex;flex-wrap:wrap;gap:8px;padding-top:4px">
+                    <sc-for list="{{ p.tags }}" as="t" hint-placeholder-count="1">
+                      <div style="font-size:14px;font-weight:500;color:{{ t.c }};background:{{ t.bg }};border:1px solid {{ t.bd }};padding:1px 10px;border-radius:999px">{{ t.label }}</div>
+                    </sc-for>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+            <div style="font-size:16px;color:#a3949b">Feed desta tag: <a href="#">RSS</a></div>
+          </main>
+        </sc-if>
+
+        <sc-if value="{{ ph.is404 }}" hint-placeholder-val="{{ false }}">
+          <main style="flex:1;padding:40px 20px;display:flex;flex-direction:column;justify-content:center;gap:20px">
+            <div style="font-size:88px;font-weight:700;line-height:1;letter-spacing:-0.03em;color:#e8606f;text-shadow:0 0 24px rgba(232,96,111,0.35)">404</div>
+            <h1 style="margin:0;font-size:28px;font-weight:600;line-height:1.25;text-wrap:balance">Esta página não existe.</h1>
+            <div style="font-size:17px;line-height:1.6;color:#a3949b;text-wrap:pretty">O endereço pode ter mudado, ou o post não existe neste idioma.</div>
+            <div style="display:flex;flex-direction:column;gap:10px;padding-top:8px">
+              <div style="min-height:48px;display:flex;align-items:center;justify-content:center;border-radius:8px;background:#e8606f;color:#130e12;font-size:17px;font-weight:600">Ver todos os posts</div>
+              <div style="min-height:48px;display:flex;align-items:center;justify-content:center;border-radius:8px;box-shadow:inset 0 0 0 1px #33262f;color:#ece4e6;font-size:17px;font-weight:500">Ler em English</div>
+            </div>
+          </main>
+        </sc-if>
+      </div>
+    </sc-for>
+
+    <div id="1e" style="width:1040px;min-height:640px;background:#130e12;border-radius:12px;box-shadow:0 0 0 1px #33262f;overflow:hidden;color:#ece4e6;flex:none;display:flex;flex-direction:column">
+      <header style="display:flex;justify-content:space-between;align-items:center;gap:24px;padding:28px 64px;border-bottom:1px solid #33262f">
+        <div style="display:flex;align-items:center;gap:12px;cursor:pointer"><div style="display:flex;align-items:baseline;font-size:28px;font-style:italic;font-weight:400;line-height:1;letter-spacing:-0.02em">d<div style="width:0.14em;height:0.14em;border-radius:50%;background:#e8606f;box-shadow:0 0 0.18em rgba(232,96,111,0.7);margin:0 0.04em;flex:none"></div>B</div><div style="font-size:17px;font-weight:500;color:#a3949b">dbarros.dev</div></div>
+        <nav style="display:flex;align-items:center;gap:32px;font-size:17px">
+          <div style="color:#a3949b">Posts</div>
+          <div style="color:#a3949b">Tags</div>
+          <div style="color:#a3949b">Sobre</div>
+          <div style="display:flex;gap:4px;padding:3px;border-radius:999px;background:#0c080b;box-shadow:inset 0 0 0 1px #33262f;font-size:14px;font-weight:600">
+            <div style="padding:3px 10px;border-radius:999px;background:#241b21;color:#ece4e6">PT</div>
+            <div style="padding:3px 10px;border-radius:999px;color:#a3949b">EN</div>
+            <div style="padding:3px 10px;border-radius:999px;color:#a3949b">ES</div>
+          </div>
+        </nav>
+      </header>
+      <main style="flex:1;padding:80px 64px;display:flex;flex-direction:column;justify-content:center;gap:24px;max-width:640px">
+        <div style="font-size:128px;font-weight:700;line-height:1;letter-spacing:-0.03em;color:#e8606f;text-shadow:0 0 32px rgba(232,96,111,0.35)">404</div>
+        <h1 style="margin:0;font-size:36px;font-weight:600;line-height:1.2;text-wrap:balance">Esta página não existe.</h1>
+        <div style="font-size:19px;line-height:1.6;color:#a3949b;text-wrap:pretty">O endereço pode ter mudado, ou o post não existe neste idioma.</div>
+        <div style="display:flex;gap:12px;padding-top:8px">
+          <div style="padding:12px 22px;border-radius:8px;background:#e8606f;color:#130e12;font-size:17px;font-weight:600;cursor:pointer" style-hover="background:#ff79c6">Ver todos os posts</div>
+          <div style="padding:12px 22px;border-radius:8px;box-shadow:inset 0 0 0 1px #33262f;color:#ece4e6;font-size:17px;font-weight:500;cursor:pointer" style-hover="box-shadow:inset 0 0 0 1px #e8606f">Ler em English</div>
+        </div>
+      </main>
+    </div>
+
+  </div>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    const T = {
+      rust: { label: 'Rust', c: '#ffb86c', bg: 'rgba(255,184,108,0.1)', bd: 'rgba(255,184,108,0.3)' },
+      ai: { label: 'IA', c: '#8be9fd', bg: 'rgba(139,233,253,0.1)', bd: 'rgba(139,233,253,0.3)' },
+      reflections: { label: 'Reflexões', c: '#ff79c6', bg: 'rgba(255,121,198,0.1)', bd: 'rgba(255,121,198,0.3)' },
+    };
+    const mk = rows => rows.map(([short, title, desc, tags, year]) => ({ short, title, desc, year, tags: tags.map(t => T[t]) }));
+    const posts = mk([
+      ['01 out', 'Um blog trilíngue com custo zero e um LLM local', 'Como o dbarros.dev é traduzido por um modelo rodando em casa, sem API paga.', ['ai'], 2026],
+      ['18 set', 'O que aprendi brigando com o borrow checker', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.', ['rust'], 2026],
+      ['02 set', 'Agentes que leem o próprio log', 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.', ['ai', 'rust'], 2026],
+      ['14 ago', 'Dez anos escrevendo software para outras pessoas', 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore.', ['reflections'], 2026],
+      ['03 dez', 'Lifetimes sem medo', 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia.', ['rust'], 2025],
+    ]);
+    const flags = { isList: false, isMenu: false, isTag: false, is404: false };
+    return {
+      phones: [
+        { id: '1a', ...flags, isList: true, menuClosed: true },
+        { id: '1b', ...flags, isMenu: true, menuClosed: false },
+        { id: '1c', ...flags, isTag: true, menuClosed: true },
+        { id: '1d', ...flags, is404: true, menuClosed: true },
+      ],
+      tags: Object.values(T),
+      years: [2026, 2025].map(year => ({ year, posts: posts.filter(p => p.year === year) })),
+      rustPosts: mk([
+        ['18 set 2026', 'O que aprendi brigando com o borrow checker', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.', ['rust']],
+        ['02 set 2026', 'Agentes que leem o próprio log', 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.', ['ai', 'rust']],
+        ['03 dez 2025', 'Lifetimes sem medo', 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia.', ['rust']],
+      ]),
+    };
+  }
+}
+</script>
+</body>
+</html>
