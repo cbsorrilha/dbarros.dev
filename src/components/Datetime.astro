@@ -1,0 +1,66 @@
+---
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
+import IconCalendar from "@/assets/icons/IconCalendar.svg";
+import config from "@/config";
+import { useTranslations } from "@/i18n";
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
+
+type Props = {
+  class?: string;
+  size?: "sm" | "lg";
+  pubDatetime: string | Date;
+  timezone?: string;
+  modDatetime?: string | Date | null;
+};
+
+const {
+  pubDatetime,
+  modDatetime,
+  size = "sm",
+  class: className = "",
+  timezone: postTimezone,
+} = Astro.props;
+
+const t = useTranslations(Astro.currentLocale);
+
+const isModified = modDatetime && modDatetime > pubDatetime;
+
+const raw = dayjs.utc(isModified ? modDatetime : pubDatetime);
+
+// Datas sem hora no front matter (ex.: 2026-10-01) chegam como meia-noite UTC e
+// representam um dia do calendário: não converter de fuso, senão viram o dia anterior.
+const isDateOnly = raw.hour() === 0 && raw.minute() === 0 && raw.second() === 0;
+const datetime = isDateOnly
+  ? raw
+  : raw.tz(postTimezone ?? config.site.timezone);
+
+const date = datetime.format("D MMM, YYYY");
+---
+
+<div
+  class:list={["text-muted-foreground flex items-center gap-x-2", className]}
+>
+  <IconCalendar
+    class:list={[
+      "inline-block size-6 min-w-5.5",
+      { "scale-90": size === "sm" },
+    ]}
+  />
+  {
+    isModified && (
+      <span class:list={["text-sm", { "sm:text-base": size === "lg" }]}>
+        {t.post.updatedAt}:
+      </span>
+    )
+  }
+  <time
+    class:list={["text-sm", { "sm:text-base": size === "lg" }]}
+    datetime={datetime.toISOString()}
+  >
+    {date}
+  </time>
+</div>

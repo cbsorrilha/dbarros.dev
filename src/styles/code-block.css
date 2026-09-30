@@ -1,0 +1,77 @@
+/* Bloco de código do tema Vlad (ver docs/design/vlad/README.md, "Bloco de código").
+   A marcação vem de src/utils/transformers/codeBlock.ts. */
+
+.code-block {
+  margin: 22px 0;
+  background: var(--bg-deep);
+  border-radius: var(--radius-md);
+  box-shadow: inset 0 0 0 1px var(--border);
+  overflow: hidden;
+}
+
+@media (min-width: 641px) {
+  .code-block {
+    margin-inline: calc(-1 * var(--space-5));
+  }
+}
+
+.code-block-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-2) var(--space-2) 20px;
+  border-bottom: 1px solid var(--border);
+  font-family: var(--font-mono);
+  font-size: var(--fs-code-label);
+  color: var(--text-muted);
+  min-height: 48px;
+}
+
+.code-block-copy {
+  min-width: 72px;
+  min-height: 32px;
+  padding: 0 var(--space-3);
+  margin-inline-start: auto;
+  font: inherit;
+  color: var(--text-muted);
+  background: var(--surface);
+  border: 0;
+  border-radius: var(--radius-sm);
+}
+
+.code-block-copy:hover {
+  color: var(--text);
+}
+
+.code-block-copy[data-copied] {
+  color: var(--notice);
+}
+
+/* O <pre> rola; o <code> é o wrapper inline-block que mantém o respiro de 20px
+   também no fim de linhas longas. */
+.app-prose .code-block pre,
+.code-block pre {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: var(--bg-deep);
+  overflow-x: auto;
+  white-space: pre;
+  font-size: var(--fs-code);
+  line-height: 1.7;
+}
+
+.app-prose .code-block pre code,
+.code-block pre code {
+  display: inline-block;
+  min-width: 100%;
+  box-sizing: border-box;
+  padding: 20px;
+  font-family: var(--font-mono);
+  font-size: inherit;
+  background: none;
+  color: inherit;
+  white-space: pre;
+}

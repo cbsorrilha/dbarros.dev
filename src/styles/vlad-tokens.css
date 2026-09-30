@@ -1,0 +1,119 @@
+/* Tema Vlad · dbarros.dev · Sangue Dracula
+   Fonte da verdade dos tokens visuais. Dark-only. */
+
+@font-face {
+  font-family: "Meslo NF";
+  src: url("/fonts/MesloLGSNerdFont-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Meslo NF";
+  src: url("/fonts/MesloLGSNerdFont-Italic.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+:root {
+  color-scheme: dark;
+
+  /* Cor · superfícies */
+  --bg: #130e12;
+  --bg-deep: #0c080b;
+  --bg-canvas: #0a0709; /* fora da coluna, se houver */
+  --surface: #241b21;
+  --border: #33262f;
+
+  /* Cor · texto */
+  --text: #ece4e6;
+  --text-muted: #a3949b;
+
+  /* Cor · acentos */
+  --link: #e8606f; /* sangue: links, logo, botão primário */
+  --link-hover: #ff79c6;
+  --link-subtle: #5a4450; /* sublinhado de títulos em listas */
+  --quote: #ff79c6;
+  --code-inline: #8be9fd;
+  --code-comment: #7a6f85;
+  --notice: #50fa7b;
+  --danger: #e8606f;
+
+  /* Cor · tags (uma por slug do conjunto fechado) */
+  --tag-rust: #ffb86c;
+  --tag-ai: #8be9fd;
+  --tag-reflections: #ff79c6;
+
+  /* Tipografia */
+  --font-serif: "Spectral", Georgia, serif;
+  --font-mono: "Meslo NF", "MesloLGS NF", Menlo, "DejaVu Sans Mono", monospace;
+
+  --fs-display: 48px;
+  --fs-h1-post: 46px;
+  --fs-h1: 40px;
+  --fs-h2: 28px;
+  --fs-lead: 21px;
+  --fs-body: 19px;
+  --fs-title-list: 20px;
+  --fs-ui: 17px;
+  --fs-small: 15px;
+  --fs-chip: 14px;
+  --fs-code: 15px;
+  --fs-code-label: 13px;
+
+  --lh-body: 1.75;
+  --lh-tight: 1.15;
+  --measure: 680px; /* largura da coluna de leitura */
+
+  /* Espaçamento */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+
+  /* Raio */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-pill: 999px;
+
+  /* Brilho (glow) do ponto do logo e do aviso */
+  --glow-link: 0 0 10px var(--link);
+  --glow-notice: 0 0 8px var(--notice);
+}
+
+@media (max-width: 640px) {
+  :root {
+    --fs-display: 36px;
+    --fs-h1-post: 32px;
+    --fs-h1: 32px;
+    --fs-h2: 23px;
+    --fs-lead: 18px;
+    --fs-body: 17px;
+    --fs-title-list: 19px;
+    --fs-small: 14px;
+    --fs-code: 13px;
+  }
+}
+
+/* Chips: fundo 10% e borda 30% da cor da tag */
+.tag {
+  --c: var(--text);
+  color: var(--c);
+  background: color-mix(in srgb, var(--c) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--c) 30%, transparent);
+}
+.tag[data-tag="rust"] {
+  --c: var(--tag-rust);
+}
+.tag[data-tag="ai"] {
+  --c: var(--tag-ai);
+}
+.tag[data-tag="reflections"] {
+  --c: var(--tag-reflections);
+}

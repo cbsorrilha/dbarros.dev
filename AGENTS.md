@@ -62,7 +62,7 @@ Capacidades sugeridas para `openspec/specs/`: `theme`, `i18n-routing`,
 | # | Fatia | Status | Aceite |
 |---|---|---|---|
 | 1 | Design system Vlad | **feito** (`docs/design/vlad/`) | — |
-| 2 | Scaffold | a fazer | `npm run dev` e `npm run build` funcionam; sem alternador de tema |
+| 2 | Scaffold | **feito** (`scaffold-astro`) | `npm run dev` e `npm run build` funcionam; sem alternador de tema |
 | 3 | i18n e conteúdo | a fazer | post nos 3 idiomas navega certo; post só em PT some de EN/ES sem quebrar |
 | 4 | Tags | a fazer | tag fora do conjunto falha o build |
 | 5 | Tradução | a fazer | editar o fonte faz o check falhar; `translate` corrige; `locked: true` não é sobrescrito |
@@ -74,8 +74,11 @@ arquivar o change correspondente.
 
 ## Stack
 
-- **Astro**, partindo do **AstroPaper**. Scripts em **TypeScript/Node** no mesmo repo.
-- Gerenciador de pacotes: **npm** (os comandos da spec são `npm run ...`).
+- **Astro 7**, partindo do **AstroPaper v6.1.0** atualizado para Astro 7 (importado por
+  cópia; o código agora é nosso). Scripts em **TypeScript/Node** no mesmo repo. Node 24
+  (`.nvmrc`).
+- Gerenciador de pacotes: **npm** (os comandos da spec são `npm run ...`). Mantenha
+  `npm audit` limpo.
 - **Husky** para git hooks.
 - **Cloudflare Pages** (build `npm run build`, output `dist/`), Pages Functions só
   para o redirect da raiz. **Cloudflare Web Analytics.**
@@ -86,8 +89,9 @@ arquivar o change correspondente.
 ### Tema Vlad
 
 - Dark-only. Remova o alternador de tema e todo CSS/JS de modo claro do AstroPaper.
-- **Nenhum hex fora de `vlad-tokens.css`** (copiado para `src/styles/`). Componentes
-  usam `var(--token)`.
+- **Nenhum hex fora de `src/styles/vlad-tokens.css`** (cópia do handoff). Componentes
+  usam `var(--token)`. Exceções documentadas: `THEME_COLOR` no `Layout.astro` e o tema
+  do Shiki em `src/utils/shiki-vlad.ts`, sempre iguais aos tokens.
 - Fontes: **Spectral** para todo texto e interface; **Meslo NF** (woff2 em
   `public/fonts/`) **somente** em código. Não existe sans-serif.
 - Shiki com o tema `vlad` descrito em `docs/design/vlad/shiki-vlad.md`.
@@ -111,6 +115,8 @@ arquivar o change correspondente.
 
 ### Conteúdo
 
+- O Prettier não formata `src/content/`: o texto dos posts é do autor.
+- Não há publicação agendada: só `draft: true` esconde um post (build determinístico).
 - Um post = uma pasta em `src/content/posts/<slug>/` com `pt.md`, `en.md`, `es.md`
   e imagens ao lado.
 - Links Markdown padrão, **nunca `[[wikilinks]]`**; imagens relativas; front matter

@@ -1,0 +1,160 @@
+@plugin "@tailwindcss/typography";
+
+@layer base {
+  /* ===== Override default Tailwind Typography styles ===== */
+  .app-prose {
+    @apply prose;
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+    --tw-prose-body: var(--text);
+    --tw-prose-headings: var(--text);
+    --tw-prose-lead: var(--text-muted);
+    --tw-prose-links: var(--link);
+    --tw-prose-bold: var(--text);
+    --tw-prose-counters: var(--text-muted);
+    --tw-prose-bullets: var(--text-muted);
+    --tw-prose-hr: var(--border);
+    --tw-prose-quotes: var(--text);
+    --tw-prose-quote-borders: var(--quote);
+    --tw-prose-captions: var(--text-muted);
+    --tw-prose-code: var(--code-inline);
+    --tw-prose-pre-code: var(--text);
+    --tw-prose-pre-bg: var(--bg-deep);
+    --tw-prose-th-borders: var(--border);
+    --tw-prose-td-borders: var(--border);
+
+    h1,
+    h2,
+    h3,
+    h4,
+    th {
+      @apply text-foreground mb-3;
+    }
+
+    h3 {
+      @apply italic;
+    }
+
+    p,
+    strong,
+    ol,
+    ul,
+    figcaption,
+    table,
+    code {
+      @apply text-foreground;
+    }
+
+    a {
+      @apply wrap-break-word underline-offset-4;
+      color: var(--link);
+      text-decoration-color: var(--link);
+
+      &:hover {
+        color: var(--link-hover);
+        text-decoration-color: var(--link-hover);
+      }
+    }
+
+    ul {
+      @apply overflow-x-clip;
+    }
+
+    li {
+      @apply marker:text-accent;
+    }
+
+    hr {
+      @apply border-border;
+    }
+
+    img {
+      @apply border-border mx-auto border;
+    }
+
+    img[role="button"] {
+      @apply cursor-zoom-in;
+
+      &:focus-visible {
+        @apply outline-2 outline-offset-2 outline-dashed;
+      }
+    }
+
+    figcaption {
+      @apply opacity-75;
+    }
+
+    table {
+      th,
+      td {
+        @apply border-border border p-2;
+      }
+
+      th {
+        @apply py-1.5;
+      }
+
+      th[align="center"],
+      td[align="center"] {
+        text-align: center;
+      }
+
+      th[align="right"],
+      td[align="right"] {
+        text-align: right;
+      }
+
+      th[align="left"],
+      td[align="left"] {
+        text-align: left;
+      }
+    }
+
+    :not(pre) > code {
+      @apply wrap-break-word before:content-none after:content-none;
+      font-family: var(--font-mono);
+      font-size: 0.85em;
+      font-weight: 400;
+      background: var(--surface);
+      color: var(--code-inline);
+      padding: 2px 6px;
+      border-radius: var(--radius-sm);
+    }
+
+    blockquote {
+      @apply wrap-break-word;
+      font-style: italic;
+      font-size: 22px;
+      font-weight: 400;
+      color: var(--text);
+      border-inline-start: 2px solid var(--quote);
+      padding-inline-start: 22px;
+      quotes: none;
+    }
+
+    details:not(.callout) {
+      @apply text-foreground inline-block cursor-pointer select-none [&_p]:hidden [&_ul]:my-0!;
+    }
+
+    summary {
+      @apply focus-visible:outline-accent focus-visible:no-underline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-dashed;
+    }
+  }
+
+  /* Styles for Shiki transformers */
+  /* https://shiki.style/packages/transformers */
+  .astro-code {
+    .line.diff.add {
+      @apply bg-notice/15 before:text-notice relative inline-block w-full before:absolute before:-left-3 before:content-['+'];
+    }
+    .line.diff.remove {
+      @apply bg-danger/15 before:text-danger relative inline-block w-full before:absolute before:-left-3 before:content-['-'];
+    }
+    .line.highlighted {
+      @apply bg-surface inline-block w-full;
+    }
+    .highlighted-word {
+      @apply border-border rounded-sm border px-0.5 py-px;
+    }
+  }
+}

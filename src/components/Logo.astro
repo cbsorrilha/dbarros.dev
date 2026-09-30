@@ -1,0 +1,54 @@
+---
+// Logo 2d do tema Vlad: "d•B" em Spectral itálico + "dbarros.dev".
+// Texto e CSS, não imagem, para herdar a fonte (docs/design/vlad/README.md).
+type Props = { href: string; label: string };
+
+const { href, label } = Astro.props;
+---
+
+<a {href} class="logo" aria-label={label}>
+  <span class="logo-mark" aria-hidden="true"
+    >d<span class="logo-dot"></span>B</span
+  >
+  <span class="logo-name" aria-hidden="true">dbarros.dev</span>
+</a>
+
+<style>
+  .logo {
+    display: inline-flex;
+    align-items: baseline;
+    gap: var(--space-3);
+    white-space: nowrap;
+    color: var(--text);
+  }
+  .logo-mark {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 28px;
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+  .logo-dot {
+    display: inline-block;
+    width: 0.14em;
+    height: 0.14em;
+    margin: 0 0.04em;
+    border-radius: 50%;
+    background: var(--link);
+    box-shadow: 0 0 0.18em color-mix(in srgb, var(--link) 70%, transparent);
+  }
+  .logo-name {
+    font-size: var(--fs-ui);
+    font-weight: 500;
+    color: var(--text-muted);
+  }
+  @media (max-width: 640px) {
+    .logo-mark {
+      font-size: 24px;
+    }
+    .logo-name {
+      font-size: 15px;
+    }
+  }
+</style>

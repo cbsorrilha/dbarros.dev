@@ -1,0 +1,64 @@
+---
+import type { HTMLAttributes } from "astro/types";
+import { getRelativeLocaleUrl } from "astro:i18n";
+import { tplStr, useTranslations } from "@/i18n";
+import config from "@/config";
+
+type Props = {
+  noMarginTop?: boolean;
+} & HTMLAttributes<"footer">;
+
+const { noMarginTop = false, class: className, ...attrs } = Astro.props;
+
+const locale = Astro.currentLocale ?? config.site.lang;
+const t = useTranslations(locale);
+const currentYear = new Date().getFullYear();
+---
+
+<footer
+  class:list={["site-footer", { "mt-auto": !noMarginTop }, className]}
+  {...attrs}
+>
+  <span
+    >{
+      tplStr(t.footer.credit, { year: currentYear, author: config.site.author })
+    }</span
+  >
+  <ul class="footer-links">
+    <li>
+      <a href={getRelativeLocaleUrl(locale, "rss.xml")}>{t.footer.rss}</a>
+    </li>
+    <li>
+      <a href={getRelativeLocaleUrl(locale, "about")}>{t.footer.about}</a>
+    </li>
+  </ul>
+</footer>
+
+<style>
+  .site-footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3) var(--space-5);
+    padding: 28px var(--space-8);
+    border-top: 1px solid var(--border);
+    font-size: var(--fs-small);
+    color: var(--text-muted);
+  }
+  .footer-links {
+    display: flex;
+    gap: var(--space-5);
+  }
+  .footer-links a {
+    color: var(--text-muted);
+  }
+  .footer-links a:hover {
+    color: var(--link-hover);
+  }
+  @media (max-width: 640px) {
+    .site-footer {
+      padding: 14px 20px;
+    }
+  }
+</style>

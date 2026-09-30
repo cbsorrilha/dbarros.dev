@@ -6,3 +6,5 @@ dist/
 .env.*
 .DS_Store
 *.zip
+npm-debug.log*
+.idea/

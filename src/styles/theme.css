@@ -1,0 +1,39 @@
+/*
+ * Os tokens do AstroPaper são apelidos dos tokens Vlad (src/styles/vlad-tokens.css).
+ * Nenhum valor de cor mora aqui: troque em vlad-tokens.css.
+ */
+:root {
+  --background: var(--bg);
+  --foreground: var(--text);
+  --accent: var(--link);
+  --accent-foreground: var(--bg);
+  --muted: var(--surface);
+  --muted-foreground: var(--text-muted);
+  /* --border já é definido por vlad-tokens.css */
+}
+
+/* Registra os tokens para o Tailwind v4 */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+
+  --color-bg-deep: var(--bg-deep);
+  --color-surface: var(--surface);
+  --color-link: var(--link);
+  --color-link-hover: var(--link-hover);
+  --color-link-subtle: var(--link-subtle);
+  --color-quote: var(--quote);
+  --color-code-inline: var(--code-inline);
+  --color-notice: var(--notice);
+  --color-danger: var(--danger);
+  --color-tag-rust: var(--tag-rust);
+  --color-tag-ai: var(--tag-ai);
+  --color-tag-reflections: var(--tag-reflections);
+
+  --font-app: var(--font-serif);
+}

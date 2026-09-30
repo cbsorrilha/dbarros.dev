@@ -1,0 +1,68 @@
+@import "tailwindcss";
+@import "./vlad-tokens.css";
+@import "./theme.css";
+@import "./typography.css";
+@import "./code-block.css";
+@import "rehype-callouts/theme/obsidian";
+
+@import "@fontsource/spectral/400.css";
+@import "@fontsource/spectral/400-italic.css";
+@import "@fontsource/spectral/500.css";
+@import "@fontsource/spectral/600.css";
+@import "@fontsource/spectral/600-italic.css";
+@import "@fontsource/spectral/700.css";
+
+@layer base {
+  * {
+    @apply border-border;
+    scrollbar-width: auto;
+    scrollbar-color: var(--color-muted) transparent;
+  }
+  html {
+    background: var(--bg);
+    color: var(--text);
+  }
+  body {
+    font-family: var(--font-serif);
+  }
+  a,
+  button {
+    transition:
+      color 120ms ease-out,
+      background-color 120ms ease-out,
+      border-color 120ms ease-out,
+      text-decoration-color 120ms ease-out;
+  }
+  :focus-visible {
+    outline: 2px solid var(--link);
+    outline-offset: 2px;
+  }
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+  code,
+  kbd,
+  pre,
+  samp {
+    font-family: var(--font-mono);
+  }
+}
+
+@utility max-w-app {
+  @apply max-w-3xl;
+}
+
+@utility app-layout {
+  @apply max-w-app mx-auto w-full px-4;
+}
+
+@utility active-nav {
+  color: var(--text);
+  border-bottom: 1px solid var(--link);
+  padding-bottom: 2px;
+}
+
+:target {
+  scroll-margin-block: 1rem;
+}

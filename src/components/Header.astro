@@ -1,0 +1,175 @@
+---
+import { getRelativeLocaleUrl } from "astro:i18n";
+import Logo from "./Logo.astro";
+import { stripBase, stripLocale } from "@/utils/withBase";
+import { useTranslations } from "@/i18n";
+import config from "@/config";
+
+const locale = Astro.currentLocale ?? config.site.lang;
+const t = useTranslations(locale);
+
+// Strip the base prefix so isActive comparisons work regardless of deploy subdirectory.
+const relativePath = stripBase(Astro.url.pathname);
+const currentPath = stripLocale(relativePath.replace(/(.)\/$/, "$1"), locale);
+const currentSection = currentPath.split("/").filter(Boolean)[0];
+
+const navItems = [
+  { section: "posts", label: t.nav.posts },
+  { section: "tags", label: t.nav.tags },
+  { section: "about", label: t.nav.about },
+];
+---
+
+<a id="skip-to-content" href="#main-content" class="skip-link">
+  {t.a11y.skipToContent}
+</a>
+
+<header class="site-header">
+  <Logo href={getRelativeLocaleUrl(locale, "")} label={t.a11y.homeLink} />
+
+  <nav class="site-nav">
+    <button
+      id="menu-btn"
+      class="menu-btn"
+      aria-label={t.a11y.openMenu}
+      aria-expanded="false"
+      aria-controls="menu-items"
+      data-label-open={t.a11y.openMenu}
+      data-label-close={t.a11y.closeMenu}
+    >
+      <span></span><span></span><span></span>
+    </button>
+    <ul id="menu-items" class="menu-items">
+      {
+        navItems.map(({ section, label }) => (
+          <li>
+            <a
+              href={getRelativeLocaleUrl(locale, section)}
+              class:list={{ "active-nav": currentSection === section }}
+              aria-current={currentSection === section ? "page" : undefined}
+            >
+              {label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+</header>
+
+<style>
+  .skip-link {
+    position: absolute;
+    inset-inline-start: var(--space-4);
+    top: -100%;
+    z-index: 50;
+    padding: var(--space-2) var(--space-3);
+    background: var(--bg-deep);
+    color: var(--link);
+  }
+  .skip-link:focus {
+    top: var(--space-4);
+  }
+
+  .site-header {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-5);
+    padding: 28px var(--space-8);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .menu-items {
+    display: flex;
+    gap: var(--space-6);
+    font-size: var(--fs-ui);
+  }
+  .menu-items a {
+    color: var(--text-muted);
+  }
+  .menu-items a:hover,
+  .menu-items a.active-nav {
+    color: var(--text);
+  }
+
+  .menu-btn {
+    display: none;
+    width: 44px;
+    height: 44px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    background: none;
+    border: 0;
+  }
+  .menu-btn span {
+    display: block;
+    width: 20px;
+    height: 1.5px;
+    background: var(--text);
+  }
+
+  @media (max-width: 640px) {
+    .site-header {
+      padding: 14px 20px;
+    }
+    .menu-btn {
+      display: flex;
+    }
+    .menu-items {
+      display: none;
+      position: absolute;
+      inset-inline: 0;
+      top: 100%;
+      z-index: 40;
+      flex-direction: column;
+      gap: 0;
+      padding: var(--space-2) 20px var(--space-5);
+      background: var(--bg-deep);
+      border-bottom: 1px solid var(--border);
+    }
+    .menu-items.open {
+      display: flex;
+    }
+    .menu-items a {
+      display: block;
+      padding: var(--space-3) 0;
+    }
+  }
+</style>
+
+<script>
+  // Move o foco para o conteúdo, não só a rolagem, ao usar "Pular para o conteúdo".
+  const skipLink = document.getElementById("skip-to-content");
+  skipLink?.addEventListener("click", e => {
+    if (e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || e.button)
+      return;
+    const target = document.getElementById("main-content");
+    if (!target) return;
+    e.preventDefault();
+    target.setAttribute("tabindex", "-1");
+    target.addEventListener("blur", () => target.removeAttribute("tabindex"), {
+      once: true,
+    });
+    target.focus();
+    target.scrollIntoView();
+  });
+
+  const menuBtn = document.querySelector<HTMLButtonElement>("#menu-btn");
+  const menuItems = document.querySelector("#menu-items");
+
+  if (menuBtn && menuItems) {
+    const openLabel = menuBtn.dataset.labelOpen ?? "";
+    const closeLabel = menuBtn.dataset.labelClose ?? "";
+
+    menuBtn.addEventListener("click", () => {
+      const open = menuBtn.getAttribute("aria-expanded") !== "true";
+      menuBtn.setAttribute("aria-expanded", String(open));
+      menuBtn.setAttribute("aria-label", open ? closeLabel : openLabel);
+      menuItems.classList.toggle("open", open);
+    });
+  }
+</script>
