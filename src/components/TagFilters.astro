@@ -2,10 +2,11 @@
 import { getRelativeLocaleUrl } from "astro:i18n";
 import TagChip from "./TagChip.astro";
 import { useTranslations, type Locale } from "@/i18n";
+import type { TagSlug } from "@/content/tags";
 
 // Filtro da listagem: "Todos" (ativo, é a própria listagem) e um chip por tag,
 // cada um levando à página da tag. Navegação comum, sem script.
-type Props = { lang: Locale; tags: { tag: string; tagName: string }[] };
+type Props = { lang: Locale; tags: TagSlug[] };
 
 const { lang, tags } = Astro.props;
 const t = useTranslations(lang);
@@ -18,9 +19,9 @@ const t = useTranslations(lang);
     >
   </li>
   {
-    tags.map(({ tag, tagName }) => (
+    tags.map(slug => (
       <li>
-        <TagChip slug={tag} label={tagName} {lang} size="filter" />
+        <TagChip {slug} {lang} size="filter" />
       </li>
     ))
   }

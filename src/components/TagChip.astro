@@ -1,23 +1,24 @@
 ---
 import { getRelativeLocaleUrl } from "astro:i18n";
+import { tagLabel, type TagSlug } from "@/content/tags";
 import type { Locale } from "@/i18n";
 
-// Chip de tag: pílula com a cor da tag (texto, fundo 10%, borda 30%), vinda da
-// regra .tag[data-tag] de vlad-tokens.css; sem token, usa --text.
+// Chip de tag: pílula com a cor da tag (texto, fundo 10%, borda 30%). A regra
+// genérica .tag de vlad-tokens.css desenha a partir de --c, que vem do token.
 type Props = {
-  slug: string;
-  label: string;
+  slug: TagSlug;
   lang: Locale;
   size?: "post" | "filter" | "index";
 };
 
-const { slug, label, lang, size = "post" } = Astro.props;
+const { slug, lang, size = "post" } = Astro.props;
 ---
 
 <a
   class:list={["tag", "chip", size]}
   data-tag={slug}
-  href={getRelativeLocaleUrl(lang, `tags/${slug}/`)}>{label}</a
+  style={`--c: var(--tag-${slug})`}
+  href={getRelativeLocaleUrl(lang, `tags/${slug}/`)}>{tagLabel(slug, lang)}</a
 >
 
 <style>

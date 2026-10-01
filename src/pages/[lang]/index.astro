@@ -7,7 +7,7 @@ import PageHeading from "@/components/PageHeading.astro";
 import TagFilters from "@/components/TagFilters.astro";
 import PostRow from "@/components/PostRow.astro";
 import { getPosts, type Post } from "@/utils/posts";
-import { getUniqueTags } from "@/utils/getUniqueTags";
+import { getTagsInUse } from "@/utils/tags";
 import { yearOf } from "@/utils/dates";
 import { alternatesFor } from "@/utils/alternates";
 import { LOCALES, useTranslations, type Locale } from "@/i18n";
@@ -20,7 +20,7 @@ export function getStaticPaths() {
 const lang = Astro.params.lang as Locale;
 const t = useTranslations(lang);
 const posts = await getPosts(lang);
-const tags = getUniqueTags(posts);
+const tags = getTagsInUse(posts);
 const alternates = alternatesFor("");
 
 // Posts já vêm do mais novo para o mais antigo: grupos por ano na mesma ordem.

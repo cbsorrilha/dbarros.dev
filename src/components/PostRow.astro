@@ -2,7 +2,6 @@
 import TagChip from "./TagChip.astro";
 import { getPostUrl, type Post } from "@/utils/posts";
 import { formatShortDate, formatShortDateWithYear } from "@/utils/dates";
-import { slugifyStr } from "@/utils/slugify";
 
 // Linha da listagem densa (Listagem 1a): data | título, resumo e chips.
 // withYear: data com ano e coluna mais larga (página de tag).
@@ -25,7 +24,7 @@ const date = withYear
         <ul class="chips">
           {tags.map(tag => (
             <li>
-              <TagChip slug={slugifyStr(tag)} label={tag} lang={post.lang} />
+              <TagChip slug={tag} lang={post.lang} />
             </li>
           ))}
         </ul>

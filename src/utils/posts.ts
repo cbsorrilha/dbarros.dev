@@ -2,6 +2,8 @@ import { getCollection, type CollectionEntry } from "astro:content";
 import { getRelativeLocaleUrl } from "astro:i18n";
 import { isLocale, LOCALES, type Locale } from "@/i18n/locales";
 import { POSTS_PATH } from "@/content.config";
+import { TAG_SLUGS } from "@/content/tags";
+import tokensCss from "@/styles/vlad-tokens.css?raw";
 
 export type PostEntry = CollectionEntry<"posts">;
 
@@ -47,6 +49,15 @@ export function getPostGroups(): Promise<PostGroup[]> {
 }
 
 async function loadGroups(): Promise<PostGroup[]> {
+  // Toda tag do conjunto precisa do token de cor --tag-<slug>.
+  for (const slug of TAG_SLUGS) {
+    if (!new RegExp(`--tag-${slug}\\s*:`).test(tokensCss)) {
+      fail(
+        `tag "${slug}" sem cor: adicione --tag-${slug} em src/styles/vlad-tokens.css`
+      );
+    }
+  }
+
   const misplaced = allMarkdown.filter(path => !VALID_FILE.test(path));
   if (misplaced.length > 0) {
     fail(
@@ -90,6 +101,15 @@ async function loadGroups(): Promise<PostGroup[]> {
       fail(
         `${slug}/${sourceLang}.md: o arquivo-fonte não pode ter o bloco translation`
       );
+    }
+    // Traduções repetem as tags do fonte (a ordem não importa).
+    const sourceTags = [...source.data.tags].sort().join(",");
+    for (const entry of entries) {
+      if ([...entry.data.tags].sort().join(",") !== sourceTags) {
+        fail(
+          `${slug}/${entry.data.lang}.md: tags [${entry.data.tags.join(", ")}] diferentes das do fonte ${slug}/${sourceLang}.md [${source.data.tags.join(", ")}]`
+        );
+      }
     }
     return { slug, sourceLang, files };
   });

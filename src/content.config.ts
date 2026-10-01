@@ -2,6 +2,7 @@ import { defineCollection } from "astro:content";
 import { z } from "astro/zod";
 import { glob } from "astro/loaders";
 import { LOCALES } from "@/i18n/locales";
+import { TAG_SLUGS } from "@/content/tags";
 
 export const POSTS_PATH = "src/content/posts";
 
@@ -19,7 +20,17 @@ const posts = defineCollection({
     description: z.string(),
     pubDate: z.coerce.date(),
     updatedDate: z.coerce.date().optional(),
-    tags: z.array(z.string()).default([]),
+    tags: z
+      .array(
+        z.enum(TAG_SLUGS, {
+          error: issue =>
+            `tag "${String(issue.input)}" desconhecida; use uma de: ${TAG_SLUGS.join(", ")} (definidas em src/content/tags.ts)`,
+        })
+      )
+      .default([])
+      .refine(tags => new Set(tags).size === tags.length, {
+        message: "tag repetida",
+      }),
     lang: locale,
     source_lang: locale,
     draft: z.boolean().default(false),

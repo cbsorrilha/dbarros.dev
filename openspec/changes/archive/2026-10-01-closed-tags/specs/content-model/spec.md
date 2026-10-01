@@ -1,27 +1,4 @@
-# content-model Specification
-
-## Purpose
-Define como o autor escreve um post no dbarros.dev: a organização em pastas com um
-arquivo por idioma, o front matter validado e as regras que ligam os arquivos de um
-mesmo post, de forma que erros de conteúdo apareçam no build e não no site.
-
-## Requirements
-
-### Requirement: Post como pasta
-Cada post SHALL ser uma pasta direta em `src/content/posts/`, cujo nome é o slug do
-post, contendo um arquivo Markdown por idioma, nomeado pelo código do idioma
-(`pt.md`, `en.md`, `es.md`), e suas imagens. Imagens SHALL ser referenciadas por caminho
-relativo à pasta do post e SHALL funcionar em todos os idiomas. Arquivos Markdown com
-outro nome ou em subpastas de um post MUST fazer o build falhar com mensagem que
-indique o arquivo.
-
-#### Scenario: Post trilíngue com imagem
-- **WHEN** a pasta `meu-post/` tem `pt.md`, `en.md`, `es.md` e `diagrama.png`, e os três referenciam `./diagrama.png`
-- **THEN** as três páginas do post exibem a imagem
-
-#### Scenario: Arquivo com nome inválido
-- **WHEN** a pasta de um post contém `rascunho.md`
-- **THEN** o build falha citando `rascunho.md`
+## MODIFIED Requirements
 
 ### Requirement: Front matter validado
 O front matter de cada arquivo de post SHALL seguir o schema: `title` (texto,
@@ -80,23 +57,3 @@ não importa).
 #### Scenario: Tradução com tags diferentes
 - **WHEN** `meu-post/pt.md` (fonte) tem `tags: [rust]` e `meu-post/en.md` tem `tags: [rust, ai]`
 - **THEN** o build falha citando `meu-post/en.md`
-
-### Requirement: Rascunhos
-Um arquivo com `draft: true` MUST NOT ser publicado. Um arquivo-fonte com `draft: true`
-SHALL esconder o post em todos os idiomas, mesmo que as traduções não sejam rascunho.
-
-#### Scenario: Fonte em rascunho
-- **WHEN** `meu-post/pt.md` é a fonte e tem `draft: true`, e `en.md` tem `draft: false`
-- **THEN** o post não é publicado em nenhum idioma
-
-#### Scenario: Tradução em rascunho
-- **WHEN** só `meu-post/es.md` tem `draft: true`
-- **THEN** o post é publicado em `pt` e `en` e não existe em `es`
-
-### Requirement: Ordem dos posts
-Listas de posts SHALL ser ordenadas por `pubDate` decrescente, com o slug em ordem
-alfabética como desempate. `updatedDate` MUST NOT alterar a ordem.
-
-#### Scenario: Post atualizado
-- **WHEN** um post antigo ganha `updatedDate` recente
-- **THEN** ele mantém a posição definida pelo `pubDate`

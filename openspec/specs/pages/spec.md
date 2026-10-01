@@ -55,18 +55,22 @@ com mínimo de 1 minuto. Imagens com texto alternativo SHALL ter legenda com ess
 - **THEN** a imagem aparece com a legenda "Diagrama do fluxo" abaixo dela
 
 ### Requirement: Chip de tag
-Toda tag exibida SHALL ser um chip em formato de pílula, com o rótulo da tag, e SHALL ser
-link para `/{lang}/tags/{slug}/`. O chip SHALL usar a cor da tag (texto na cor, fundo a
-10% e borda a 30%) quando houver token de cor para a tag, e a cor do texto padrão quando
-não houver. Chips não mostram `#`.
+Toda tag exibida SHALL ser um chip em formato de pílula, com o rótulo da tag no idioma
+da página, e SHALL ser link para `/{lang}/tags/{slug}/`. O chip SHALL usar a cor da tag
+(texto na cor, fundo a 10% e borda a 30%), vinda do token `--tag-<slug>`. Chips não
+mostram `#`.
 
 #### Scenario: Tag com cor
 - **WHEN** um post tem a tag `rust`
 - **THEN** o chip aparece em `--tag-rust` e leva a `/{lang}/tags/rust/`
 
 #### Scenario: Tag sem token
-- **WHEN** um post tem uma tag sem token de cor
-- **THEN** o chip aparece na cor `--text`, sem quebrar o layout
+- **WHEN** uma tag do conjunto não tem token de cor
+- **THEN** o build falha antes de gerar qualquer chip (ver `tags`), então nenhuma página exibe chip sem cor
+
+#### Scenario: Rótulo no idioma da página
+- **WHEN** um post com a tag `ai` é exibido em `/pt/`
+- **THEN** o chip mostra "IA" e leva a `/pt/tags/ai/`
 
 ### Requirement: Índice de tags
 `/{lang}/tags/` SHALL listar cada tag usada no idioma com o chip, a contagem de posts

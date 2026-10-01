@@ -67,7 +67,7 @@ Capacidades sugeridas para `openspec/specs/`: `theme`, `i18n-routing`,
 | 1 | Design system Vlad | **feito** (`docs/design/vlad/`) | — |
 | 2 | Scaffold | **feito** (`scaffold-astro`) | `npm run dev` e `npm run build` funcionam; sem alternador de tema |
 | 3 | i18n e conteúdo | **feito** (`i18n-content` + `vlad-screens`) | post nos 3 idiomas navega certo; post só em PT some de EN/ES sem quebrar |
-| 4 | Tags | a fazer | tag fora do conjunto falha o build |
+| 4 | Tags | **feito** (`closed-tags`) | tag fora do conjunto falha o build |
 | 5 | Tradução | a fazer | editar o fonte faz o check falhar; `translate` corrige; `locked: true` não é sobrescrito |
 | 6 | Deploy e DNS | a fazer | `https://dbarros.dev` via Cloudflare; `/` redireciona por idioma |
 | 7 | Primeiro post | a fazer | making-of do blog, 3 idiomas, tag `ai` |
@@ -147,9 +147,13 @@ arquivar o change correspondente.
 
 ### Tags
 
-- Conjunto **fechado**, definido em um único arquivo, usado como `enum` no schema.
-- Slug fixo (URL) + rótulo por idioma + cor (`--tag-<slug>`). Tag nova = uma entrada
-  nessa definição + um token de cor.
+- Conjunto **fechado** em `src/content/tags.ts`: slug (URL e front matter) → rótulo
+  em pt/en/es. A ordem das entradas é a ordem de exibição.
+- **Tag nova = uma entrada em `tags.ts` + o token `--tag-<slug>` em
+  `src/styles/vlad-tokens.css`.** O build falha se faltar o token, se um post usar
+  tag fora do conjunto (o front matter usa o slug, ex.: `rust`, não `Rust`) ou se uma
+  tradução tiver tags diferentes do fonte.
+- O chip pega a cor do token direto (`--c: var(--tag-<slug>)`); não há regra CSS por tag.
 - Atuais: `rust`, `ai`, `reflections`.
 
 ### Tradução

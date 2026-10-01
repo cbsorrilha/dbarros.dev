@@ -101,19 +101,11 @@
   }
 }
 
-/* Chips: fundo 10% e borda 30% da cor da tag */
+/* Chips: fundo 10% e borda 30% da cor da tag. O --c de cada chip vem do token
+   --tag-<slug>, definido pelo componente TagChip (sem regra por tag). */
 .tag {
   --c: var(--text);
   color: var(--c);
   background: color-mix(in srgb, var(--c) 10%, transparent);
   border: 1px solid color-mix(in srgb, var(--c) 30%, transparent);
-}
-.tag[data-tag="rust"] {
-  --c: var(--tag-rust);
-}
-.tag[data-tag="ai"] {
-  --c: var(--tag-ai);
-}
-.tag[data-tag="reflections"] {
-  --c: var(--tag-reflections);
 }

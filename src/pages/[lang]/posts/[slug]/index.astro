@@ -17,7 +17,6 @@ import {
 } from "@/utils/posts";
 import { formatDate, readingTime } from "@/utils/dates";
 import { alternatesFor } from "@/utils/alternates";
-import { slugifyStr } from "@/utils/slugify";
 import config from "@/config";
 import { LOCALES, tplStr, useTranslations, type Locale } from "@/i18n";
 
@@ -95,7 +94,7 @@ const meta = `${formatDate(pubDate)} · ${tplStr(t.post.readingTime, {
               <ul class="chips">
                 {tags.map(tag => (
                   <li>
-                    <TagChip slug={slugifyStr(tag)} label={tag} {lang} />
+                    <TagChip slug={tag} {lang} />
                   </li>
                 ))}
               </ul>

@@ -31,9 +31,6 @@
   --color-code-inline: var(--code-inline);
   --color-notice: var(--notice);
   --color-danger: var(--danger);
-  --color-tag-rust: var(--tag-rust);
-  --color-tag-ai: var(--tag-ai);
-  --color-tag-reflections: var(--tag-reflections);
 
   --font-app: var(--font-serif);
 }

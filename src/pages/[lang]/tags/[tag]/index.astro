@@ -7,7 +7,8 @@ import PageShell from "@/components/PageShell.astro";
 import PageHeading from "@/components/PageHeading.astro";
 import BackLink from "@/components/BackLink.astro";
 import PostRow from "@/components/PostRow.astro";
-import { getUniqueTags, postHasTag } from "@/utils/getUniqueTags";
+import { getTagsInUse, postHasTag } from "@/utils/tags";
+import { tagLabel, type TagSlug } from "@/content/tags";
 import { getPosts, type Post } from "@/utils/posts";
 import { alternatesFor } from "@/utils/alternates";
 import { countLabel, LOCALES, useTranslations, type Locale } from "@/i18n";
@@ -23,10 +24,9 @@ export async function getStaticPaths() {
   // Uma página por tag e idioma, só onde a tag tem posts naquele idioma.
   return LOCALES.flatMap(lang => {
     const posts = postsByLang.get(lang) ?? [];
-    return getUniqueTags(posts).map(({ tag, tagName }) => ({
+    return getTagsInUse(posts).map(tag => ({
       params: { lang, tag },
       props: {
-        tagName,
         posts: posts.filter(post => postHasTag(post, tag)),
         tagLocales: LOCALES.filter(other =>
           (postsByLang.get(other) ?? []).some(post => postHasTag(post, tag))
@@ -36,18 +36,19 @@ export async function getStaticPaths() {
   });
 }
 
-type Props = { tagName: string; posts: Post[]; tagLocales: Locale[] };
+type Props = { posts: Post[]; tagLocales: Locale[] };
 
-const { tagName, posts, tagLocales } = Astro.props;
+const { posts, tagLocales } = Astro.props;
 const lang = Astro.params.lang as Locale;
-const tag = Astro.params.tag as string;
+const tag = Astro.params.tag as TagSlug;
 const t = useTranslations(lang);
+const label = tagLabel(tag, lang);
 const alternates = alternatesFor(`tags/${tag}/`, tagLocales);
-// Cor da tag pelo token --tag-<slug>; tags sem token caem em --text.
-const tagColor = `var(--tag-${tag}, var(--text))`;
+// Cor da tag pelo token --tag-<slug> (obrigatório, checado no build).
+const tagColor = `var(--tag-${tag})`;
 ---
 
-<Layout title={`${tagName} | ${config.site.title}`} {alternates}>
+<Layout title={`${label} | ${config.site.title}`} {alternates}>
   <Header {alternates} />
 
   <PageShell width="list">
@@ -58,7 +59,7 @@ const tagColor = `var(--tag-${tag}, var(--text))`;
       />
       <div class="heading">
         <PageHeading
-          title={tagName}
+          title={label}
           aside={countLabel(posts.length, t.pages.postCount)}
           color={tagColor}
         />
