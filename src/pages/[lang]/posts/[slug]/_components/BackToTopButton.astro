@@ -1,9 +1,9 @@
 ---
 import IconArrowLeft from "@/assets/icons/IconArrowLeft.svg";
 import IconArrowNarrowUp from "@/assets/icons/IconArrowNarrowUp.svg";
-import { useTranslations } from "@/i18n";
+import { getLocale, useTranslations } from "@/i18n";
 
-const t = useTranslations(Astro.currentLocale);
+const t = useTranslations(getLocale(Astro));
 ---
 
 <div

@@ -1,112 +1,75 @@
 ---
-import { type CollectionEntry, getCollection, render } from "astro:content";
+import { render } from "astro:content";
 import PostLayout from "@/layouts/PostLayout.astro";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
 import Datetime from "@/components/Datetime.astro";
 import Tag from "@/components/Tag.astro";
-import { getPostSlug } from "@/utils/getPostPaths";
-import { getSortedPosts } from "@/utils/getSortedPosts";
+import { getPosts, getPublishedLocales, type Post } from "@/utils/posts";
+import { alternatesFor } from "@/utils/alternates";
 import { slugifyStr } from "@/utils/slugify";
 import BackButton from "./_components/BackButton.astro";
 import BackToTopButton from "./_components/BackToTopButton.astro";
 import AdjacentPostNav from "./_components/AdjacentPostNav.astro";
 import config from "@/config";
-import { useTranslations } from "@/i18n";
+import { LOCALES, useTranslations, type Locale } from "@/i18n";
 
 export async function getStaticPaths() {
-  const posts = await getCollection("posts");
-  const sortedPosts = getSortedPosts(posts);
-
-  return sortedPosts.map((post, index) => ({
-    params: { slug: getPostSlug(post.id, post.filePath) },
-    props: {
-      post,
-      // sortedPosts is newest-first, so "older" (prev) is a higher index
-      // and "newer" (next) is a lower index.
-      prevPost:
-        index < sortedPosts.length - 1
-          ? {
-              id: sortedPosts[index + 1].id,
-              title: sortedPosts[index + 1].data.title,
-              filePath: sortedPosts[index + 1].filePath,
-            }
-          : null,
-      nextPost:
-        index > 0
-          ? {
-              id: sortedPosts[index - 1].id,
-              title: sortedPosts[index - 1].data.title,
-              filePath: sortedPosts[index - 1].filePath,
-            }
-          : null,
-    },
-  }));
+  const paths = await Promise.all(
+    LOCALES.map(async lang => {
+      const posts = await getPosts(lang);
+      // posts é do mais novo para o mais antigo: o anterior (mais antigo) tem
+      // índice maior e o próximo (mais novo), menor.
+      return posts.map((post, index) => ({
+        params: { lang, slug: post.slug },
+        props: {
+          post,
+          prevPost: posts[index + 1] ?? null,
+          nextPost: posts[index - 1] ?? null,
+        },
+      }));
+    })
+  );
+  return paths.flat();
 }
 
-type AdjacentPost = {
-  id: string;
-  title: string;
-  filePath: string | undefined;
-} | null;
-
 type Props = {
-  post: CollectionEntry<"posts">;
-  prevPost: AdjacentPost;
-  nextPost: AdjacentPost;
+  post: Post;
+  prevPost: Post | null;
+  nextPost: Post | null;
 };
 
 const { post, prevPost, nextPost } = Astro.props;
+const lang = Astro.params.lang as Locale;
 
-const {
-  title,
-  description,
-  ogImage: initOgImage,
-  canonicalURL,
-  pubDatetime,
-  modDatetime,
-  timezone,
-  tags,
-} = post.data;
+const { title, description, pubDate, updatedDate, tags } = post.entry.data;
 
-const { Content } = await render(post);
-const t = useTranslations(Astro.currentLocale ?? config.site.lang);
-
-let ogImageUrl: string | undefined;
-
-if (typeof initOgImage === "string") {
-  ogImageUrl = initOgImage;
-} else if (initOgImage?.src) {
-  ogImageUrl = initOgImage.src;
-}
-
-const ogImage = ogImageUrl
-  ? new URL(ogImageUrl, Astro.url.origin).href
-  : undefined;
+const { Content } = await render(post.entry);
+const t = useTranslations(lang);
+const alternates = alternatesFor(
+  `posts/${post.slug}/`,
+  getPublishedLocales(post.group)
+);
 ---
 
 <PostLayout
   title={`${title} | ${config.site.title}`}
-  description={description}
-  ogImage={ogImage}
-  canonicalURL={canonicalURL}
-  pubDatetime={pubDatetime}
-  modDatetime={modDatetime}
+  {description}
+  {alternates}
+  {pubDate}
+  {updatedDate}
 >
-  <Header />
+  <Header {alternates} />
 
   <BackButton />
 
-  <main
-    id="main-content"
-    class:list={["app-layout", { "mt-8": !config.features.showBackButton }]}
-  >
+  <main id="main-content" class="app-layout">
     <h1 class="text-accent inline-block text-2xl font-bold sm:text-3xl">
       {title}
     </h1>
 
     <div class="my-2 flex items-center gap-2">
-      <Datetime {pubDatetime} {modDatetime} {timezone} size="lg" />
+      <Datetime {pubDate} {updatedDate} size="lg" />
     </div>
 
     <article

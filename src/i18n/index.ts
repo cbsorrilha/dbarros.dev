@@ -1,18 +1,25 @@
+import type { AstroGlobal } from "astro";
 import type { UIStrings } from "./types";
+import { DEFAULT_LOCALE, isLocale, type Locale } from "./locales";
+import pt from "./lang/pt";
+import en from "./lang/en";
+import es from "./lang/es";
 
 export { tplStr } from "./format";
+export { LOCALES, DEFAULT_LOCALE, isLocale, type Locale } from "./locales";
 
-const modules = import.meta.glob<{ default: UIStrings }>("./lang/*.ts", {
-  eager: true,
-});
+// Record<Locale, …>: falta de dicionário para um idioma é erro de tipo.
+const translations: Record<Locale, UIStrings> = { pt, en, es };
 
-const translations: Record<string, UIStrings> = {};
-for (const [path, mod] of Object.entries(modules)) {
-  const locale = path.slice("./lang/".length, -".ts".length);
-  translations[locale] = mod.default;
+export function useTranslations(locale: Locale): UIStrings {
+  return translations[locale];
 }
 
-/** Returns UI strings for the given locale, falling back to Portuguese. */
-export function useTranslations(locale: string = "pt"): UIStrings {
-  return translations[locale] ?? translations["pt"];
+/**
+ * Idioma da página atual, vindo do prefixo da URL. Páginas fora de `[lang]`
+ * (a 404) usam o idioma padrão.
+ */
+export function getLocale(astro: Pick<AstroGlobal, "currentLocale">): Locale {
+  const locale = astro.currentLocale;
+  return isLocale(locale) ? locale : DEFAULT_LOCALE;
 }

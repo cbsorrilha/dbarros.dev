@@ -1,9 +1,18 @@
 export interface UIStrings {
+  /** Nome do idioma no próprio idioma, ex.: "Português". */
+  languageName: string;
+  /** Código curto exibido no seletor, ex.: "PT". */
+  languageShort: string;
+  site: {
+    description: string;
+  };
   nav: {
     home: string;
     posts: string;
     tags: string;
     about: string;
+    /** Rótulo acessível do seletor de idioma. */
+    language: string;
   };
   post: {
     publishedAt: string;
@@ -17,17 +26,6 @@ export interface UIStrings {
   code: {
     copy: string;
     copied: string;
-  };
-  pagination: {
-    prev: string;
-    next: string;
-    page: string;
-  };
-  home: {
-    socialLinks: string;
-    featured: string;
-    recentPosts: string;
-    allPosts: string;
   };
   footer: {
     /** Placeholders: {{year}}, {{author}} */
@@ -44,13 +42,20 @@ export interface UIStrings {
 
     postsTitle: string;
     postsDesc: string;
+    noPosts: string;
+  };
+  about: {
+    linksTitle: string;
+  };
+  rss: {
+    /** Placeholder: {{site}} */
+    title: string;
+    description: string;
   };
   a11y: {
     skipToContent: string;
     openMenu: string;
     closeMenu: string;
-    goToPreviousPage: string;
-    goToNextPage: string;
     closeImagePreview: string;
     homeLink: string;
   };

@@ -14,15 +14,16 @@ import {
 import { transformerCodeBlock } from "./src/utils/transformers/codeBlock";
 import { vlad } from "./src/utils/shiki-vlad";
 import config from "./astro-paper.config";
+import { DEFAULT_LOCALE, LOCALES } from "./src/i18n/locales";
 
 export default defineConfig({
   site: config.site.url,
   integrations: [mdx(), sitemap()],
   i18n: {
-    locales: ["pt"],
-    defaultLocale: "pt",
+    locales: [...LOCALES],
+    defaultLocale: DEFAULT_LOCALE,
     routing: {
-      prefixDefaultLocale: false,
+      prefixDefaultLocale: true,
     },
   },
   markdown: {

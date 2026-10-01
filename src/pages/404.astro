@@ -1,33 +1,49 @@
 ---
+import { getRelativeLocaleUrl } from "astro:i18n";
 import Layout from "@/layouts/Layout.astro";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
 import LinkButton from "@/components/LinkButton.astro";
-import { getRelativeLocaleUrl } from "astro:i18n";
-import { useTranslations } from "@/i18n";
+import { alternatesFor } from "@/utils/alternates";
+import { DEFAULT_LOCALE, LOCALES, useTranslations } from "@/i18n";
 import config from "@/config";
 
-const locale = Astro.currentLocale ?? config.site.lang;
-const t = useTranslations(locale);
+// Uma 404 só (o Cloudflare Pages serve /404.html para qualquer rota), no idioma
+// padrão, com a home de cada idioma. A versão que lê o idioma da URL é do vlad-screens.
+const t = useTranslations(DEFAULT_LOCALE);
+const homes = LOCALES.map(lang => ({
+  href: getRelativeLocaleUrl(lang, ""),
+  name: useTranslations(lang).languageName,
+  lang,
+}));
 ---
 
-<Layout title={`${t.notFound.title} | ${config.site.title}`}>
-  <Header />
+<Layout title={`${t.notFound.title} | ${config.site.title}`} alternates={[]}>
+  <Header alternates={alternatesFor("")} />
 
   <main
     id="main-content"
-    class="app-layout flex flex-1 items-center justify-center"
+    class="app-layout my-1 flex flex-1 items-center justify-center"
   >
     <div class="mb-14 flex flex-col items-center justify-center">
       <h1 class="text-accent text-9xl font-bold">404</h1>
-      <span aria-hidden="true"> ¯\_(ツ)_/¯ </span>
-      <p class="mt-4 text-2xl sm:text-3xl">{t.notFound.message}</p>
-      <LinkButton
-        href={getRelativeLocaleUrl(locale, "")}
-        class="my-6 text-lg underline decoration-dashed underline-offset-8"
-      >
-        {t.notFound.goHome}
-      </LinkButton>
+      <p class="mt-4 text-2xl sm:text-3xl">{t.notFound.title}</p>
+      <p class="mt-2">{t.notFound.message}</p>
+      <ul class="my-6 flex gap-6 text-lg">
+        {
+          homes.map(({ href, name, lang }) => (
+            <li>
+              <LinkButton
+                {href}
+                lang={lang}
+                class="underline decoration-dashed underline-offset-8"
+              >
+                {name}
+              </LinkButton>
+            </li>
+          ))
+        }
+      </ul>
     </div>
   </main>
 

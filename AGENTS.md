@@ -63,7 +63,7 @@ Capacidades sugeridas para `openspec/specs/`: `theme`, `i18n-routing`,
 |---|---|---|---|
 | 1 | Design system Vlad | **feito** (`docs/design/vlad/`) | — |
 | 2 | Scaffold | **feito** (`scaffold-astro`) | `npm run dev` e `npm run build` funcionam; sem alternador de tema |
-| 3 | i18n e conteúdo | a fazer | post nos 3 idiomas navega certo; post só em PT some de EN/ES sem quebrar |
+| 3 | i18n e conteúdo | **i18n feito** (`i18n-content`); telas finais no change `vlad-screens` | post nos 3 idiomas navega certo; post só em PT some de EN/ES sem quebrar |
 | 4 | Tags | a fazer | tag fora do conjunto falha o build |
 | 5 | Tradução | a fazer | editar o fonte faz o check falhar; `translate` corrige; `locked: true` não é sobrescrito |
 | 6 | Deploy e DNS | a fazer | `https://dbarros.dev` via Cloudflare; `/` redireciona por idioma |
@@ -105,8 +105,11 @@ arquivar o change correspondente.
 ### i18n e rotas
 
 - Todos os idiomas com prefixo: `/pt/`, `/en/`, `/es/`. Mesmo slug entre idiomas.
-- `/` redireciona por `Accept-Language` (Pages Function), fallback `en`. Em dev, redirect
-  simples para `/en/`.
+  Idiomas só em `src/i18n/locales.ts`; páginas ficam em `src/pages/[lang]/` e obtêm o
+  idioma com `getLocale(Astro)`. Cada página passa `alternates` (idiomas em que existe)
+  ao `Layout` e ao `Header`: é o que gera `hreflang` e o seletor.
+- `/` redireciona por `Accept-Language` (Pages Function, fatia 6), fallback `pt`. Hoje, e
+  em dev, redireciona sempre para `/pt/`. **O idioma padrão é `pt`.**
 - `<link rel="alternate" hreflang>` só para idiomas em que a página existe.
 - **Nenhuma string de interface hardcoded em componente**: tudo vem do dicionário
   por idioma (inclusive os rótulos pt do design).
@@ -118,7 +121,10 @@ arquivar o change correspondente.
 - O Prettier não formata `src/content/`: o texto dos posts é do autor.
 - Não há publicação agendada: só `draft: true` esconde um post (build determinístico).
 - Um post = uma pasta em `src/content/posts/<slug>/` com `pt.md`, `en.md`, `es.md`
-  e imagens ao lado.
+  e imagens ao lado. Carregue posts só por `src/utils/posts.ts` (`getPosts(lang)`),
+  que valida as regras entre arquivos e derruba o build com mensagem clara.
+- **Os posts `exemplo-vlad` e `so-pt` são provisórios:** não podem ir para produção
+  (remover ou trocar pelo primeiro post antes do deploy da fatia 6).
 - Links Markdown padrão, **nunca `[[wikilinks]]`**; imagens relativas; front matter
   YAML compatível com Obsidian.
 - O schema da content collection valida o front matter; erro de schema quebra o

@@ -14,15 +14,10 @@ const config: ResolvedAstroPaperConfig = {
   site: {
     ...userConfig.site,
     ogImage: userConfig.site.ogImage ?? DEFAULT_OG_IMAGE,
-    lang: userConfig.site.lang ?? "en",
     timezone: userConfig.site.timezone ?? "UTC",
     dir: userConfig.site.dir ?? "ltr",
     googleVerification:
       userConfig.site.googleVerification || PUBLIC_GOOGLE_SITE_VERIFICATION,
-  },
-  posts: {
-    perPage: userConfig.posts?.perPage ?? 4,
-    perIndex: userConfig.posts?.perIndex ?? 4,
   },
   features: {
     showBackButton: userConfig.features?.showBackButton ?? true,

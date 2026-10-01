@@ -1,44 +1,45 @@
 ---
+import { getRssUrl } from "@/utils/posts";
 import { getRelativeLocaleUrl } from "astro:i18n";
+import type { Alternate } from "@/utils/alternates";
 import { resolveDefaultOgImagePath } from "@/utils/resolveDefaultOgImagePath";
 import { getAssetPath } from "@/utils/withBase";
 import config from "@/config";
-import { useTranslations } from "@/i18n";
+import { getLocale, tplStr, useTranslations } from "@/i18n";
 import "@/styles/global.css";
 
 type Props = {
   title?: string;
   description?: string;
-  ogImage?: string;
-  canonicalURL?: string;
+  /** Idiomas em que esta página existe (hreflang). */
+  alternates: Alternate[];
 };
 
 const { site } = config;
 
+const lang = getLocale(Astro);
+const t = useTranslations(lang);
+
 const {
   title = site.title,
-  description = site.description,
-  ogImage = resolveDefaultOgImagePath(config),
-  canonicalURL = new URL(Astro.url.pathname, Astro.site).href,
+  description = t.site.description,
+  alternates,
 } = Astro.props;
 
-const locale = Astro.currentLocale ?? site.lang;
-const t = useTranslations(locale);
+const ogImage = resolveDefaultOgImagePath(config);
+const canonicalURL = new URL(Astro.url.pathname, Astro.site).href;
 
 // Espelha --bg de src/styles/vlad-tokens.css; a meta exige cor literal.
 const THEME_COLOR = "#130e12";
 
 const socialImageURL = new URL(ogImage, Astro.site ?? Astro.url);
-const rssHref = getRelativeLocaleUrl(
-  Astro.currentLocale ?? config.site.lang,
-  "rss.xml"
-);
+const rssHref = getRssUrl(lang);
 ---
 
 <!doctype html>
 <html
   dir={site.dir ?? "ltr"}
-  lang={locale}
+  lang={lang}
   class="overflow-y-scroll scroll-smooth"
   data-copy-label={t.code.copy}
   data-copied-label={t.code.copied}
@@ -60,6 +61,15 @@ const rssHref = getRelativeLocaleUrl(
     />
     <link rel="apple-touch-icon" href={getAssetPath("apple-touch-icon.png")} />
     <link rel="canonical" href={canonicalURL} />
+    {
+      alternates.map(alt => (
+        <link
+          rel="alternate"
+          hreflang={alt.lang}
+          href={new URL(alt.href, Astro.site)}
+        />
+      ))
+    }
     <meta name="generator" content={Astro.generator} />
 
     <!-- Primary meta -->
@@ -88,7 +98,7 @@ const rssHref = getRelativeLocaleUrl(
     <link
       rel="alternate"
       type="application/rss+xml"
-      title={site.title}
+      title={tplStr(t.rss.title, { site: site.title })}
       href={new URL(rssHref, Astro.site)}
     />
 

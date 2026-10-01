@@ -1,11 +1,17 @@
 import type { UIStrings } from "../types";
 
 export default {
+  languageName: "Português",
+  languageShort: "PT",
+  site: {
+    description: "Diário público de Cesar de Barros sobre Rust, carreira e IA.",
+  },
   nav: {
     home: "Início",
     posts: "Posts",
     tags: "Tags",
     about: "Sobre",
+    language: "Idioma",
   },
   post: {
     publishedAt: "Publicado em",
@@ -19,17 +25,6 @@ export default {
   code: {
     copy: "Copiar",
     copied: "Copiado",
-  },
-  pagination: {
-    prev: "Anterior",
-    next: "Próxima",
-    page: "Página",
-  },
-  home: {
-    socialLinks: "Redes",
-    featured: "Destaques",
-    recentPosts: "Posts recentes",
-    allPosts: "Todos os posts",
   },
   footer: {
     credit: "© {{year}} {{author}}",
@@ -45,13 +40,19 @@ export default {
 
     postsTitle: "Posts",
     postsDesc: "Tudo o que publiquei.",
+    noPosts: "Nenhum post em português ainda.",
+  },
+  about: {
+    linksTitle: "Links",
+  },
+  rss: {
+    title: "{{site}} (português)",
+    description: "Posts de Cesar de Barros em português.",
   },
   a11y: {
     skipToContent: "Pular para o conteúdo",
     openMenu: "Abrir menu",
     closeMenu: "Fechar menu",
-    goToPreviousPage: "Ir para a página anterior",
-    goToNextPage: "Ir para a próxima página",
     closeImagePreview: "Fechar imagem",
     homeLink: "dbarros.dev, página inicial",
   },

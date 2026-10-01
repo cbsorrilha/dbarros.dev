@@ -1,37 +1,30 @@
 ---
 import IconArrowLeft from "@/assets/icons/IconArrowLeft.svg";
 import IconArrowRight from "@/assets/icons/IconArrowRight.svg";
-import { getPostUrl } from "@/utils/getPostPaths";
-import { useTranslations } from "@/i18n";
-import config from "@/config";
-
-type AdjacentPost = {
-  id: string;
-  title: string;
-  filePath: string | undefined;
-} | null;
+import { getPostUrl, type Post } from "@/utils/posts";
+import { getLocale, useTranslations } from "@/i18n";
 
 type Props = {
-  prevPost: AdjacentPost;
-  nextPost: AdjacentPost;
+  prevPost: Post | null;
+  nextPost: Post | null;
 };
 
 const { prevPost, nextPost } = Astro.props;
-const locale = Astro.currentLocale ?? config.site.lang;
-const t = useTranslations(locale);
+const lang = getLocale(Astro);
+const t = useTranslations(lang);
 ---
 
 <div class="my-8 grid grid-cols-1 gap-6 sm:grid-cols-2">
   {
     prevPost && (
       <a
-        href={getPostUrl(prevPost.id, prevPost.filePath, locale)}
+        href={getPostUrl(prevPost.slug, lang)}
         class="flex w-full gap-1 hover:opacity-75"
       >
         <IconArrowLeft class="inline-block flex-none rtl:rotate-180" />
         <div>
           <span>{t.post.previousPost}</span>
-          <div class="text-accent/85 text-sm">{prevPost.title}</div>
+          <div class="text-accent/85 text-sm">{prevPost.entry.data.title}</div>
         </div>
       </a>
     )
@@ -39,12 +32,12 @@ const t = useTranslations(locale);
   {
     nextPost && (
       <a
-        href={getPostUrl(nextPost.id, nextPost.filePath, locale)}
+        href={getPostUrl(nextPost.slug, lang)}
         class="flex w-full justify-end gap-1 text-end hover:opacity-75 sm:col-start-2"
       >
         <div>
           <span>{t.post.nextPost}</span>
-          <div class="text-accent/85 text-sm">{nextPost.title}</div>
+          <div class="text-accent/85 text-sm">{nextPost.entry.data.title}</div>
         </div>
         <IconArrowRight class="inline-block flex-none rtl:rotate-180" />
       </a>

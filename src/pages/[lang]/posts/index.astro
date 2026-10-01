@@ -1,0 +1,11 @@
+---
+import { getRelativeLocaleUrl } from "astro:i18n";
+import { LOCALES, type Locale } from "@/i18n";
+
+// /{lang}/posts/ não tem conteúdo próprio: a lista de posts é a home do idioma.
+export function getStaticPaths() {
+  return LOCALES.map(lang => ({ params: { lang } }));
+}
+
+return Astro.redirect(getRelativeLocaleUrl(Astro.params.lang as Locale, ""));
+---

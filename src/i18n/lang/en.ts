@@ -1,35 +1,30 @@
 import type { UIStrings } from "../types";
 
 export default {
+  languageName: "English",
+  languageShort: "EN",
+  site: {
+    description: "Cesar de Barros's public journal on Rust, career and AI.",
+  },
   nav: {
     home: "Home",
     posts: "Posts",
     tags: "Tags",
     about: "About",
+    language: "Language",
   },
   post: {
-    publishedAt: "Published at",
+    publishedAt: "Published on",
     updatedAt: "Updated",
     tagLabel: "Tags",
     backToTop: "Back to top",
-    goBack: "Go back",
+    goBack: "Back",
     previousPost: "Previous",
     nextPost: "Next",
   },
   code: {
     copy: "Copy",
     copied: "Copied",
-  },
-  pagination: {
-    prev: "Prev",
-    next: "Next",
-    page: "Page",
-  },
-  home: {
-    socialLinks: "Social Links",
-    featured: "Featured",
-    recentPosts: "Recent Posts",
-    allPosts: "All Posts",
   },
   footer: {
     credit: "© {{year}} {{author}}",
@@ -38,20 +33,26 @@ export default {
   },
   pages: {
     tagTitle: "Tag",
-    tagDesc: "All the articles with the tag",
+    tagDesc: "All posts tagged",
 
     tagsTitle: "Tags",
-    tagsDesc: "All the tags used in posts.",
+    tagsDesc: "All tags used in posts.",
 
     postsTitle: "Posts",
-    postsDesc: "All the articles I've posted.",
+    postsDesc: "Everything I've published.",
+    noPosts: "No posts in English yet.",
+  },
+  about: {
+    linksTitle: "Links",
+  },
+  rss: {
+    title: "{{site}} (English)",
+    description: "Posts by Cesar de Barros in English.",
   },
   a11y: {
     skipToContent: "Skip to content",
     openMenu: "Open menu",
     closeMenu: "Close menu",
-    goToPreviousPage: "Go to previous page",
-    goToNextPage: "Go to next page",
     closeImagePreview: "Close image preview",
     homeLink: "dbarros.dev, home",
   },

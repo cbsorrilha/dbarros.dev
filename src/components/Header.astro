@@ -2,21 +2,33 @@
 import { getRelativeLocaleUrl } from "astro:i18n";
 import Logo from "./Logo.astro";
 import { stripBase, stripLocale } from "@/utils/withBase";
-import { useTranslations } from "@/i18n";
-import config from "@/config";
+import { getLocale, useTranslations } from "@/i18n";
+import type { Alternate } from "@/utils/alternates";
 
-const locale = Astro.currentLocale ?? config.site.lang;
+type Props = {
+  /** Idiomas em que a página atual existe; o seletor só mostra estes. */
+  alternates: Alternate[];
+};
+
+const { alternates } = Astro.props;
+const locale = getLocale(Astro);
 const t = useTranslations(locale);
+const languages = alternates.map(alt => ({
+  ...alt,
+  short: useTranslations(alt.lang).languageShort,
+  name: useTranslations(alt.lang).languageName,
+}));
 
 // Strip the base prefix so isActive comparisons work regardless of deploy subdirectory.
 const relativePath = stripBase(Astro.url.pathname);
 const currentPath = stripLocale(relativePath.replace(/(.)\/$/, "$1"), locale);
-const currentSection = currentPath.split("/").filter(Boolean)[0];
+// A home do idioma é a lista de posts: "Posts" fica ativo nela também.
+const currentSection = currentPath.split("/").filter(Boolean)[0] ?? "posts";
 
 const navItems = [
-  { section: "posts", label: t.nav.posts },
-  { section: "tags", label: t.nav.tags },
-  { section: "about", label: t.nav.about },
+  { section: "posts", path: "", label: t.nav.posts },
+  { section: "tags", path: "tags", label: t.nav.tags },
+  { section: "about", path: "about", label: t.nav.about },
 ];
 ---
 
@@ -27,34 +39,56 @@ const navItems = [
 <header class="site-header">
   <Logo href={getRelativeLocaleUrl(locale, "")} label={t.a11y.homeLink} />
 
-  <nav class="site-nav">
-    <button
-      id="menu-btn"
-      class="menu-btn"
-      aria-label={t.a11y.openMenu}
-      aria-expanded="false"
-      aria-controls="menu-items"
-      data-label-open={t.a11y.openMenu}
-      data-label-close={t.a11y.closeMenu}
-    >
-      <span></span><span></span><span></span>
-    </button>
-    <ul id="menu-items" class="menu-items">
-      {
-        navItems.map(({ section, label }) => (
-          <li>
-            <a
-              href={getRelativeLocaleUrl(locale, section)}
-              class:list={{ "active-nav": currentSection === section }}
-              aria-current={currentSection === section ? "page" : undefined}
-            >
-              {label}
-            </a>
-          </li>
-        ))
-      }
-    </ul>
-  </nav>
+  <div class="header-end">
+    <nav class="site-nav">
+      <button
+        id="menu-btn"
+        class="menu-btn"
+        aria-label={t.a11y.openMenu}
+        aria-expanded="false"
+        aria-controls="menu-items"
+        data-label-open={t.a11y.openMenu}
+        data-label-close={t.a11y.closeMenu}
+      >
+        <span></span><span></span><span></span>
+      </button>
+      <ul id="menu-items" class="menu-items">
+        {
+          navItems.map(({ section, path, label }) => (
+            <li>
+              <a
+                href={getRelativeLocaleUrl(locale, path)}
+                class:list={{ "active-nav": currentSection === section }}
+                aria-current={currentSection === section ? "page" : undefined}
+              >
+                {label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <nav class="lang-switch" aria-label={t.nav.language}>
+      <ul>
+        {
+          languages.map(({ lang, href, short, name }) => (
+            <li>
+              <a
+                {href}
+                hreflang={lang}
+                lang={lang}
+                title={name}
+                aria-current={lang === locale ? "true" : undefined}
+              >
+                {short}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </div>
 </header>
 
 <style>
@@ -79,6 +113,38 @@ const navItems = [
     gap: var(--space-5);
     padding: 28px var(--space-8);
     border-bottom: 1px solid var(--border);
+    /* Respiro até o conteúdo (design: 64px; 28px no celular). */
+    margin-bottom: var(--space-8);
+  }
+
+  .header-end {
+    display: flex;
+    align-items: center;
+    gap: var(--space-6);
+  }
+
+  .lang-switch ul {
+    display: flex;
+    gap: var(--space-1);
+    padding: 3px;
+    background: var(--bg-deep);
+    border-radius: var(--radius-pill);
+    box-shadow: inset 0 0 0 1px var(--border);
+  }
+  .lang-switch a {
+    display: block;
+    padding: 3px 10px;
+    border-radius: var(--radius-pill);
+    font-size: var(--fs-chip);
+    font-weight: 600;
+    color: var(--text-muted);
+  }
+  .lang-switch a:hover {
+    color: var(--text);
+  }
+  .lang-switch a[aria-current] {
+    background: var(--surface);
+    color: var(--text);
   }
 
   .menu-items {
@@ -115,9 +181,14 @@ const navItems = [
   @media (max-width: 640px) {
     .site-header {
       padding: 14px 20px;
+      margin-bottom: 28px;
     }
     .menu-btn {
       display: flex;
+    }
+    .header-end {
+      flex-direction: row-reverse;
+      gap: var(--space-3);
     }
     .menu-items {
       display: none;

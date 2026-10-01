@@ -1,5 +1,4 @@
-import type { CollectionEntry } from "astro:content";
-import { postFilter } from "./postFilter";
+import type { Post } from "./posts";
 import { slugifyStr } from "./slugify";
 
 type Tag = {
@@ -8,21 +7,21 @@ type Tag = {
 };
 
 /**
- * Builds a de-duplicated, sorted tag list from posts.
- *
- * - Drafts and scheduled posts are excluded via `postFilter()`
- * - `tag` is the slug used in URLs; `tagName` is the original label for display
- * - Uniqueness is based on the slug (so differently-cased labels collapse)
+ * Tags dos posts dados (já filtrados por idioma), sem repetição e em ordem.
+ * `tag` é o slug da URL; `tagName` é o rótulo como escrito no front matter.
  */
-export function getUniqueTags(posts: CollectionEntry<"posts">[]) {
-  const tags: Tag[] = posts
-    .filter(postFilter)
-    .flatMap(post => post.data.tags)
+export function getUniqueTags(posts: Post[]): Tag[] {
+  return posts
+    .flatMap(post => post.entry.data.tags)
     .map(tag => ({ tag: slugifyStr(tag), tagName: tag }))
     .filter(
       (value, index, self) =>
         self.findIndex(tag => tag.tag === value.tag) === index
     )
     .sort((tagA, tagB) => tagA.tag.localeCompare(tagB.tag));
-  return tags;
+}
+
+/** O post tem a tag (comparando pelo slug)? */
+export function postHasTag(post: Post, tag: string): boolean {
+  return post.entry.data.tags.some(name => slugifyStr(name) === tag);
 }

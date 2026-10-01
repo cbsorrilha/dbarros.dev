@@ -43,8 +43,8 @@ Temas iniciais:
   para sempre.
 - Todos os idiomas têm prefixo: `/pt/...`, `/en/...`, `/es/...`.
 - A raiz `/` redireciona com base no `Accept-Language`, via **Cloudflare Pages
-  Function**, com **`en` como fallback**. Em dev local, um redirect simples para
-  `/en/` basta.
+  Function**, com **`pt` como fallback**. Em dev local, um redirect simples para
+  `/pt/` basta.
 - O mesmo `slug` em todos os idiomas: `/pt/posts/meu-post`, `/en/posts/meu-post`.
   Isso deixa o seletor de idioma trivial.
 - Cada página emite `<link rel="alternate" hreflang="...">` para os idiomas em que

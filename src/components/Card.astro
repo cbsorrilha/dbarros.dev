@@ -1,20 +1,20 @@
 ---
-import type { CollectionEntry } from "astro:content";
-import { getPostUrl } from "@/utils/getPostPaths";
+import { getPostUrl, type Post } from "@/utils/posts";
 import Datetime from "./Datetime.astro";
 
 type Props = {
   variant?: "h2" | "h3";
-} & CollectionEntry<"posts">;
+  post: Post;
+};
 
-const { variant: Heading = "h2", id, data, filePath } = Astro.props;
+const { variant: Heading = "h2", post } = Astro.props;
 
-const { title, description, ...props } = data;
+const { title, description, pubDate, updatedDate } = post.entry.data;
 ---
 
 <li class="my-6">
   <a
-    href={getPostUrl(id, filePath, Astro.currentLocale)}
+    href={getPostUrl(post.slug, post.lang)}
     class:list={[
       "text-accent inline-block text-lg font-medium",
       "decoration-dashed underline-offset-4 hover:underline",
@@ -25,6 +25,6 @@ const { title, description, ...props } = data;
       {title}
     </Heading>
   </a>
-  <Datetime {...props} />
+  <Datetime {pubDate} {updatedDate} />
   <p>{description}</p>
 </li>
