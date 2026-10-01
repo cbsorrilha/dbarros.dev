@@ -1,0 +1,30 @@
+---
+import NotFound from "@/components/NotFound.astro";
+import { getPostGroups, getPostUrl, getPublishedLocales } from "@/utils/posts";
+import { DEFAULT_LOCALE, LOCALES, type Locale } from "@/i18n";
+
+// /{lang}/posts/{slug}/404.html para cada post que falta em `lang` mas existe em
+// outro idioma: a 404 oferece "Ler em {idioma}" (idioma padrão primeiro).
+export async function getStaticPaths() {
+  const groups = await getPostGroups();
+  return groups.flatMap(group => {
+    const published = getPublishedLocales(group);
+    if (published.length === 0) return [];
+    const target = published.includes(DEFAULT_LOCALE)
+      ? DEFAULT_LOCALE
+      : published[0];
+    return LOCALES.filter(lang => !published.includes(lang)).map(lang => ({
+      params: { lang, slug: group.slug },
+      props: {
+        readIn: { lang: target, href: getPostUrl(group.slug, target) },
+      },
+    }));
+  });
+}
+
+type Props = { readIn: { lang: Locale; href: string } };
+
+const { readIn } = Astro.props;
+---
+
+<NotFound lang={Astro.params.lang as Locale} {readIn} />

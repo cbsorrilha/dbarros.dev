@@ -14,13 +14,12 @@ export default {
     language: "Idioma",
   },
   post: {
-    publishedAt: "Publicado em",
-    updatedAt: "Atualizado",
-    tagLabel: "Tags",
-    backToTop: "Voltar ao topo",
-    goBack: "Voltar",
     previousPost: "Anterior",
     nextPost: "Próximo",
+    readingTime: "{{min}} min de leitura",
+    alsoIn: "Também em",
+    and: " e ",
+    backToPosts: "Posts",
   },
   code: {
     copy: "Copiar",
@@ -32,18 +31,14 @@ export default {
     about: "Sobre",
   },
   pages: {
-    tagTitle: "Tag",
-    tagDesc: "Todos os posts com a tag",
-
     tagsTitle: "Tags",
-    tagsDesc: "Todas as tags usadas nos posts.",
 
     postsTitle: "Posts",
-    postsDesc: "Tudo o que publiquei.",
     noPosts: "Nenhum post em português ainda.",
-  },
-  about: {
-    linksTitle: "Links",
+    all: "Todos",
+    latest: "Mais recente",
+    postCount: { one: "{{n}} post", other: "{{n}} posts" },
+    backToTags: "Tags",
   },
   rss: {
     title: "{{site}} (português)",
@@ -53,12 +48,12 @@ export default {
     skipToContent: "Pular para o conteúdo",
     openMenu: "Abrir menu",
     closeMenu: "Fechar menu",
-    closeImagePreview: "Fechar imagem",
     homeLink: "dbarros.dev, página inicial",
   },
   notFound: {
     title: "Esta página não existe.",
     message: "O endereço pode ter mudado, ou o post não existe neste idioma.",
     goHome: "Ver todos os posts",
+    readIn: "Ler em {{lang}}",
   },
 } satisfies UIStrings;

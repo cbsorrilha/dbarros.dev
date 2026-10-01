@@ -1,0 +1,44 @@
+---
+// Corpo de página do tema Vlad. "list": coluna de até 760px alinhada à esquerda,
+// com respiro lateral de 64px (listagem, tags). "reading": coluna de 680px
+// centrada (post, Sobre). O respiro acima vem do cabeçalho.
+type Props = { width: "list" | "reading" | "center" };
+
+const { width } = Astro.props;
+---
+
+<main id="main-content" tabindex="-1" class:list={["shell", width]}>
+  <slot />
+</main>
+
+<style>
+  .shell {
+    flex: 1;
+    width: 100%;
+    padding: 0 var(--space-8) 72px;
+    outline: none;
+  }
+  .list > :global(*) {
+    max-width: 760px;
+  }
+  .reading {
+    max-width: calc(var(--measure) + 2 * var(--space-8));
+    margin-inline: auto;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+  }
+  .center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  @media (max-width: 640px) {
+    .shell {
+      padding: 0 20px 48px;
+    }
+    .reading {
+      max-width: none;
+    }
+  }
+</style>

@@ -49,14 +49,6 @@
   }
 }
 
-@utility max-w-app {
-  @apply max-w-3xl;
-}
-
-@utility app-layout {
-  @apply max-w-app mx-auto w-full px-4;
-}
-
 @utility active-nav {
   color: var(--text);
   border-bottom: 1px solid var(--link);

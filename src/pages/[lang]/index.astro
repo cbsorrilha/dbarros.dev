@@ -1,10 +1,14 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import Header from "@/components/Header.astro";
-import Main from "@/components/Main.astro";
-import Card from "@/components/Card.astro";
 import Footer from "@/components/Footer.astro";
-import { getPosts } from "@/utils/posts";
+import PageShell from "@/components/PageShell.astro";
+import PageHeading from "@/components/PageHeading.astro";
+import TagFilters from "@/components/TagFilters.astro";
+import PostRow from "@/components/PostRow.astro";
+import { getPosts, type Post } from "@/utils/posts";
+import { getUniqueTags } from "@/utils/getUniqueTags";
+import { yearOf } from "@/utils/dates";
 import { alternatesFor } from "@/utils/alternates";
 import { LOCALES, useTranslations, type Locale } from "@/i18n";
 import config from "@/config";
@@ -16,25 +20,66 @@ export function getStaticPaths() {
 const lang = Astro.params.lang as Locale;
 const t = useTranslations(lang);
 const posts = await getPosts(lang);
+const tags = getUniqueTags(posts);
 const alternates = alternatesFor("");
+
+// Posts já vêm do mais novo para o mais antigo: grupos por ano na mesma ordem.
+const years = new Map<number, Post[]>();
+for (const post of posts) {
+  const year = yearOf(post.entry.data.pubDate);
+  years.set(year, [...(years.get(year) ?? []), post]);
+}
 ---
 
 <Layout title={config.site.title} {alternates}>
   <Header {alternates} />
 
-  <Main pageTitle={t.pages.postsTitle} pageDesc={t.pages.postsDesc}>
-    {
-      posts.length > 0 ? (
-        <ul>
-          {posts.map(post => (
-            <Card {post} />
-          ))}
-        </ul>
-      ) : (
-        <p>{t.pages.noPosts}</p>
-      )
-    }
-  </Main>
+  <PageShell width="list">
+    <div class="listing">
+      <PageHeading title={t.pages.postsTitle} />
+      {
+        posts.length === 0 ? (
+          <p class="empty">{t.pages.noPosts}</p>
+        ) : (
+          <>
+            <TagFilters {lang} {tags} />
+            {[...years].map(([year, yearPosts]) => (
+              <section aria-labelledby={`year-${year}`}>
+                <h2 id={`year-${year}`} class="year">
+                  {year}
+                </h2>
+                <ul>
+                  {yearPosts.map(post => (
+                    <PostRow {post} />
+                  ))}
+                </ul>
+              </section>
+            ))}
+          </>
+        )
+      }
+    </div>
+  </PageShell>
 
   <Footer />
 </Layout>
+
+<style>
+  .listing {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+  .year {
+    padding-bottom: var(--space-2);
+    border-bottom: 1px solid var(--border);
+    font-size: var(--fs-small);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+  }
+  .empty {
+    font-size: var(--fs-ui);
+    color: var(--text-muted);
+  }
+</style>

@@ -34,6 +34,9 @@ Cesar em vez de resolver em silêncio.
 4. **Build determinístico.** O build (local, CI ou Cloudflare) **nunca** chama LLM,
    Ollama ou rede externa.
 5. **Menos estado vence.** Na dúvida, escolha a opção mais simples de manter.
+6. **O mínimo de JavaScript.** O site tem que ser muito rápido: JS no navegador só
+   quando não houver alternativa em HTML/CSS (Popover API, `<details>`, âncoras, páginas
+   estáticas). Hoje o único script é o botão Copiar, e só em páginas com código.
 
 ## Fluxo de trabalho: OpenSpec
 
@@ -63,7 +66,7 @@ Capacidades sugeridas para `openspec/specs/`: `theme`, `i18n-routing`,
 |---|---|---|---|
 | 1 | Design system Vlad | **feito** (`docs/design/vlad/`) | — |
 | 2 | Scaffold | **feito** (`scaffold-astro`) | `npm run dev` e `npm run build` funcionam; sem alternador de tema |
-| 3 | i18n e conteúdo | **i18n feito** (`i18n-content`); telas finais no change `vlad-screens` | post nos 3 idiomas navega certo; post só em PT some de EN/ES sem quebrar |
+| 3 | i18n e conteúdo | **feito** (`i18n-content` + `vlad-screens`) | post nos 3 idiomas navega certo; post só em PT some de EN/ES sem quebrar |
 | 4 | Tags | a fazer | tag fora do conjunto falha o build |
 | 5 | Tradução | a fazer | editar o fonte faz o check falhar; `translate` corrige; `locked: true` não é sobrescrito |
 | 6 | Deploy e DNS | a fazer | `https://dbarros.dev` via Cloudflare; `/` redireciona por idioma |
@@ -98,6 +101,14 @@ arquivar o change correspondente.
 - Bloco de código: rótulo da linguagem, botão Copiar ("Copiado" por 1.6s), rolagem
   horizontal sem quebra, padding preservado ao rolar.
 - Listagem: variante **1a (lista densa)**. Logo: variante **2d**, em HTML/CSS.
+- Telas montadas com `PageShell` (`list`/`reading`/`center`), `PageHeading`,
+  `PostRow`, `TagChip`, `PostNav`, `BackLink` e `NotFound`, com CSS de escopo e tokens.
+- Datas: meta do post `DD/MM/AAAA` em todos os idiomas; listagem "18 set"; página de
+  tag "18 set 2026" (`src/utils/dates.ts`).
+- 404: estáticas, uma por idioma e uma por tradução ausente; o Cloudflare serve a mais
+  próxima do caminho. A integração `flatten404` em `astro.config.ts` move
+  `…/404/index.html` para `…/404.html`.
+- Menu do celular: Popover API, sem script.
 - Animações: só transições de cor (~120ms ease-out). Foco: outline 2px `--link`,
   offset 2px.
 - Os `.dc.html` são referência visual (abrir no navegador), não código a copiar.

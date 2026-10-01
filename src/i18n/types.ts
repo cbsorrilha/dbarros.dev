@@ -15,13 +15,16 @@ export interface UIStrings {
     language: string;
   };
   post: {
-    publishedAt: string;
-    updatedAt: string;
-    tagLabel: string;
-    backToTop: string;
-    goBack: string;
     previousPost: string;
     nextPost: string;
+    /** Placeholder: {{min}} */
+    readingTime: string;
+    /** "Também em" + lista de idiomas */
+    alsoIn: string;
+    /** Conjunção entre os dois últimos itens de uma lista, com espaços. */
+    and: string;
+    /** Rótulo do link "← Posts". */
+    backToPosts: string;
   };
   code: {
     copy: string;
@@ -34,18 +37,18 @@ export interface UIStrings {
     about: string;
   };
   pages: {
-    tagTitle: string;
-    tagDesc: string;
-
     tagsTitle: string;
-    tagsDesc: string;
 
     postsTitle: string;
-    postsDesc: string;
     noPosts: string;
-  };
-  about: {
-    linksTitle: string;
+    /** Chip de filtro que mostra todos os posts. */
+    all: string;
+    /** Rótulo do post mais recente no índice de tags. */
+    latest: string;
+    /** Contagem de posts. Placeholder: {{n}} */
+    postCount: { one: string; other: string };
+    /** Rótulo do link "← Tags". */
+    backToTags: string;
   };
   rss: {
     /** Placeholder: {{site}} */
@@ -56,12 +59,13 @@ export interface UIStrings {
     skipToContent: string;
     openMenu: string;
     closeMenu: string;
-    closeImagePreview: string;
     homeLink: string;
   };
   notFound: {
     title: string;
     message: string;
     goHome: string;
+    /** Placeholder: {{lang}} (nome do idioma) */
+    readIn: string;
   };
 }

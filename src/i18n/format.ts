@@ -11,3 +11,11 @@ export function tplStr(
     return value !== undefined && value !== null ? String(value) : "";
   });
 }
+
+/** "1 post", "3 posts". */
+export function countLabel(
+  n: number,
+  forms: { one: string; other: string }
+): string {
+  return tplStr(n === 1 ? forms.one : forms.other, { n });
+}

@@ -17,29 +17,17 @@ interface SiteConfig {
   googleVerification?: string;
 }
 
-interface FeaturesConfig {
-  /** Show back button on post detail pages. Defaults to true. */
-  showBackButton?: boolean;
-}
-
 interface SocialLink {
   /**
-   * Must match an SVG filename in src/assets/icons/socials/.
-   * e.g. "github" → src/assets/icons/socials/github.svg
+   * Identificador da rede (ex.: "github", "linkedin"); o rótulo exibido vem de
+   * src/pages/[lang]/about.astro.
    */
   name: string;
   url: string;
-  /**
-   * Accessible label for the icon link (aria-label, title attribute).
-   * Auto-generated if omitted: "{site.title} on GitHub", "Send an email to {site.title}", etc.
-   * Override when the default wording doesn't fit.
-   */
-  linkTitle?: string;
 }
 
 interface AstroPaperConfig {
   site: SiteConfig;
-  features?: FeaturesConfig;
   /** Social profile links shown in header/footer */
   socials?: SocialLink[];
 }
@@ -51,7 +39,6 @@ type ResolvedSiteConfig = Required<
 
 export interface ResolvedAstroPaperConfig {
   site: ResolvedSiteConfig;
-  features: Required<FeaturesConfig>;
   socials: SocialLink[];
 }
 

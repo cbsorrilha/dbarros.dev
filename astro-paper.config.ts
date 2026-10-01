@@ -10,9 +10,6 @@ export default defineAstroPaperConfig({
     timezone: "America/Sao_Paulo",
     dir: "ltr",
   },
-  features: {
-    showBackButton: true,
-  },
   socials: [
     { name: "github", url: "https://github.com/cbsorrilha" },
     { name: "linkedin", url: "https://www.linkedin.com/in/cbsorrilha/" },

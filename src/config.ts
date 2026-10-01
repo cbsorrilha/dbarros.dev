@@ -19,9 +19,6 @@ const config: ResolvedAstroPaperConfig = {
     googleVerification:
       userConfig.site.googleVerification || PUBLIC_GOOGLE_SITE_VERIFICATION,
   },
-  features: {
-    showBackButton: userConfig.features?.showBackButton ?? true,
-  },
   socials: userConfig.socials ?? [],
 };
 

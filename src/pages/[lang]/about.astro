@@ -1,13 +1,11 @@
 ---
-import { getRssUrl } from "@/utils/posts";
 import { getEntry, render } from "astro:content";
-import { getRelativeLocaleUrl } from "astro:i18n";
 import Layout from "@/layouts/Layout.astro";
 import Header from "@/components/Header.astro";
-import Breadcrumb from "@/components/Breadcrumb.astro";
-import Main from "@/components/Main.astro";
 import Footer from "@/components/Footer.astro";
+import PageShell from "@/components/PageShell.astro";
 import { alternatesFor } from "@/utils/alternates";
+import { getRssUrl } from "@/utils/posts";
 import { LOCALES, useTranslations, type Locale } from "@/i18n";
 import config from "@/config";
 
@@ -44,28 +42,79 @@ const alternates = alternatesFor("about/");
 ---
 
 <Layout
-  title={`${about.data.title} | ${config.site.title}`}
+  title={`${t.nav.about} | ${config.site.title}`}
   description={about.data.description}
   {alternates}
 >
   <Header {alternates} />
 
-  <Breadcrumb />
+  <PageShell width="reading">
+    <header class="about-header">
+      <h1>{about.data.title}</h1>
+      {about.data.description && <p class="lead">{about.data.description}</p>}
+    </header>
 
-  <Main pageTitle={about.data.title} class="app-prose">
-    <Content />
+    <article class="app-prose">
+      <Content />
+    </article>
 
-    <h2>{t.about.linksTitle}</h2>
-    <ul>
+    <dl class="links">
       {
         links.map(({ label, href, text }) => (
-          <li>
-            {label}: <a {href}>{text}</a>
-          </li>
+          <div>
+            <dt>{label}</dt>
+            <dd>
+              <a {href}>{text}</a>
+            </dd>
+          </div>
         ))
       }
-    </ul>
-  </Main>
+    </dl>
+  </PageShell>
 
   <Footer />
 </Layout>
+
+<style>
+  .about-header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+  h1 {
+    font-size: var(--fs-h1-post);
+    font-weight: 700;
+    line-height: 1.12;
+    letter-spacing: -0.015em;
+  }
+  .lead {
+    font-size: var(--fs-lead);
+    line-height: 1.5;
+    color: var(--text-muted);
+  }
+  .links div {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: var(--space-4);
+    padding: var(--space-3) 0;
+    border-bottom: 1px solid var(--border);
+  }
+  dt {
+    color: var(--text-muted);
+  }
+  dd a {
+    color: var(--link);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    overflow-wrap: anywhere;
+  }
+  dd a:hover {
+    color: var(--link-hover);
+  }
+  @media (max-width: 640px) {
+    .links div {
+      grid-template-columns: 1fr;
+      gap: var(--space-1);
+    }
+  }
+</style>

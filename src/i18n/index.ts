@@ -5,7 +5,7 @@ import pt from "./lang/pt";
 import en from "./lang/en";
 import es from "./lang/es";
 
-export { tplStr } from "./format";
+export { tplStr, countLabel } from "./format";
 export { LOCALES, DEFAULT_LOCALE, isLocale, type Locale } from "./locales";
 
 // Record<Locale, …>: falta de dicionário para um idioma é erro de tipo.

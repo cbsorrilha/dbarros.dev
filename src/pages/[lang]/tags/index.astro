@@ -1,14 +1,14 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import Header from "@/components/Header.astro";
-import Breadcrumb from "@/components/Breadcrumb.astro";
-import Main from "@/components/Main.astro";
 import Footer from "@/components/Footer.astro";
-import Tag from "@/components/Tag.astro";
-import { getUniqueTags } from "@/utils/getUniqueTags";
-import { getPosts } from "@/utils/posts";
+import PageShell from "@/components/PageShell.astro";
+import PageHeading from "@/components/PageHeading.astro";
+import TagChip from "@/components/TagChip.astro";
+import { getUniqueTags, postHasTag } from "@/utils/getUniqueTags";
+import { getPosts, getPostUrl } from "@/utils/posts";
 import { alternatesFor } from "@/utils/alternates";
-import { LOCALES, useTranslations, type Locale } from "@/i18n";
+import { countLabel, LOCALES, useTranslations, type Locale } from "@/i18n";
 import config from "@/config";
 
 export function getStaticPaths() {
@@ -17,20 +17,92 @@ export function getStaticPaths() {
 
 const lang = Astro.params.lang as Locale;
 const t = useTranslations(lang);
-const tags = getUniqueTags(await getPosts(lang));
+const posts = await getPosts(lang);
 const alternates = alternatesFor("tags/");
+
+// Posts vêm do mais novo para o mais antigo: o primeiro com a tag é o mais recente.
+const rows = getUniqueTags(posts).map(({ tag, tagName }) => {
+  const tagged = posts.filter(post => postHasTag(post, tag));
+  return { tag, tagName, count: tagged.length, latest: tagged[0] };
+});
 ---
 
 <Layout title={`${t.pages.tagsTitle} | ${config.site.title}`} {alternates}>
   <Header {alternates} />
 
-  <Breadcrumb />
-
-  <Main pageTitle={t.pages.tagsTitle} pageDesc={t.pages.tagsDesc}>
-    <ul class="flex flex-wrap gap-6">
-      {tags.map(({ tag, tagName }) => <Tag {tag} {tagName} />)}
-    </ul>
-  </Main>
+  <PageShell width="list">
+    <div class="tags">
+      <PageHeading title={t.pages.tagsTitle} />
+      <ul>
+        {
+          rows.map(({ tag, tagName, count, latest }) => (
+            <li class="row">
+              <div class="tag-cell">
+                <TagChip slug={tag} label={tagName} {lang} size="index" />
+                <span class="count">
+                  {countLabel(count, t.pages.postCount)}
+                </span>
+              </div>
+              <div class="latest">
+                <span class="label">{t.pages.latest}</span>
+                <a href={getPostUrl(latest.slug, lang)}>
+                  {latest.entry.data.title}
+                </a>
+              </div>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </PageShell>
 
   <Footer />
 </Layout>
+
+<style>
+  .tags {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+  .row {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: var(--space-5);
+    padding: 20px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .tag-cell {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-2);
+  }
+  .count,
+  .label {
+    font-size: var(--fs-small);
+    color: var(--text-muted);
+  }
+  .latest {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+  .latest a {
+    font-size: 19px;
+    font-weight: 600;
+    color: var(--text);
+    text-decoration: underline 1px var(--link-subtle);
+    text-underline-offset: 5px;
+  }
+  .latest a:hover {
+    color: var(--link);
+    text-decoration-color: var(--link);
+  }
+  @media (max-width: 640px) {
+    .row {
+      grid-template-columns: 1fr;
+      gap: var(--space-3);
+    }
+  }
+</style>

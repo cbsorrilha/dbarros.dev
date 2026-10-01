@@ -14,13 +14,12 @@ export default {
     language: "Idioma",
   },
   post: {
-    publishedAt: "Publicado el",
-    updatedAt: "Actualizado",
-    tagLabel: "Etiquetas",
-    backToTop: "Volver arriba",
-    goBack: "Volver",
     previousPost: "Anterior",
     nextPost: "Siguiente",
+    readingTime: "{{min}} min de lectura",
+    alsoIn: "También en",
+    and: " y ",
+    backToPosts: "Posts",
   },
   code: {
     copy: "Copiar",
@@ -32,18 +31,14 @@ export default {
     about: "Sobre mí",
   },
   pages: {
-    tagTitle: "Etiqueta",
-    tagDesc: "Todos los posts con la etiqueta",
-
     tagsTitle: "Etiquetas",
-    tagsDesc: "Todas las etiquetas usadas en los posts.",
 
     postsTitle: "Posts",
-    postsDesc: "Todo lo que he publicado.",
     noPosts: "Todavía no hay posts en español.",
-  },
-  about: {
-    linksTitle: "Enlaces",
+    all: "Todos",
+    latest: "Más reciente",
+    postCount: { one: "{{n}} post", other: "{{n}} posts" },
+    backToTags: "Etiquetas",
   },
   rss: {
     title: "{{site}} (español)",
@@ -53,7 +48,6 @@ export default {
     skipToContent: "Saltar al contenido",
     openMenu: "Abrir menú",
     closeMenu: "Cerrar menú",
-    closeImagePreview: "Cerrar imagen",
     homeLink: "dbarros.dev, inicio",
   },
   notFound: {
@@ -61,5 +55,6 @@ export default {
     message:
       "La dirección puede haber cambiado, o el post no existe en este idioma.",
     goHome: "Ver todos los posts",
+    readIn: "Leer en {{lang}}",
   },
 } satisfies UIStrings;

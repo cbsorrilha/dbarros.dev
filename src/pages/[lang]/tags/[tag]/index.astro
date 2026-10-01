@@ -1,14 +1,16 @@
 ---
+import { getRelativeLocaleUrl } from "astro:i18n";
 import Layout from "@/layouts/Layout.astro";
 import Header from "@/components/Header.astro";
-import Main from "@/components/Main.astro";
-import Breadcrumb from "@/components/Breadcrumb.astro";
-import Card from "@/components/Card.astro";
 import Footer from "@/components/Footer.astro";
+import PageShell from "@/components/PageShell.astro";
+import PageHeading from "@/components/PageHeading.astro";
+import BackLink from "@/components/BackLink.astro";
+import PostRow from "@/components/PostRow.astro";
 import { getUniqueTags, postHasTag } from "@/utils/getUniqueTags";
 import { getPosts, type Post } from "@/utils/posts";
 import { alternatesFor } from "@/utils/alternates";
-import { LOCALES, useTranslations, type Locale } from "@/i18n";
+import { countLabel, LOCALES, useTranslations, type Locale } from "@/i18n";
 import config from "@/config";
 
 export async function getStaticPaths() {
@@ -38,26 +40,53 @@ type Props = { tagName: string; posts: Post[]; tagLocales: Locale[] };
 
 const { tagName, posts, tagLocales } = Astro.props;
 const lang = Astro.params.lang as Locale;
+const tag = Astro.params.tag as string;
 const t = useTranslations(lang);
-const alternates = alternatesFor(`tags/${Astro.params.tag}/`, tagLocales);
+const alternates = alternatesFor(`tags/${tag}/`, tagLocales);
+// Cor da tag pelo token --tag-<slug>; tags sem token caem em --text.
+const tagColor = `var(--tag-${tag}, var(--text))`;
 ---
 
-<Layout
-  title={`${t.pages.tagTitle}: ${tagName} | ${config.site.title}`}
-  {alternates}
->
+<Layout title={`${tagName} | ${config.site.title}`} {alternates}>
   <Header {alternates} />
 
-  <Breadcrumb />
-
-  <Main
-    pageTitle={`${t.pages.tagTitle}: ${tagName}`}
-    pageDesc={`${t.pages.tagDesc} "${tagName}".`}
-  >
-    <ul>
-      {posts.map(post => <Card {post} />)}
-    </ul>
-  </Main>
+  <PageShell width="list">
+    <div class="tag-page">
+      <BackLink
+        href={getRelativeLocaleUrl(lang, "tags/")}
+        label={t.pages.backToTags}
+      />
+      <div class="heading">
+        <PageHeading
+          title={tagName}
+          aside={countLabel(posts.length, t.pages.postCount)}
+          color={tagColor}
+        />
+        <span class="bar" style={{ background: tagColor }}></span>
+      </div>
+      <ul>
+        {posts.map(post => <PostRow {post} withYear />)}
+      </ul>
+    </div>
+  </PageShell>
 
   <Footer />
 </Layout>
+
+<style>
+  .tag-page {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+  }
+  .heading {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+  .bar {
+    display: block;
+    width: 48px;
+    height: 2px;
+  }
+</style>

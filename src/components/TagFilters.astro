@@ -1,0 +1,45 @@
+---
+import { getRelativeLocaleUrl } from "astro:i18n";
+import TagChip from "./TagChip.astro";
+import { useTranslations, type Locale } from "@/i18n";
+
+// Filtro da listagem: "Todos" (ativo, é a própria listagem) e um chip por tag,
+// cada um levando à página da tag. Navegação comum, sem script.
+type Props = { lang: Locale; tags: { tag: string; tagName: string }[] };
+
+const { lang, tags } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<ul class="filters">
+  <li>
+    <a class="all" href={getRelativeLocaleUrl(lang, "")} aria-current="page"
+      >{t.pages.all}</a
+    >
+  </li>
+  {
+    tags.map(({ tag, tagName }) => (
+      <li>
+        <TagChip slug={tag} label={tagName} {lang} size="filter" />
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+  .all {
+    display: inline-block;
+    border-radius: var(--radius-pill);
+    font-size: var(--fs-small);
+    font-weight: 500;
+    line-height: 1.5;
+    padding: 2px 12px;
+    background: var(--text);
+    color: var(--bg);
+  }
+</style>

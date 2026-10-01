@@ -1,0 +1,19 @@
+---
+// "← Posts", "← Tags": volta para a página-mãe (link fixo, sem script).
+type Props = { href: string; label: string };
+
+const { href, label } = Astro.props;
+---
+
+<a class="back-link" {href}><span aria-hidden="true">← </span>{label}</a>
+
+<style>
+  .back-link {
+    align-self: flex-start;
+    font-size: 16px;
+    color: var(--text-muted);
+  }
+  .back-link:hover {
+    color: var(--text);
+  }
+</style>

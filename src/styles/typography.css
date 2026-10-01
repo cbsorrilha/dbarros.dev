@@ -22,6 +22,61 @@
     --tw-prose-pre-bg: var(--bg-deep);
     --tw-prose-th-borders: var(--border);
     --tw-prose-td-borders: var(--border);
+    max-width: none;
+
+    /* Ritmo do corpo do post (design: 22px entre blocos, h2 com 16px a mais). */
+    & > * {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+    & > * + * {
+      margin-top: 22px;
+    }
+    & > h2 {
+      margin-top: calc(22px + var(--space-4));
+      font-size: var(--fs-h2);
+      font-weight: 600;
+      line-height: var(--lh-tight);
+    }
+    & ul,
+    & ol {
+      padding-inline-start: 22px;
+    }
+    & li {
+      margin: 0;
+      padding-inline-start: 0;
+    }
+    & li + li {
+      margin-top: var(--space-2);
+    }
+
+    /* Imagem com legenda (src/utils/rehype/figure.ts): sangra como o código. */
+    & .post-figure {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+    & .post-figure img {
+      width: 100%;
+      margin: 0;
+      border: 0;
+      border-radius: var(--radius-md);
+    }
+    & .post-figure figcaption {
+      margin: 0;
+      font-size: var(--fs-small);
+      font-style: italic;
+      color: var(--text-muted);
+      opacity: 1;
+    }
+    @media (min-width: 641px) {
+      & .post-figure {
+        margin-inline: calc(-1 * var(--space-5));
+      }
+      & .post-figure figcaption {
+        padding-inline: var(--space-5);
+      }
+    }
 
     h1,
     h2,
@@ -70,14 +125,6 @@
 
     img {
       @apply border-border mx-auto border;
-    }
-
-    img[role="button"] {
-      @apply cursor-zoom-in;
-
-      &:focus-visible {
-        @apply outline-2 outline-offset-2 outline-dashed;
-      }
     }
 
     figcaption {

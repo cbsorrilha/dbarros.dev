@@ -1,0 +1,31 @@
+---
+// Título de página (40/32px, 700) com um complemento opcional ao lado
+// (contagem de posts na página de tag) e cor opcional.
+type Props = { title: string; aside?: string; color?: string };
+
+const { title, aside, color } = Astro.props;
+---
+
+<div class="page-heading">
+  <h1 style={color ? { color } : undefined}>{title}</h1>
+  {aside && <span class="aside">{aside}</span>}
+</div>
+
+<style>
+  .page-heading {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--space-3);
+  }
+  h1 {
+    font-size: var(--fs-h1);
+    font-weight: 700;
+    line-height: var(--lh-tight);
+    color: var(--text);
+  }
+  .aside {
+    font-size: var(--fs-ui);
+    color: var(--text-muted);
+  }
+</style>

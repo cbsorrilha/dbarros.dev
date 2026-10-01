@@ -2,8 +2,10 @@
 import { getRelativeLocaleUrl } from "astro:i18n";
 import Logo from "./Logo.astro";
 import { stripBase, stripLocale } from "@/utils/withBase";
-import { getLocale, useTranslations } from "@/i18n";
+import { getRssUrl } from "@/utils/posts";
+import { getLocale, tplStr, useTranslations } from "@/i18n";
 import type { Alternate } from "@/utils/alternates";
+import config from "@/config";
 
 type Props = {
   /** Idiomas em que a página atual existe; o seletor só mostra estes. */
@@ -19,7 +21,6 @@ const languages = alternates.map(alt => ({
   name: useTranslations(alt.lang).languageName,
 }));
 
-// Strip the base prefix so isActive comparisons work regardless of deploy subdirectory.
 const relativePath = stripBase(Astro.url.pathname);
 const currentPath = stripLocale(relativePath.replace(/(.)\/$/, "$1"), locale);
 // A home do idioma é a lista de posts: "Posts" fica ativo nela também.
@@ -29,37 +30,34 @@ const navItems = [
   { section: "posts", path: "", label: t.nav.posts },
   { section: "tags", path: "tags", label: t.nav.tags },
   { section: "about", path: "about", label: t.nav.about },
-];
+].map(item => ({
+  ...item,
+  href: getRelativeLocaleUrl(locale, item.path),
+  active: currentSection === item.section,
+}));
+
+const homeHref = getRelativeLocaleUrl(locale, "");
+const credit = tplStr(t.footer.credit, {
+  year: new Date().getFullYear(),
+  author: config.site.author,
+});
 ---
 
-<a id="skip-to-content" href="#main-content" class="skip-link">
-  {t.a11y.skipToContent}
-</a>
+<a href="#main-content" class="skip-link">{t.a11y.skipToContent}</a>
 
 <header class="site-header">
-  <Logo href={getRelativeLocaleUrl(locale, "")} label={t.a11y.homeLink} />
+  <Logo href={homeHref} label={t.a11y.homeLink} />
 
   <div class="header-end">
-    <nav class="site-nav">
-      <button
-        id="menu-btn"
-        class="menu-btn"
-        aria-label={t.a11y.openMenu}
-        aria-expanded="false"
-        aria-controls="menu-items"
-        data-label-open={t.a11y.openMenu}
-        data-label-close={t.a11y.closeMenu}
-      >
-        <span></span><span></span><span></span>
-      </button>
-      <ul id="menu-items" class="menu-items">
+    <nav class="site-nav" aria-label={t.nav.home}>
+      <ul class="nav-items">
         {
-          navItems.map(({ section, path, label }) => (
+          navItems.map(({ href, label, active }) => (
             <li>
               <a
-                href={getRelativeLocaleUrl(locale, path)}
-                class:list={{ "active-nav": currentSection === section }}
-                aria-current={currentSection === section ? "page" : undefined}
+                {href}
+                class:list={{ "active-nav": active }}
+                aria-current={active ? "page" : undefined}
               >
                 {label}
               </a>
@@ -88,8 +86,70 @@ const navItems = [
         }
       </ul>
     </nav>
+
+    <!-- Menu do celular: Popover API, sem JavaScript (abre, fecha, Esc, foco). -->
+    <button
+      class="menu-btn"
+      popovertarget="site-menu"
+      aria-label={t.a11y.openMenu}
+    >
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </header>
+
+<div id="site-menu" class="site-menu" popover>
+  <div class="menu-top">
+    <Logo href={homeHref} label={t.a11y.homeLink} />
+    <button
+      class="close-btn"
+      popovertarget="site-menu"
+      popovertargetaction="hide"
+      aria-label={t.a11y.closeMenu}
+    >
+      <span></span><span></span>
+    </button>
+  </div>
+
+  <nav aria-label={t.nav.home}>
+    <ul class="menu-items">
+      {
+        navItems.map(({ href, label, active }) => (
+          <li>
+            <a {href} aria-current={active ? "page" : undefined}>
+              {label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+
+  <nav class="menu-langs" aria-label={t.nav.language}>
+    <p>{t.nav.language}</p>
+    <ul>
+      {
+        languages.map(({ lang, href, name }) => (
+          <li>
+            <a
+              {href}
+              hreflang={lang}
+              lang={lang}
+              aria-current={lang === locale ? "true" : undefined}
+            >
+              {name}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+
+  <div class="menu-footer">
+    <span>{credit}</span>
+    <a href={getRssUrl(locale)}>{t.footer.rss}</a>
+  </div>
+</div>
 
 <style>
   .skip-link {
@@ -123,6 +183,19 @@ const navItems = [
     gap: var(--space-6);
   }
 
+  .nav-items {
+    display: flex;
+    gap: var(--space-6);
+    font-size: var(--fs-ui);
+  }
+  .nav-items a {
+    color: var(--text-muted);
+  }
+  .nav-items a:hover,
+  .nav-items a.active-nav {
+    color: var(--text);
+  }
+
   .lang-switch ul {
     display: flex;
     gap: var(--space-1);
@@ -147,20 +220,8 @@ const navItems = [
     color: var(--text);
   }
 
-  .menu-items {
-    display: flex;
-    gap: var(--space-6);
-    font-size: var(--fs-ui);
-  }
-  .menu-items a {
-    color: var(--text-muted);
-  }
-  .menu-items a:hover,
-  .menu-items a.active-nav {
-    color: var(--text);
-  }
-
-  .menu-btn {
+  .menu-btn,
+  .close-btn {
     display: none;
     width: 44px;
     height: 44px;
@@ -171,11 +232,107 @@ const navItems = [
     background: none;
     border: 0;
   }
-  .menu-btn span {
+  .menu-btn span,
+  .close-btn span {
     display: block;
     width: 20px;
     height: 1.5px;
     background: var(--text);
+  }
+  /* X: duas barras cruzadas. */
+  .close-btn {
+    display: flex;
+    position: relative;
+  }
+  .close-btn span {
+    position: absolute;
+    transform: rotate(45deg);
+  }
+  .close-btn span + span {
+    transform: rotate(-45deg);
+  }
+
+  /* Menu em tela cheia (Popover API). */
+  .site-menu {
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    max-height: none;
+    margin: 0;
+    padding: 14px 20px 28px;
+    border: 0;
+    background: var(--bg-deep);
+    color: var(--text);
+    flex-direction: column;
+    gap: var(--space-6);
+    overflow-y: auto;
+  }
+  .site-menu:popover-open {
+    display: flex;
+  }
+  :global(html:has(#site-menu:popover-open)) {
+    overflow: hidden;
+  }
+  .menu-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .menu-items li {
+    border-bottom: 1px solid var(--border);
+  }
+  .menu-items a {
+    position: relative;
+    display: block;
+    padding: var(--space-4) 0 var(--space-4) var(--space-5);
+    font-size: 30px;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .menu-items a[aria-current]::before {
+    content: "";
+    position: absolute;
+    inset-inline-start: 0;
+    top: 50%;
+    width: 6px;
+    height: 6px;
+    margin-top: -3px;
+    border-radius: 50%;
+    background: var(--link);
+  }
+  .menu-langs p {
+    margin-bottom: var(--space-3);
+    font-size: var(--fs-small);
+    color: var(--text-muted);
+  }
+  .menu-langs ul {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-2);
+  }
+  .menu-langs a {
+    display: block;
+    padding: var(--space-3) var(--space-2);
+    border-radius: var(--radius-md);
+    box-shadow: inset 0 0 0 1px var(--border);
+    font-size: 16px;
+    text-align: center;
+    color: var(--text-muted);
+  }
+  .menu-langs a[aria-current] {
+    background: var(--surface);
+    color: var(--text);
+  }
+  .menu-footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: auto;
+    font-size: var(--fs-small);
+    color: var(--text-muted);
+  }
+  .menu-footer a {
+    color: var(--text-muted);
   }
 
   @media (max-width: 640px) {
@@ -183,64 +340,14 @@ const navItems = [
       padding: 14px 20px;
       margin-bottom: 28px;
     }
+    .header-end {
+      gap: var(--space-3);
+    }
+    .site-nav {
+      display: none;
+    }
     .menu-btn {
       display: flex;
     }
-    .header-end {
-      flex-direction: row-reverse;
-      gap: var(--space-3);
-    }
-    .menu-items {
-      display: none;
-      position: absolute;
-      inset-inline: 0;
-      top: 100%;
-      z-index: 40;
-      flex-direction: column;
-      gap: 0;
-      padding: var(--space-2) 20px var(--space-5);
-      background: var(--bg-deep);
-      border-bottom: 1px solid var(--border);
-    }
-    .menu-items.open {
-      display: flex;
-    }
-    .menu-items a {
-      display: block;
-      padding: var(--space-3) 0;
-    }
   }
 </style>
-
-<script>
-  // Move o foco para o conteúdo, não só a rolagem, ao usar "Pular para o conteúdo".
-  const skipLink = document.getElementById("skip-to-content");
-  skipLink?.addEventListener("click", e => {
-    if (e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || e.button)
-      return;
-    const target = document.getElementById("main-content");
-    if (!target) return;
-    e.preventDefault();
-    target.setAttribute("tabindex", "-1");
-    target.addEventListener("blur", () => target.removeAttribute("tabindex"), {
-      once: true,
-    });
-    target.focus();
-    target.scrollIntoView();
-  });
-
-  const menuBtn = document.querySelector<HTMLButtonElement>("#menu-btn");
-  const menuItems = document.querySelector("#menu-items");
-
-  if (menuBtn && menuItems) {
-    const openLabel = menuBtn.dataset.labelOpen ?? "";
-    const closeLabel = menuBtn.dataset.labelClose ?? "";
-
-    menuBtn.addEventListener("click", () => {
-      const open = menuBtn.getAttribute("aria-expanded") !== "true";
-      menuBtn.setAttribute("aria-expanded", String(open));
-      menuBtn.setAttribute("aria-label", open ? closeLabel : openLabel);
-      menuItems.classList.toggle("open", open);
-    });
-  }
-</script>

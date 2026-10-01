@@ -1,0 +1,43 @@
+---
+import { getRelativeLocaleUrl } from "astro:i18n";
+import type { Locale } from "@/i18n";
+
+// Chip de tag: pílula com a cor da tag (texto, fundo 10%, borda 30%), vinda da
+// regra .tag[data-tag] de vlad-tokens.css; sem token, usa --text.
+type Props = {
+  slug: string;
+  label: string;
+  lang: Locale;
+  size?: "post" | "filter" | "index";
+};
+
+const { slug, label, lang, size = "post" } = Astro.props;
+---
+
+<a
+  class:list={["tag", "chip", size]}
+  data-tag={slug}
+  href={getRelativeLocaleUrl(lang, `tags/${slug}/`)}>{label}</a
+>
+
+<style>
+  .chip {
+    display: inline-block;
+    border-radius: var(--radius-pill);
+    font-size: var(--fs-chip);
+    font-weight: 500;
+    line-height: 1.5;
+    padding: 1px 10px;
+    white-space: nowrap;
+  }
+  .chip:hover {
+    background: color-mix(in srgb, var(--c) 20%, transparent);
+  }
+  .filter {
+    font-size: var(--fs-small);
+    padding: 2px 12px;
+  }
+  .index {
+    font-size: 16px;
+  }
+</style>

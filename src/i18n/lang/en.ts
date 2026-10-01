@@ -14,13 +14,12 @@ export default {
     language: "Language",
   },
   post: {
-    publishedAt: "Published on",
-    updatedAt: "Updated",
-    tagLabel: "Tags",
-    backToTop: "Back to top",
-    goBack: "Back",
     previousPost: "Previous",
     nextPost: "Next",
+    readingTime: "{{min}} min read",
+    alsoIn: "Also in",
+    and: " and ",
+    backToPosts: "Posts",
   },
   code: {
     copy: "Copy",
@@ -32,18 +31,14 @@ export default {
     about: "About",
   },
   pages: {
-    tagTitle: "Tag",
-    tagDesc: "All posts tagged",
-
     tagsTitle: "Tags",
-    tagsDesc: "All tags used in posts.",
 
     postsTitle: "Posts",
-    postsDesc: "Everything I've published.",
     noPosts: "No posts in English yet.",
-  },
-  about: {
-    linksTitle: "Links",
+    all: "All",
+    latest: "Latest",
+    postCount: { one: "{{n}} post", other: "{{n}} posts" },
+    backToTags: "Tags",
   },
   rss: {
     title: "{{site}} (English)",
@@ -53,7 +48,6 @@ export default {
     skipToContent: "Skip to content",
     openMenu: "Open menu",
     closeMenu: "Close menu",
-    closeImagePreview: "Close image preview",
     homeLink: "dbarros.dev, home",
   },
   notFound: {
@@ -61,5 +55,6 @@ export default {
     message:
       "The address may have changed, or the post does not exist in this language.",
     goHome: "See all posts",
+    readIn: "Read in {{lang}}",
   },
 } satisfies UIStrings;
