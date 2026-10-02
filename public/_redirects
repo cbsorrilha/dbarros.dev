@@ -1,0 +1,3 @@
+# Cloudflare Pages: redirects de servidor (no dev, as páginas do Astro fazem o mesmo).
+/:lang/posts/  /:lang/  301
+/:lang/posts   /:lang/  301

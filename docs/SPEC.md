@@ -33,7 +33,7 @@ Temas iniciais:
 | Repo | GitHub, **privado** |
 | Hospedagem | Cloudflare Pages, deploy automático a partir da `main`, preview por branch |
 | DNS | Cloudflare (migrado do Google Cloud DNS atual) |
-| Analytics | Cloudflare Web Analytics (grátis, sem cookies) |
+| Analytics | Analytics da zona Cloudflare, medido no servidor (grátis, sem cookies, sem JavaScript) |
 | Tradução | Ollama local com `qwen3:14b` (modelo configurável) |
 | Git hooks | Husky |
 
@@ -205,7 +205,7 @@ Entra:
 - seletor de idioma no post e no layout;
 - página **Sobre** por idioma, com links e um resumo profissional;
 - feed RSS **por idioma**;
-- Cloudflare Web Analytics;
+- analytics da zona Cloudflare, sem JavaScript no site;
 - redirect da raiz por `Accept-Language`;
 - pipeline de tradução e check;
 - rascunhos (`draft: true`) nunca publicados.
@@ -259,7 +259,7 @@ Cada fatia termina com o build verde e algo verificável.
    *Aceite:* editar o PT de um post faz o check falhar; `translate` corrige; uma
    tradução com `locked: true` não é sobrescrita.
 6. **Deploy e DNS.** Pages Function do redirect da raiz, Cloudflare Pages, migração
-   de DNS, Web Analytics e desligamento do Firebase.
+   de DNS, analytics da zona e desligamento do Firebase.
    *Aceite:* `https://dbarros.dev` responde pela Cloudflare e `/` redireciona de
    acordo com o idioma do navegador.
 7. **Primeiro post.** Sugestão: o making-of do próprio blog (trilíngue, custo zero,

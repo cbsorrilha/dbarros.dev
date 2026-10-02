@@ -84,7 +84,8 @@ arquivar o change correspondente.
   `npm audit` limpo.
 - **Husky** para git hooks.
 - **Cloudflare Pages** (build `npm run build`, output `dist/`), Pages Functions só
-  para o redirect da raiz. **Cloudflare Web Analytics.**
+  para o redirect da raiz. **Analytics da zona Cloudflare** (no servidor, sem JS; o
+  "Web Analytics" do Pages fica desligado porque injeta script).
 - **Ollama** local (`qwen3:14b` padrão) só no script de tradução. O `postinstall`
   (`scripts/setup-ollama.sh`) instala via Homebrew e sobe o servidor se preciso; volta
   em milissegundos se já estiver rodando, pula em CI (`CI=true`) ou com
@@ -175,6 +176,17 @@ arquivar o change correspondente.
 - Válvula de escape: `translations: [pt, en]` no fonte dispensa os idiomas fora da lista.
 - Host/modelo em `scripts/translate/config.ts`, com override por `OLLAMA_HOST` e
   `OLLAMA_MODEL`.
+
+### Deploy
+
+- `git push` na `main` publica pela Cloudflare Pages (`npm run build`, saída `dist/`,
+  `NODE_VERSION=24`); outras branches geram preview `*.pages.dev`.
+- `functions/index.ts` é a única Function: escolhe o idioma da raiz por
+  `Accept-Language` (`src/i18n/negotiate.ts`, fallback `pt`). Não crie `_middleware`:
+  rodaria em toda requisição.
+- Redirects fixos em `public/_redirects` (têm precedência sobre arquivos estáticos).
+- Teste local fiel à produção: `npm run build && npx wrangler pages dev dist` (na raiz
+  do repo, para pegar `functions/`).
 
 ## Verificação
 

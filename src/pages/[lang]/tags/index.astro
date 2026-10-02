@@ -33,6 +33,7 @@ const rows = getTagsInUse(posts).map(slug => {
   <PageShell width="list">
     <div class="tags">
       <PageHeading title={t.pages.tagsTitle} />
+      {rows.length === 0 && <p class="empty">{t.pages.noPosts}</p>}
       <ul>
         {
           rows.map(({ slug, count, latest }) => (
@@ -64,6 +65,10 @@ const rows = getTagsInUse(posts).map(slug => {
     display: flex;
     flex-direction: column;
     gap: var(--space-6);
+  }
+  .empty {
+    font-size: var(--fs-ui);
+    color: var(--text-muted);
   }
   .row {
     display: grid;
