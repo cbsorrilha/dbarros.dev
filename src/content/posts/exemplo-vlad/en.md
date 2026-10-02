@@ -1,30 +1,36 @@
 ---
-title: "Vlad theme sample"
-description: "Placeholder post to check the Vlad theme's typography, code and quotes."
+title: Example of Vlad Theme
+description: Provisional post to check typography, code, and quotes of Vlad theme.
 pubDate: 2026-10-01
-tags: [rust]
+tags:
+  - rust
 lang: en
 source_lang: pt
+translation:
+  source_hash: sha256:dfae30768784d15e7a904ec8d2dfff8fef707555c7922e00ab085338c20cf199
+  model: qwen3:14b
+  translated_at: 2026-10-01
+  locked: false
 ---
 
-Placeholder post to check the theme and i18n. It goes away before the site goes
-live. The compiler rejected the code until I moved the `Vec<String>` into the
-closure, as [the documentation](https://doc.rust-lang.org/book/) explains.
+Draft post to check the theme and i18n. It comes out before the site goes live.
+The compiler rejected the code until I moved the `Vec<String>` inside the
+closure, as explained in [the documentation](https://doc.rust-lang.org/book/).
 
-## Borrowing and ownership
+## Borrowing and owners
 
-A paragraph with **bold**, _italics_ and a link to [somewhere else](https://dbarros.dev/).
+A paragraph with **bold**, _italic_, and a link to [another place](https://dbarros.dev/).
 
-> When in doubt, pick the option with less state.
+> When in doubt, choose the option with less state.
 
 - Comments, because the repository is private.
 - Search, for now.
 - French, forever.
 
-![Vlad theme share image](./imagem.png)
+![Theme sharing image Vlad](./imagem.png)
 
 ```rust
-// Sums twice each element
+// Soma o dobro de cada elemento
 fn soma_dobro(xs: &[i32]) -> i32 {
     let msg = "olá, borrow checker";
     xs.iter().map(|x| x * 2).sum()
@@ -36,7 +42,7 @@ OLLAMA_HOST=http://localhost:11434 npm run translate -- --post exemplo-vlad --mo
 ```
 
 ```
-Block with no declared language: the bar only shows the Copy button.
+Bloco sem linguagem declarada: a barra mostra só o botão Copiar.
 ```
 
 1. A numbered item.

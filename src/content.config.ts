@@ -34,6 +34,8 @@ const posts = defineCollection({
     lang: locale,
     source_lang: locale,
     draft: z.boolean().default(false),
+    // Só no arquivo-fonte: idiomas em que o post deve existir (padrão: todos).
+    translations: z.array(locale).optional(),
     translation: z
       .object({
         source_hash: z.string().regex(/^sha256:[0-9a-f]+$/),

@@ -18,5 +18,7 @@ export default [
     },
   },
   { rules: { "no-console": "error" } },
+  // CLIs (translate, translate:check) escrevem no terminal.
+  { files: ["scripts/**"], rules: { "no-console": "off" } },
   { ignores: ["dist/**", ".astro/**", "docs/**", "openspec/**"] },
 ];

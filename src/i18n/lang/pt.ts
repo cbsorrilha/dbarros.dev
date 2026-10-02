@@ -50,6 +50,11 @@ export default {
     closeMenu: "Fechar menu",
     homeLink: "dbarros.dev, página inicial",
   },
+  notice: {
+    translated: "Traduzido {{from}} por IA local e revisado pelo autor.",
+    from: { pt: "do português", en: "do inglês", es: "do espanhol" },
+    readOriginal: "Ler o original",
+  },
   notFound: {
     title: "Esta página não existe.",
     message: "O endereço pode ter mudado, ou o post não existe neste idioma.",

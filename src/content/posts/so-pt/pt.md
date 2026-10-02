@@ -5,6 +5,7 @@ pubDate: 2026-09-28
 tags: [reflections]
 lang: pt
 source_lang: pt
+translations: [pt]
 ---
 
 Este post existe só em português. Ele não pode aparecer em `/en/` nem em `/es/`, e

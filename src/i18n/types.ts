@@ -61,6 +61,13 @@ export interface UIStrings {
     closeMenu: string;
     homeLink: string;
   };
+  notice: {
+    /** Aviso em posts traduzidos. Placeholder: {{from}} (de notice.from) */
+    translated: string;
+    /** "do português", "from Portuguese": idioma de origem com a preposição. */
+    from: Record<"pt" | "en" | "es", string>;
+    readOriginal: string;
+  };
   notFound: {
     title: string;
     message: string;

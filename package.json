@@ -8,13 +8,17 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "astro check && astro build",
+    "build": "npm run translate:check && astro check && astro build",
     "preview": "astro preview",
     "sync": "astro sync",
     "astro": "astro",
     "format:check": "prettier --check .",
     "format": "prettier --write .",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "postinstall": "bash scripts/setup-ollama.sh",
+    "translate:check": "node scripts/translate/check.ts",
+    "translate": "node scripts/translate/translate.ts",
+    "prepare": "husky"
   },
   "dependencies": {
     "@astrojs/markdown-remark": "^7.3.1",
@@ -38,10 +42,12 @@
     "@typescript-eslint/parser": "^8.71.0",
     "eslint": "^10.11.0",
     "eslint-plugin-astro": "^3.2.1",
+    "husky": "^9.1.7",
     "prettier": "^3.9.9",
     "prettier-plugin-astro": "0.14.1",
     "prettier-plugin-tailwindcss": "^0.8.0",
-    "typescript": "^6.0.3"
+    "typescript": "^6.0.3",
+    "yaml": "^2.9.1"
   },
   "allowScripts": {
     "esbuild@0.28.2": true

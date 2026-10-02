@@ -1,30 +1,36 @@
 ---
-title: "Ejemplo del tema Vlad"
-description: "Post provisional para verificar la tipografía, el código y las citas del tema Vlad."
+title: Ejemplo del tema Vlad
+description: Publicación provisional para verificar tipografía, código y citas del tema Vlad.
 pubDate: 2026-10-01
-tags: [rust]
+tags:
+  - rust
 lang: es
 source_lang: pt
+translation:
+  source_hash: sha256:dfae30768784d15e7a904ec8d2dfff8fef707555c7922e00ab085338c20cf199
+  model: qwen3:14b
+  translated_at: 2026-10-01
+  locked: false
 ---
 
-Post provisional para revisar el tema y el i18n. Se retira antes de que el sitio
-salga al aire. El compilador rechazó el código hasta que moví el `Vec<String>`
-dentro de la closure, como explica [la documentación](https://doc.rust-lang.org/book/).
+Post provisional para revisar el tema y el i18n. Sale antes de que el sitio vaya al aire.
+El compilador rechazó el código hasta que moví el `Vec<String>` dentro de
+la closure, como explica [la documentación](https://doc.rust-lang.org/book/).
 
 ## Préstamos y dueños
 
-Un párrafo con **negrita**, _cursiva_ y un enlace a [otro lugar](https://dbarros.dev/).
+Un párrafo con **negrita**, _italica_ y un enlace a [otro lugar](https://dbarros.dev/).
 
-> En la duda, elige la opción con menos estado.
+> En duda, elige la opción con menos estado.
 
 - Comentarios, porque el repositorio es privado.
 - Búsqueda, por ahora.
-- Francés, nunca.
+- Francés, para siempre.
 
-![Imagen para compartir del tema Vlad](./imagem.png)
+![Imagen de compartir el tema Vlad](./imagem.png)
 
 ```rust
-// Suma el doble de cada elemento
+// Soma o dobro de cada elemento
 fn soma_dobro(xs: &[i32]) -> i32 {
     let msg = "olá, borrow checker";
     xs.iter().map(|x| x * 2).sum()
@@ -36,7 +42,7 @@ OLLAMA_HOST=http://localhost:11434 npm run translate -- --post exemplo-vlad --mo
 ```
 
 ```
-Bloque sin lenguaje declarado: la barra solo muestra el botón Copiar.
+Bloco sem linguagem declarada: a barra mostra só o botão Copiar.
 ```
 
 1. Un elemento numerado.

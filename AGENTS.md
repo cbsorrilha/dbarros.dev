@@ -68,7 +68,7 @@ Capacidades sugeridas para `openspec/specs/`: `theme`, `i18n-routing`,
 | 2 | Scaffold | **feito** (`scaffold-astro`) | `npm run dev` e `npm run build` funcionam; sem alternador de tema |
 | 3 | i18n e conteúdo | **feito** (`i18n-content` + `vlad-screens`) | post nos 3 idiomas navega certo; post só em PT some de EN/ES sem quebrar |
 | 4 | Tags | **feito** (`closed-tags`) | tag fora do conjunto falha o build |
-| 5 | Tradução | a fazer | editar o fonte faz o check falhar; `translate` corrige; `locked: true` não é sobrescrito |
+| 5 | Tradução | **feito** (`translation-pipeline`) | editar o fonte faz o check falhar; `translate` corrige; `locked: true` não é sobrescrito |
 | 6 | Deploy e DNS | a fazer | `https://dbarros.dev` via Cloudflare; `/` redireciona por idioma |
 | 7 | Primeiro post | a fazer | making-of do blog, 3 idiomas, tag `ai` |
 
@@ -85,7 +85,11 @@ arquivar o change correspondente.
 - **Husky** para git hooks.
 - **Cloudflare Pages** (build `npm run build`, output `dist/`), Pages Functions só
   para o redirect da raiz. **Cloudflare Web Analytics.**
-- **Ollama** local (`qwen3:14b` padrão) só no script de tradução.
+- **Ollama** local (`qwen3:14b` padrão) só no script de tradução. O `postinstall`
+  (`scripts/setup-ollama.sh`) instala via Homebrew e sobe o servidor se preciso; volta
+  em milissegundos se já estiver rodando, pula em CI (`CI=true`) ou com
+  `SKIP_OLLAMA_SETUP=1`, e nunca quebra o `npm install`. Ele não baixa o modelo
+  (~9 GB): `ollama pull qwen3:14b` é manual, uma vez.
 
 ## Regras de implementação
 
@@ -158,15 +162,19 @@ arquivar o change correspondente.
 
 ### Tradução
 
-- `npm run translate`: local, explícito, post a post, com logs. Nunca no build/CI.
-  Respeita `source_hash` e `locked`. Preserva código, código inline, URLs, caminhos
-  de imagem, chaves de front matter e slugs de tag. Traduz `title`, `description`
-  e corpo.
-- `npm run translate:check`: sem LLM, determinístico. Roda no `pre-commit` (Husky) e
-  no build da Cloudflare.
-- Host/modelo do Ollama vêm de config com override por env (`OLLAMA_HOST`,
-  modelo configurável).
-- Posts traduzidos exibem o aviso de tradução no idioma da página.
+- **Fluxo de escrita:** escrever o fonte (`<slug>/pt.md`) → `npm run translate` →
+  revisar `en.md`/`es.md` → se editar uma tradução à mão, marcar `locked: true` → commit.
+  O aviso no post diz "revisado pelo autor": revisar antes do commit é obrigatório.
+- `npm run translate` (`scripts/translate/`): Ollama local, sob comando, post a post.
+  Traduz o que falta ou mudou (hash de `title` + `description` + corpo do fonte), copia
+  os metadados do fonte e nunca toca tradução `locked: true`. `--post <slug>` (inclui
+  rascunhos) e `--dry-run`. Código, URLs, caminhos e HTML são protegidos por marcadores;
+  resposta que perde algum é descartada (falha fechada).
+- `npm run translate:check`: sem LLM e sem rede. Roda no `pre-commit` (Husky) e no início
+  do `npm run build` (inclusive na Cloudflare).
+- Válvula de escape: `translations: [pt, en]` no fonte dispensa os idiomas fora da lista.
+- Host/modelo em `scripts/translate/config.ts`, com override por `OLLAMA_HOST` e
+  `OLLAMA_MODEL`.
 
 ## Verificação
 

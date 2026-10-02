@@ -102,6 +102,21 @@ async function loadGroups(): Promise<PostGroup[]> {
         `${slug}/${sourceLang}.md: o arquivo-fonte não pode ter o bloco translation`
       );
     }
+    // `translations` é só do fonte e precisa incluir o idioma dele.
+    for (const entry of entries) {
+      if (entry !== source && entry.data.translations) {
+        fail(
+          `${slug}/${entry.data.lang}.md: translations só pode ser declarado no arquivo-fonte (${slug}/${sourceLang}.md)`
+        );
+      }
+    }
+    const expected = source.data.translations;
+    if (expected && !expected.includes(sourceLang)) {
+      fail(
+        `${slug}/${sourceLang}.md: translations [${expected.join(", ")}] precisa incluir o idioma do fonte (${sourceLang})`
+      );
+    }
+
     // Traduções repetem as tags do fonte (a ordem não importa).
     const sourceTags = [...source.data.tags].sort().join(",");
     for (const entry of entries) {

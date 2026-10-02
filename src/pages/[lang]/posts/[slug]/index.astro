@@ -8,6 +8,7 @@ import BackLink from "@/components/BackLink.astro";
 import TagChip from "@/components/TagChip.astro";
 import PostNav from "@/components/PostNav.astro";
 import CodeCopy from "@/components/CodeCopy.astro";
+import TranslationNotice from "@/components/TranslationNotice.astro";
 import { getRelativeLocaleUrl } from "astro:i18n";
 import {
   getPostUrl,
@@ -120,6 +121,16 @@ const meta = `${formatDate(pubDate)} · ${tplStr(t.post.readingTime, {
         )
       }
     </header>
+
+    {
+      post.entry.data.translation && (
+        <TranslationNotice
+          {lang}
+          sourceLang={post.group.sourceLang}
+          slug={post.slug}
+        />
+      )
+    }
 
     <article id="article" class="app-prose">
       <Content />

@@ -1,0 +1,52 @@
+---
+import { getPostUrl } from "@/utils/posts";
+import { tplStr, useTranslations, type Locale } from "@/i18n";
+
+// Aviso discreto em posts traduzidos por IA (design: "Aviso de tradução").
+type Props = { lang: Locale; sourceLang: Locale; slug: string };
+
+const { lang, sourceLang, slug } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<aside class="notice">
+  <span class="dot" aria-hidden="true"></span>
+  <p>
+    {tplStr(t.notice.translated, { from: t.notice.from[sourceLang] })}{" "}
+    <a
+      href={getPostUrl(slug, sourceLang)}
+      hreflang={sourceLang}
+      lang={sourceLang}>{t.notice.readOriginal}</a
+    >
+  </p>
+</aside>
+
+<style>
+  .notice {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius-md);
+    box-shadow: inset 0 0 0 1px var(--border);
+    font-size: var(--fs-small);
+    color: var(--text-muted);
+  }
+  .dot {
+    flex: none;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--notice);
+    box-shadow: var(--glow-notice);
+    transform: translateY(-1px);
+  }
+  a {
+    color: var(--link);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  a:hover {
+    color: var(--link-hover);
+  }
+</style>

@@ -50,6 +50,11 @@ export default {
     closeMenu: "Close menu",
     homeLink: "dbarros.dev, home",
   },
+  notice: {
+    translated: "Translated {{from}} by a local AI and reviewed by the author.",
+    from: { pt: "from Portuguese", en: "from English", es: "from Spanish" },
+    readOriginal: "Read the original",
+  },
   notFound: {
     title: "This page does not exist.",
     message:
