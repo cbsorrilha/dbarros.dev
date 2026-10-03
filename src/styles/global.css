@@ -5,12 +5,12 @@
 @import "./code-block.css";
 @import "rehype-callouts/theme/obsidian";
 
-@import "@fontsource/spectral/400.css";
-@import "@fontsource/spectral/400-italic.css";
-@import "@fontsource/spectral/500.css";
-@import "@fontsource/spectral/600.css";
-@import "@fontsource/spectral/600-italic.css";
-@import "@fontsource/spectral/700.css";
+@import "@fontsource/spectral/latin-400.css";
+@import "@fontsource/spectral/latin-400-italic.css";
+@import "@fontsource/spectral/latin-500.css";
+@import "@fontsource/spectral/latin-600.css";
+@import "@fontsource/spectral/latin-600-italic.css";
+@import "@fontsource/spectral/latin-700.css";
 
 @layer base {
   * {

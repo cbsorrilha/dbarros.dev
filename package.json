@@ -18,7 +18,8 @@
     "postinstall": "bash scripts/setup-ollama.sh",
     "translate:check": "node scripts/translate/check.ts",
     "translate": "node scripts/translate/translate.ts",
-    "prepare": "husky"
+    "prepare": "husky",
+    "lighthouse": "node scripts/lighthouse-gate.ts"
   },
   "dependencies": {
     "@astrojs/markdown-remark": "^7.3.1",
@@ -43,6 +44,7 @@
     "eslint": "^10.11.0",
     "eslint-plugin-astro": "^3.2.1",
     "husky": "^9.1.7",
+    "lighthouse": "^13.5.0",
     "prettier": "^3.9.9",
     "prettier-plugin-astro": "0.14.1",
     "prettier-plugin-tailwindcss": "^0.8.0",

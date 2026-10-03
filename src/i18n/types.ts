@@ -59,7 +59,6 @@ export interface UIStrings {
     skipToContent: string;
     openMenu: string;
     closeMenu: string;
-    homeLink: string;
   };
   notice: {
     /** Aviso em posts traduzidos. Placeholder: {{from}} (de notice.from) */

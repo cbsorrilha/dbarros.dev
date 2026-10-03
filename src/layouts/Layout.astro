@@ -6,6 +6,8 @@ import { getAssetPath } from "@/utils/withBase";
 import config from "@/config";
 import { getLocale, tplStr, useTranslations } from "@/i18n";
 import "@/styles/global.css";
+// Fonte do texto corrido: pré-carregada para não esperar o CSS descobri-la.
+import spectral400 from "@fontsource/spectral/files/spectral-latin-400-normal.woff2?url";
 
 type Props = {
   title?: string;
@@ -46,6 +48,13 @@ const rssHref = getRssUrl(lang);
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="preload"
+      href={spectral400}
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
     <link
       rel="icon"
       type="image/png"

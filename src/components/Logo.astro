@@ -1,16 +1,17 @@
 ---
 // Logo 2d do tema Vlad: "d•B" em Spectral itálico + "dbarros.dev".
 // Texto e CSS, não imagem, para herdar a fonte (docs/design/vlad/README.md).
-type Props = { href: string; label: string };
+// Nome acessível = texto visível "dbarros.dev"; a marca d•B é decorativa.
+type Props = { href: string };
 
-const { href, label } = Astro.props;
+const { href } = Astro.props;
 ---
 
-<a {href} class="logo" aria-label={label}>
+<a {href} class="logo">
   <span class="logo-mark" aria-hidden="true"
     >d<span class="logo-dot"></span>B</span
   >
-  <span class="logo-name" aria-hidden="true">dbarros.dev</span>
+  <span class="logo-name">dbarros.dev</span>
 </a>
 
 <style>

@@ -48,7 +48,6 @@ export default {
     skipToContent: "Pular para o conteúdo",
     openMenu: "Abrir menu",
     closeMenu: "Fechar menu",
-    homeLink: "dbarros.dev, página inicial",
   },
   notice: {
     translated: "Traduzido {{from}} por IA local e revisado pelo autor.",

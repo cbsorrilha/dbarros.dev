@@ -194,6 +194,11 @@ arquivar o change correspondente.
   recursos do próprio site e scripts inline cujo hash o build calcula (integração
   `dbarros:csp-hashes`). **Não adicione script, fonte, imagem ou iframe de terceiros**
   sem mudar a CSP num change do OpenSpec. Contas: `docs/deploy/security-checklist.md`.
+- **Portão de Lighthouse no `pre-push`** (`scripts/lighthouse-gate.sh` →
+  `npm run lighthouse`): build + Lighthouse móvel nas homes, tags, Sobre, 404 e até 2
+  posts; bloqueia se performance < 95 ou acessibilidade/boas práticas/SEO < 100. Só roda
+  quando o push muda `src/`, `public/`, `astro.config.ts` ou `package*.json`;
+  `SKIP_LIGHTHOUSE=1 git push` pula em emergência. Hoje tudo está em 100.
 - Teste local fiel à produção: `npm run build && npx wrangler pages dev dist` (na raiz
   do repo, para pegar `functions/`).
 

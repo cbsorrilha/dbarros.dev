@@ -106,6 +106,8 @@ const cspHashes: AstroIntegration = {
 
 export default defineConfig({
   site: config.site.url,
+  // CSS inline no HTML: sem folha de estilo bloqueando a primeira pintura.
+  build: { inlineStylesheets: "always" },
   integrations: [
     mdx(),
     sitemap({ filter: page => !/\/404\/?$/.test(new URL(page).pathname) }),
