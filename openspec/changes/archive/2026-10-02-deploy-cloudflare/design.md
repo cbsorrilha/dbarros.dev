@@ -91,6 +91,25 @@ Depois da zona ativa e do site verificado: desbloquear o domínio no registrar a
 pegar o código de autorização e iniciar a transferência na Cloudflare (paga 1 ano,
 somado à validade atual). Não muda DNS nem disponibilidade.
 
+## O que mudou na execução
+
+- **O DNS não estava no Google Cloud DNS da conta do Cesar:** os nameservers
+  `ns-cloud-e*.googledomains.com` eram o DNS do Squarespace (herdado do Google Domains);
+  o inventário saiu do painel do Squarespace, sem `gcloud`.
+- **Registro que o `dig` não mostrava:** `wishlist` (CNAME para uma EC2 desativada),
+  descartado com o Cesar.
+- **DNSSEC estava ligado** (`DS` no registro `.dev`); desligado antes da troca, com o
+  `DS` confirmado ausente nos quatro servidores do registro e mais de 30 min de espera.
+- **Fluxo do dashboard:** a Cloudflare abre por padrão o fluxo de Workers ("Deploy
+  command: npx wrangler deploy"); o projeto foi criado pelo link "Looking to deploy
+  Pages?". Registros do Firebase mantidos "DNS only" até o domínio entrar no Pages.
+- **Linha do tempo:** nameservers trocados às 21:53; registro `.dev` atualizado em menos
+  de 1 min; certificado emitido logo após a ativação da zona (o `notBefore` diz 00:04 GMT,
+  21:04 em Brasília, porque a CA retroage o início da validade em cerca de 1 h).
+- **Bug corrigido:** o `import.meta.glob("/public/*")` da imagem OG importava o
+  `_redirects` como módulo.
+- **Firebase:** o projeto já tinha sido excluído pelo Cesar.
+
 ## Risks / Trade-offs
 
 - [Registro esquecido no inventário] → export completo da zona, não `dig`; diff entre

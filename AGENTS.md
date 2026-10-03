@@ -69,7 +69,7 @@ Capacidades sugeridas para `openspec/specs/`: `theme`, `i18n-routing`,
 | 3 | i18n e conteúdo | **feito** (`i18n-content` + `vlad-screens`) | post nos 3 idiomas navega certo; post só em PT some de EN/ES sem quebrar |
 | 4 | Tags | **feito** (`closed-tags`) | tag fora do conjunto falha o build |
 | 5 | Tradução | **feito** (`translation-pipeline`) | editar o fonte faz o check falhar; `translate` corrige; `locked: true` não é sobrescrito |
-| 6 | Deploy e DNS | a fazer | `https://dbarros.dev` via Cloudflare; `/` redireciona por idioma |
+| 6 | Deploy e DNS | **feito** (`deploy-cloudflare`) | `https://dbarros.dev` via Cloudflare; `/` redireciona por idioma |
 | 7 | Primeiro post | a fazer | making-of do blog, 3 idiomas, tag `ai` |
 
 Cada fatia termina com build verde e algo verificável. Atualize esta tabela ao
@@ -139,8 +139,7 @@ arquivar o change correspondente.
 - Um post = uma pasta em `src/content/posts/<slug>/` com `pt.md`, `en.md`, `es.md`
   e imagens ao lado. Carregue posts só por `src/utils/posts.ts` (`getPosts(lang)`),
   que valida as regras entre arquivos e derruba o build com mensagem clara.
-- **Os posts `exemplo-vlad` e `so-pt` são provisórios:** não podem ir para produção
-  (remover ou trocar pelo primeiro post antes do deploy da fatia 6).
+- Não há post de exemplo no repo: tudo em `src/content/posts/` vai para produção.
 - Links Markdown padrão, **nunca `[[wikilinks]]`**; imagens relativas; front matter
   YAML compatível com Obsidian.
 - O schema da content collection valida o front matter; erro de schema quebra o
@@ -185,6 +184,11 @@ arquivar o change correspondente.
   `Accept-Language` (`src/i18n/negotiate.ts`, fallback `pt`). Não crie `_middleware`:
   rodaria em toda requisição.
 - Redirects fixos em `public/_redirects` (têm precedência sobre arquivos estáticos).
+- Produção: `https://dbarros.dev` (Cloudflare Pages, projeto `dbarros-dev`); `www` e
+  `http` redirecionam (301). DNS na Cloudflare (`brit`/`rory.ns.cloudflare.com`);
+  registro do domínio no Squarespace. Inventário e histórico em
+  `docs/deploy/dns-inventory.md`.
+- Analytics: dashboard da Cloudflare → zona `dbarros.dev` → Analytics & Logs → Traffic.
 - Teste local fiel à produção: `npm run build && npx wrangler pages dev dist` (na raiz
   do repo, para pegar `functions/`).
 
