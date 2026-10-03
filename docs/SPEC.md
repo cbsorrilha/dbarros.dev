@@ -33,7 +33,7 @@ Temas iniciais:
 | Repo | GitHub, **privado** |
 | Hospedagem | Cloudflare Pages, deploy automático a partir da `main`, preview por branch |
 | DNS | Cloudflare (migrado do Google Cloud DNS atual) |
-| Analytics | Analytics da zona Cloudflare, medido no servidor (grátis, sem cookies, sem JavaScript) |
+| Analytics | Analytics da zona Cloudflare (servidor) + Cloudflare Web Analytics/RUM (beacon injetado pela Cloudflare; grátis, sem cookies) |
 | Tradução | Ollama local com `qwen3:14b` (modelo configurável) |
 | Git hooks | Husky |
 
@@ -205,7 +205,7 @@ Entra:
 - seletor de idioma no post e no layout;
 - página **Sobre** por idioma, com links e um resumo profissional;
 - feed RSS **por idioma**;
-- analytics da zona Cloudflare, sem JavaScript no site;
+- analytics da zona Cloudflare e Cloudflare Web Analytics (RUM), sem cookies;
 - redirect da raiz por `Accept-Language`;
 - pipeline de tradução e check;
 - rascunhos (`draft: true`) nunca publicados.

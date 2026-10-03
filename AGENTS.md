@@ -36,7 +36,8 @@ Cesar em vez de resolver em silêncio.
 5. **Menos estado vence.** Na dúvida, escolha a opção mais simples de manter.
 6. **O mínimo de JavaScript.** O site tem que ser muito rápido: JS no navegador só
    quando não houver alternativa em HTML/CSS (Popover API, `<details>`, âncoras, páginas
-   estáticas). Hoje o único script é o botão Copiar, e só em páginas com código.
+   estáticas). Scripts permitidos: o botão Copiar (só em páginas com código) e o beacon do
+   Cloudflare Web Analytics (escolha do Cesar, pelas métricas de usuários reais).
 
 ## Fluxo de trabalho: OpenSpec
 
@@ -84,8 +85,8 @@ arquivar o change correspondente.
   `npm audit` limpo.
 - **Husky** para git hooks.
 - **Cloudflare Pages** (build `npm run build`, output `dist/`), Pages Functions só
-  para o redirect da raiz. **Analytics da zona Cloudflare** (no servidor, sem JS; o
-  "Web Analytics" do Pages fica desligado porque injeta script).
+  para o redirect da raiz. **Analytics:** da zona Cloudflare (servidor) e Cloudflare Web
+  Analytics/RUM, cujo beacon a Cloudflare injeta no HTML (não está no build).
 - **Ollama** local (`qwen3:14b` padrão) só no script de tradução. O `postinstall`
   (`scripts/setup-ollama.sh`) instala via Homebrew e sobe o servidor se preciso; volta
   em milissegundos se já estiver rodando, pula em CI (`CI=true`) ou com
