@@ -189,6 +189,10 @@ arquivar o change correspondente.
   registro do domínio no Squarespace. Inventário e histórico em
   `docs/deploy/dns-inventory.md`.
 - Analytics: dashboard da Cloudflare → zona `dbarros.dev` → Analytics & Logs → Traffic.
+- Cabeçalhos de segurança em `public/_headers` (HSTS, CSP, etc.). A CSP só aceita
+  recursos do próprio site e scripts inline cujo hash o build calcula (integração
+  `dbarros:csp-hashes`). **Não adicione script, fonte, imagem ou iframe de terceiros**
+  sem mudar a CSP num change do OpenSpec. Contas: `docs/deploy/security-checklist.md`.
 - Teste local fiel à produção: `npm run build && npx wrangler pages dev dist` (na raiz
   do repo, para pegar `functions/`).
 
