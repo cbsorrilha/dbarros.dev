@@ -15,7 +15,7 @@ NOT usar cookies nem carregar outro script, pixel ou beacon de rastreamento.
 
 #### Scenario: Beacon funcionando
 - **WHEN** um navegador carrega uma página publicada
-- **THEN** o beacon de `static.cloudflareinsights.com` carrega e envia a medição a `cloudflareinsights.com` sem violação de CSP
+- **THEN** o beacon de `static.cloudflareinsights.com` carrega e envia a medição (em zona com proxy, para `/cdn-cgi/rum` no próprio domínio; senão, para `cloudflareinsights.com`) sem violação de CSP
 
 #### Scenario: Sem cookies
 - **WHEN** qualquer página é carregada

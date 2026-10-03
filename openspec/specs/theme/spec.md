@@ -158,17 +158,19 @@ estado com `aria-expanded`. O menu MUST funcionar sem JavaScript.
 
 ### Requirement: JavaScript mínimo
 O site SHALL usar JavaScript no navegador só quando não houver alternativa em HTML e
-CSS. Hoje o único uso permitido é o botão Copiar dos blocos de código, e o script dele
-MUST ser carregado só em páginas que têm bloco de código. Navegação, menu, seletor de
-idioma, 404, "pular para o conteúdo" e imagens MUST funcionar sem JavaScript.
+CSS. Os únicos usos permitidos são: o botão Copiar dos blocos de código, cujo script
+MUST ser carregado só em páginas que têm bloco de código; e o beacon do Cloudflare Web
+Analytics, injetado pela Cloudflare. Qualquer outro script MUST passar por um change do
+OpenSpec. Navegação, menu, seletor de idioma, 404, "pular para o conteúdo" e imagens
+MUST funcionar sem JavaScript.
 
 #### Scenario: Página sem código
 - **WHEN** a listagem, as tags, o Sobre ou uma 404 são carregados
-- **THEN** a página não carrega nenhum `<script>` executável
+- **THEN** o único `<script>` executável é o beacon do Cloudflare Web Analytics
 
 #### Scenario: Post com código
 - **WHEN** um post com bloco de código é carregado
-- **THEN** o único script executável é o do botão Copiar
+- **THEN** os únicos scripts executáveis são o do botão Copiar e o beacon do Cloudflare Web Analytics
 
 #### Scenario: Pular para o conteúdo
 - **WHEN** o visitante ativa "Pular para o conteúdo" pelo teclado, sem JavaScript

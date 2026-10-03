@@ -47,15 +47,6 @@ refresh: `/{lang}/posts/` SHALL responder 301 para `/{lang}/`.
 - **WHEN** alguém abre `https://dbarros.dev/es/posts/`
 - **THEN** recebe 301 para `/es/`
 
-### Requirement: Analytics sem JavaScript
-A audiência do site SHALL ser medida no servidor pelo analytics da zona na Cloudflare.
-O site MUST NOT carregar script de analytics, beacon ou pixel de rastreamento, e MUST
-NOT usar cookies.
-
-#### Scenario: Página sem rastreador
-- **WHEN** qualquer página publicada é carregada
-- **THEN** nenhum script ou requisição de analytics parte do navegador
-
 ### Requirement: DNS na Cloudflare
 A zona `dbarros.dev` SHALL ser servida pelos nameservers da Cloudflare. Antes da
 migração, todos os registros da zona anterior SHALL ser inventariados, e todo registro
@@ -76,3 +67,21 @@ posts, o site SHALL continuar construindo e mostrar o estado vazio de cada tela.
 #### Scenario: Site sem posts
 - **WHEN** não há nenhum post em `src/content/posts/`
 - **THEN** `npm run build` termina com sucesso e `/pt/` mostra a mensagem de lista vazia
+
+### Requirement: Analytics
+A audiência SHALL ser medida pelo analytics da zona na Cloudflare (no servidor) e pelo
+Cloudflare Web Analytics (RUM), cujo beacon é injetado pela borda da Cloudflare nas
+respostas HTML a navegadores. O build MUST NOT incluir script de analytics. O site MUST
+NOT usar cookies nem carregar outro script, pixel ou beacon de rastreamento.
+
+#### Scenario: Beacon funcionando
+- **WHEN** um navegador carrega uma página publicada
+- **THEN** o beacon de `static.cloudflareinsights.com` carrega e envia a medição (em zona com proxy, para `/cdn-cgi/rum` no próprio domínio; senão, para `cloudflareinsights.com`) sem violação de CSP
+
+#### Scenario: Sem cookies
+- **WHEN** qualquer página é carregada
+- **THEN** nenhuma resposta define cookie
+
+#### Scenario: Build sem rastreador
+- **WHEN** se procura `cloudflareinsights` nos arquivos de `dist/`
+- **THEN** não há ocorrência (o beacon só existe na resposta servida pela Cloudflare)

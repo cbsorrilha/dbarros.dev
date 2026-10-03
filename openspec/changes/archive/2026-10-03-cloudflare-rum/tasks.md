@@ -6,5 +6,7 @@
 
 ## 2. Verificação em produção
 
-- [ ] 2.1 [Cesar] Push na `main`
-- [ ] 2.2 Chrome headless em `https://dbarros.dev/pt/`: beacon carregado, POST de medição enviado, nenhuma violação de CSP, nenhum cookie
+- [x] 2.1 [Cesar] Push na `main`
+- [x] 2.2 Chrome headless em `https://dbarros.dev/pt/`: beacon carregado, POST de medição enviado, nenhuma violação de CSP, nenhum cookie
+
+Verificado em 2026-10-03: beacon 200, medições `POST /cdn-cgi/rum` → 204 (mesma origem), nenhuma violação de CSP, nenhum cookie.
