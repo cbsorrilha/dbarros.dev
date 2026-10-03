@@ -47,5 +47,6 @@ Nameservers atribuídos: `brit.ns.cloudflare.com` e `rory.ns.cloudflare.com`.
 - Sem `TXT`, `MX`, `CAA`; `wishlist` e `_domainconnect` descartados; nenhum IP do
   Firebase (`151.101.*`) respondido pelos resolvedores públicos.
 - Firebase: projeto já não existe.
-- DNSSEC: desligado. Pode ser religado na Cloudflare (DNS → Settings → DNSSEC) e o `DS`
-  gerado cadastrado no Squarespace.
+- DNSSEC: religado em 2026-10-02 (change `security-hardening`): zona assinada pela
+  Cloudflare (algoritmo 13), `DS 2371 13 2` publicado no registro `.dev` pelo Squarespace;
+  resolvedores validadores respondem com a flag `ad`.
