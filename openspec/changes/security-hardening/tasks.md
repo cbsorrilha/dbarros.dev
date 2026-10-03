@@ -13,7 +13,7 @@ Legenda: **[agente]** no repo; **[Cesar]** nos dashboards; **[juntos]** você ex
 
 ## 3. Preview e produção
 
-- [ ] 3.1 [Cesar] Push da branch `security-hardening`; [agente] verificar os cabeçalhos e a CSP no preview
+- [x] 3.1 [Cesar] Push da branch `security-hardening`; [agente] verificar os cabeçalhos e a CSP no preview
 - [ ] 3.2 [Cesar] Merge/push na `main`; [agente] verificar em `https://dbarros.dev`
 
 ## 4. DNSSEC
